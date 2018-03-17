@@ -1,7 +1,10 @@
-# Otsikko
+# OTM-harjoitustyö
 
 Otsikon alla tavallista tekstiä, josta osa *kursiivilla* ja osa **lihavoituna**.
 
-## Alaotsikko
+## Tehtävät
 
-Täällä alaotsikon alla olevaa tekstiä ilman *kursiivia* ja **lihavointia**.
+### Viikko1
+
+https://github.com/majormalfunk/otm-harjoitustyo/
+https://github.com/majormalfunk/otm-harjoitustyo/
