@@ -1,0 +1,92 @@
+commit 58c181541af13ab11dbb2d9a33bff0d2ee59b071
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 13:00:02 2018 +0200
+
+    muutokset commitoitu
+
+ tiedostoja/file22 | 0
+ tiedostoja/file3  | 1 +
+ 2 files changed, 1 insertion(+)
+
+commit 469d9c5692517ba74d8f87cb1efcdca38640dac6
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:49:18 2018 +0200
+
+    muutokset addattiin -p:llä
+
+ eka.txt    | 4 ++--
+ kolmas.txt | 8 ++++++++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+commit 1c12b9cb7d9285ba0a2f17c5319dca910393cf01
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:46:51 2018 +0200
+
+    uudelleennimetty tiedosto.txt -> eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 1a7939185c628d392ef8b62b31938b22f0dffbb8
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:45:26 2018 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 619975d91c2a35d3c3af4a22c9e51321c0189251
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:43:08 2018 +0200
+
+    Poistettu osa tekstiä ja lisätty lisää tekstiä tiedosto.txt:iin
+
+ tiedosto.txt | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+commit 0fc77a042faa0d558d229bfc1a9682616b966713
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:41:26 2018 +0200
+
+    Lisätty tekstiä tiedosto.txt:iin
+
+ tiedosto.txt | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+commit a9089bfba666c92a781393500c923eb65f7f01ba
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:33:52 2018 +0200
+
+    lisätty stuff-hakemisto
+
+ stuff/jokintiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 5c57280408a70072b1cdc372c012f0393899b708
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:32:40 2018 +0200
+
+    lisätty kolmas.txt
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit cbb2b2a3ebb0c71d9bd16830c139c466ef12f055
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:30:05 2018 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 1dd7e04eb26ec5db51fbd2dc085149e10aa9d788
+Author: majormalfunk <32271489+majormalfunk@users.noreply.github.com>
+Date:   Sat Mar 17 12:27:39 2018 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
