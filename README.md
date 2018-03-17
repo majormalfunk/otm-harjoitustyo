@@ -6,5 +6,5 @@ Otsikon alla tavallista tekstiä, josta osa *kursiivilla* ja osa **lihavoituna**
 
 ### Viikko1
 
-https://github.com/majormalfunk/otm-harjoitustyo/
-https://github.com/majormalfunk/otm-harjoitustyo/
+otm-harjoitustyo/laskarit/viikko1/komentorivi.txt
+otm-harjoitustyo/laskarit/viikko1/gitlog.txt
