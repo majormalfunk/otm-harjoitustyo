@@ -18,7 +18,7 @@ public class Maksukortti {
     }
  
     public boolean otaRahaa(int maara) {
-        if (this.saldo < maara) {
+        if (this.saldo < maara || maara < 0) {
             return false;
         }
  
