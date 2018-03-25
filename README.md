@@ -1,5 +1,9 @@
 # OTM-harjoitustyö
 
+## Harjoitustyö
+
+[Tuntikirjanpito](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Tuntikirjanpito.md)
+
 ## Tehtävät
 
 ### Viikko1
