@@ -1,0 +1,15 @@
+# Vaatimusmäärittely
+
+## Sovelluksen tarkoitus
+
+Sovellus on mukaelma Atarin vuonna 1980 kehittämästä Missile Command -pelistä [https://en.wikipedia.org/wiki/Missile_Command](https://en.wikipedia.org/wiki/Missile_Command).
+
+## Käyttäjät
+
+Sovellus ei vaadi kirjautumista ja siinä on vain yksi käyttäjärooli eli pelaaja.
+
+## Käyttöliittymäluonnos
+
+Sovellus koostuu viidestä eri näkymästä
+
+
