@@ -14,4 +14,9 @@
 
 [gitlog.txt](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
+### Viikko 2
+
+[Viikko 2](https://github.com/majormalfunk/otm-harjoitustyo/tree/master/laskarit/viikko2)
+
+
 ---------------------
