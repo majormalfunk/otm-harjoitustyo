@@ -2,7 +2,8 @@
 
 ## Harjoitustyö
 
-[Vaatimusmäärittely](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Vaatimusmaarittely.md)
+[Vaatimusmäärittely](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Vaatimusmaarittely.md)  
+
 [Tuntikirjanpito](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Tuntikirjanpito.md)
 
 ## Tehtävät
