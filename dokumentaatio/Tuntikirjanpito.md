@@ -10,6 +10,6 @@
 |**Vko 2**|**8,25** |                                                            |
 |28.3.    |3,00     |Näkymät ja grafiikat                                        |
 |29.3.    |0,50     |Näkymät                                                     |
-|30.3.    |1,50     |Siirtymät näkymien välillä                                  |
-|**Vko 3**|**5,00** |                                                            |
-|**YHT**  |**14,00**|                                                            |
+|30.3.    |5,50     |Siirtymät näkymien välillä                                  |
+|**Vko 3**|**8,00** |                                                            |
+|**YHT**  |**17,00**|                                                            |
