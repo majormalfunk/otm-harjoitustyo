@@ -12,6 +12,6 @@
 |29.3.    |0,50     |Näkymät                                                     |
 |30.3.    |5,50     |Siirtymät näkymien välillä                                  |
 |31.3.    |12,00    |GameLoop, pelin perustoiminnallisuus                        |
-|1.4.     |11,00    |perustoiminnallisuus, refaktorinti, javadocs, testit        |
+|1.4.     |11,00    |perustoiminnallisuus, refaktorointi, javadocs, testit       |
 |**Vko 3**|**32,00**|                                                            |
 |**YHT**  |**41,00**|                                                            |
