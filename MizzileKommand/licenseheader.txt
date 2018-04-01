@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}OTM-harjoitustyö kevät 2018
+${licensePrefix}Jaakko Vilenius
+<#if licenseLast??>
+${licenseLast}
+</#if>

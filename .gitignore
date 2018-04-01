@@ -5,7 +5,11 @@
 /laskarit/viikko2/Unicafe/target/
 /laskarit/viikko2/Unicafe/nbproject/
 /laskarit/viikko2/Unicafe/nbactions.xml
+/laskarit/viikko2/Maksukortti/build.xml
+/laskarit/viikko2/Maksukortti/manifest.mf
 
 /MizzileKommand/target/
-MizzileKommand/nb-configuration.xml
-MizzileKommand/nbactions.xml
+/MizzileKommand/nb-configuration.xml
+/MizzileKommand/nbactions.xml
+/MizzileKommand/nbproject/
+
