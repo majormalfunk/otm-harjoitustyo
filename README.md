@@ -13,13 +13,13 @@ Harjoitustyön aiheena on Atarin Missile Command -pelin mukaelma.
 ### Komentorivitoiminnot
 
 Testit suoritetaan komennolla
-...
+```
 mvn test
-...
+```
 
 Testikattavuusraportti luodaan komennolla
-...
+```
 mvn jacoco:report
-...
+
 
 ---------------------
