@@ -20,6 +20,6 @@ mvn test
 Testikattavuusraportti luodaan komennolla
 ```
 mvn jacoco:report
-
+```
 
 ---------------------
