@@ -1,0 +1,16 @@
+Tehtävä 1:
+
+[Monopoli]
+[Pelilauta] 
+[Ruutu] 
+[Noppa]
+[Pelaaja]
+[Pelinappula]
+[Monopoli]1-1[Pelilauta] 
+[Pelilauta]1-40[Ruutu]
+[Ruutu]- seuraava Ruutu -[Ruutu]
+[Monopoli]1-2[Noppa] 
+[Monopoli]1-2..8[Pelaaja]
+[Pelaaja]1-1[Pelinappula]
+[Ruutu]1-0..8[Pelinappula]
+
