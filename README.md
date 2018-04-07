@@ -2,23 +2,24 @@
 
 ## Harjoitustyö
 
-Harjoitustyön aiheena on Atarin Missile Command -pelin mukaelma.  
+Harjoitustyön aiheena on Atarin Missile Command -pelin mukaelma.
+
+### Dokumentaatio
 
 [Vaatimusmäärittely](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Vaatimusmaarittely.md)  
 
 [Tuntikirjanpito](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Tuntikirjanpito.md)
 
-## Tehtävät
+### Komentorivitoiminnot
 
-### Viikko1
+Testit suoritetaan komennolla
+```
+mvn test
+```
 
-[komentorivi.txt](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-
-[gitlog.txt](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
-
-### Viikko 2
-
-[Viikko 2](https://github.com/majormalfunk/otm-harjoitustyo/tree/master/laskarit/viikko2)
-
+Testikattavuusraportti luodaan komennolla
+```
+mvn jacoco:report
+```
 
 ---------------------
