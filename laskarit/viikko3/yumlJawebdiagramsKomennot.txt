@@ -1,0 +1,118 @@
+Tehtävä 1:
+
+[Monopoli], 
+[Pelilauta], 
+[Ruutu], 
+[Noppa], 
+[Pelaaja], 
+[Pelinappula], 
+[Monopoli]1-1[Pelilauta], 
+[Pelilauta]1-40[Ruutu], 
+[Ruutu]- seuraava Ruutu -[Ruutu], 
+[Monopoli]1-2[Noppa], 
+[Monopoli]1-2..8[Pelaaja], 
+[Pelaaja]1-1[Pelinappula], 
+[Ruutu]1-0..8[Pelinappula]
+
+Tehtävä 2:
+
+[Monopoli],
+[Pelilauta],
+[Ruutu], [AloitusRuutu], [VankilaRuutu], [KorttiRuutu], [SattumaRuutu], [YhteismaaRuutu], [AsemaTaiLaitosRuutu], [AsemaRuutu], [LaitosRuutu], [Katuruutu],
+[Toiminto],
+[Kortti], [KorttiPino], [SattumaKortti], [YhteismaaKortti], [KatuKortti],
+[Noppa],
+[Pelaaja], 
+[PelaajanKortit],
+[Pelinappula],
+[Rakennus], [Talo], [Hotelli],
+[Rahasäilö], [Kassa], [Lompakko], 
+[Ruutu]^-[AloitusRuutu], [Ruutu]^-[VankilaRuutu], [Ruutu]^-[KorttiRuutu], [KorttiRuutu]^-[SattumaRuutu], [KorttiRuutu]^-[YhteismaaRuutu],
+[Ruutu]^-[AsemaTaiLaitosRuutu], [AsemaTaiLaitosRuutu]^-[AsemaRuutu], [AsemaTaiLaitosRuutu]^-[LaitosRuutu], [Ruutu]^-[KatuRuutu],
+[Rakennus]^-[Talo], [Rakennus]^-[Hotelli],
+[Rahasäilö]^-[Kassa], [Rahasäilö]^-[Lompakko],
+[Kortti]^-[SattumaKortti], [Kortti]^-[YhteismaaKortti], [Kortti]^-[KatuKortti],
+[Monopoli]1-1[Pelilauta],
+[Pelilauta]1-40[Ruutu], [Ruutu]-.- seuraava Ruutu -.->[Ruutu], 
+[Ruutu]*-1[Toiminto],
+[KatuRuutu]1-0..4[Talo], [KatuRuutu]1-0..1[Hotelli], [KatuRuutu]1-1[KatuKortti], 
+[Monopoli]1-2[Noppa],
+[Monopoli]1-2..8[Pelaaja],
+[Pelaaja]1-1[Pelinappula],
+[Ruutu]1-0..8[Pelinappula],
+[Monopoli]1-1[Kassa], [Pelaaja]1-1[Lompakko],
+[Monopoli]-.->[Aloitusruutu],
+[Monopoli]-.->[Vankilaruutu], 
+[Monopoli]1-2[Korttipino], [Korttipino]1-16[Sattumakortti], [Korttipino]1-16[Yhteismaakortti],
+[Pelaaja]1-1[PelaajanKortit], [PelaajanKortit]1-0..*[Kortti]
+[Kortti]*-1[Toiminto]
+
+Tehtävä 3:
+
+title Machine-luokan konstruktorin ja Machine-olion drive()-metodin kutsu
+participant Ulkop. metodi
+participant Machine
+participant Engine
+participant FuelTank
+Ulkop. metodi->+*Machine: new Machine();
+Machine->+*FuelTank: new FuelTank();
+FuelTank-->Machine: tank
+Machine->FuelTank: fill(40);
+Machine->+*Engine: new Engine(tank);
+Engine-->Machine: engine
+Machine-->Ulkop. metodi: machine
+Ulkop. metodi->Machine: drive();
+Machine->Engine: start();
+Machine->Engine: isRunning();
+Engine->FuelTank: contentsLeft();
+FuelTank-->Engine: fuelContents
+alt fuelContents > 0
+Machine->Engine: useEnergy();
+Engine->FuelTank: consume(10);
+end
+
+Tehtävä 4:
+
+title Matkakorttiesimerkki
+participant Main
+participant "HKLLaitehallinto\nlaitehallinto" as hkllh
+participant "Lataajalaite\nrautatietori" as rtt
+participant "Lukijalaite\nratikka6" as r6
+participant "Lukijalaite\nbussi244" as b244
+participant "Kioski\nlippuLuukku" as lL
+participant "Matkakortti\nartonKortti" as aK
+
+Main->+hkllh: new HKLLaitehallinto();
+hkllh-->Main: laitehallinto
+Main->+rtt: new Lataajalaite();
+rtt-->Main: rautatietori
+Main->+r6: new Lukijalaite();
+r6-->Main: ratikka6
+Main->+b244: new Lukijalaite();
+b244-->Main: bussi244
+Main->+lL: new Kioski();
+lL-->Main: lippuLuukku
+Main->lL: ostaMatkaKortti("Arto");
+lL->+*aK: new MatkaKortti();
+aK-->lL: uusiKortti
+lL-->Main: artonKortti
+Main->rtt: lataaArvoa(artonKortti, 3);
+rtt->aK: kasvataArvoa(3);
+Main->r6: ostaLippu(artonKortti, 0);
+r6->aK: getArvo();
+aK-->r6: arvo
+alt arvo < hinta
+r6-->Main: false
+else
+r6->aK: vahennaArvoa(hinta);
+r6-->Main: true
+end
+Main->b244: ostaLippu(artonKortti, 2);
+b244->aK: getArvo();
+aK-->b244: arvo
+alt arvo < hinta
+b244-->Main: false
+else
+b244->aK: vahennaArvoa(hinta);
+b244-->Main: true
+end
