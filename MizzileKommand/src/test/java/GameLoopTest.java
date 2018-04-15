@@ -3,6 +3,7 @@
  * Jaakko Vilenius
  */
 
+import layout.GamePlayScene;
 import mizzilekommand.GameLoop;
 import nodes.Base;
 import nodes.Explosion;
@@ -40,4 +41,6 @@ public class GameLoopTest {
         base.setLayoutY(20.0);
         assertFalse(gameloop.didDestroyBase(explosion, base));
     }
+    
+
 }

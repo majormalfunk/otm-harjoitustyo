@@ -30,7 +30,7 @@ public abstract class SceneTemplate extends Scene {
     HashMap<KeyCode, Boolean> painetutNapit = new HashMap<>();
 
     public SceneTemplate(SceneController controller) {
-        
+
         super(new Group(), APP_WIDTH, APP_HEIGHT);
         this.root = (Group) this.getRoot();
         this.controller = controller;
@@ -59,7 +59,6 @@ public abstract class SceneTemplate extends Scene {
                 setCursor(Cursor.DEFAULT); //Change cursor to default
             }
         });
-
 
     }
 

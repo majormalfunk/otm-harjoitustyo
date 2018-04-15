@@ -19,15 +19,15 @@ import static mizzilekommand.MizzileKommand.APP_WIDTH;
  * @author jaakkovilenius
  */
 public class EndScene extends SceneTemplate {
-    
+
     Button btnEnd;
 
     public EndScene(SceneController controller, GamePane gamepane) {
 
         super(controller);
-        
+
         this.root.getChildren().add(gamepane);
-        
+
         btnEnd = new Button();
         btnEnd.setText("THE END");
         btnEnd.setMinSize(100, 50);
@@ -58,5 +58,5 @@ public class EndScene extends SceneTemplate {
         btnEnd.setLayoutX((APP_WIDTH / 2) - 50);
         btnEnd.setLayoutY((APP_HEIGHT / 2) - 25);
     }
-    
+
 }

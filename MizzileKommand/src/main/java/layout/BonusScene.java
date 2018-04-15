@@ -15,17 +15,18 @@ import mizzilekommand.SceneController;
 
 /**
  * Not implemented yet
+ *
  * @author jaakkovilenius
  */
 public class BonusScene extends SceneTemplate {
-    
+
     public BonusScene(SceneController controller, GamePane gamepane) {
         super(controller);
 
         Button btnContinue;
-    
+
         this.root.getChildren().add(gamepane);
-        
+
         btnContinue = new Button();
         btnContinue.setText("CONTINUE");
         btnContinue.setMinSize(100, 50);
@@ -52,13 +53,10 @@ public class BonusScene extends SceneTemplate {
             }
         });
 
-
         this.root.getChildren().add(btnContinue);
-        btnContinue.setLayoutX((APP_WIDTH/2)-50);
-        btnContinue.setLayoutY((APP_HEIGHT/2)-25);
-        
-
+        btnContinue.setLayoutX((APP_WIDTH / 2) - 50);
+        btnContinue.setLayoutY((APP_HEIGHT / 2) - 25);
 
     }
-    
+
 }

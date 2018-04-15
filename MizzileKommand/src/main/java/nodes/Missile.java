@@ -12,10 +12,9 @@ import static mizzilekommand.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.MizzileKommand.BASE_RADIUS;
 
 /**
- * Class representing enemymissiles.
- * We should create a common abtract class for player and enemy classes to be
- * inherited.
- * 
+ * Class representing enemymissiles. We should create a common abtract class for
+ * player and enemy classes to be inherited.
+ *
  * @author jaakkovilenius
  */
 public class Missile extends Polygon {
@@ -29,7 +28,7 @@ public class Missile extends Polygon {
         this.width = APP_HEIGHT / 240.0;
         this.height = APP_HEIGHT / 40.0;
         this.direction = new Point2D(0, 1);
-        
+
         this.setId("MISSILE" + id);
         this.getPoints().addAll(
                 this.width * 0.2, this.height,
@@ -57,11 +56,12 @@ public class Missile extends Polygon {
         setLayoutX(getLayoutX() + getTranslateX() + direction.getX());
         setLayoutY(getLayoutY() + getTranslateY() + direction.getY());
     }
-    
+
     /**
      * This method returns an explosion at the missile location with an initial
      * burn radius of 3 * the base radius. This is supposed to be called when
      * the missile detonates.
+     *
      * @return Explosion
      */
     public Explosion detonate() {

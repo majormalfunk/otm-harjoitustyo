@@ -29,8 +29,24 @@ public class ActionSelectorTest {
         assertEquals(SceneController.Scenes.PLAY, selector.chooseNextScene(SceneController.Actions.PLAY));
     }
     @Test
-    public void choosesCorrectSceneOnActionNoBases() {
-        assertEquals(SceneController.Scenes.END, selector.chooseNextScene(SceneController.Actions.NOBASES));
+    public void choosesCorrectSceneOnActionContinue() {
+        assertEquals(SceneController.Scenes.PLAY, selector.chooseNextScene(SceneController.Actions.CONTINUE));
+    }
+    @Test
+    public void choosesCorrectSceneOnActionTheEnd() {
+        assertEquals(SceneController.Scenes.START, selector.chooseNextScene(SceneController.Actions.THEEND));
+    }
+    @Test
+    public void choosesCorrectSceneOnActionEnoughDestroyed() {
+        assertEquals(SceneController.Scenes.BONUS, selector.chooseNextScene(SceneController.Actions.ENOUGHDESTROYED));
+    }
+    @Test
+    public void choosesCorrectSceneOnActionNoIncoming() {
+        assertEquals(SceneController.Scenes.BONUS, selector.chooseNextScene(SceneController.Actions.NOINCOMING));
+    }
+    @Test
+    public void choosesCorrectSceneOnActionNoCities() {
+        assertEquals(SceneController.Scenes.END, selector.chooseNextScene(SceneController.Actions.NOCITIES));
     }
     @Test
     public void choosesCorrectSceneOnActionEnd() {

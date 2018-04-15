@@ -29,27 +29,23 @@ public class GameLoop {
     private boolean stopLoop;
     private boolean allowIncoming;
 
-    private GameStatus gameStatus;
-    private SceneTemplate currentScene;
+    public GameStatus gameStatus;
+    public SceneTemplate currentScene;
 
-    private List<EnemyMissile> enemyMissiles;
-    private List<EnemyMissile> enemyMissilesToRemove;
-    private List<Explosion> enemyExplosions;
-    private List<Explosion> enemyExplosionsToRemove;
-    private List<Base> bases;
-    private List<Base> basesToRemove;
-    private List<Explosion> baseExplosions;
-    private List<Explosion> baseExplosionsToRemove;
-    private List<City> cities;
-    private List<City> citiesToRemove;
-    private List<Explosion> cityExplosions;
-    private List<Explosion> cityExplosionsToRemove;
+    public List<EnemyMissile> enemyMissiles;
+    public List<EnemyMissile> enemyMissilesToRemove;
+    public List<Explosion> enemyExplosions;
+    public List<Explosion> enemyExplosionsToRemove;
+    public List<Base> bases;
+    public List<Base> basesToRemove;
+    public List<Explosion> baseExplosions;
+    public List<Explosion> baseExplosionsToRemove;
+    public List<City> cities;
+    public List<City> citiesToRemove;
+    public List<Explosion> cityExplosions;
+    public List<Explosion> cityExplosionsToRemove;
 
     public GameLoop() {
-
-        System.out.println("**************");
-        System.out.println("NEW GAME LOOP!");
-        System.out.println("**************");
 
         this.stopLoop = false;
         this.allowIncoming = false;
@@ -69,17 +65,12 @@ public class GameLoop {
         this.cityExplosions = new ArrayList<>();
         this.cityExplosionsToRemove = new ArrayList<>();
 
-        
     }
 
     /**
-     * This method starts the game loop which is a javafx AnimationTimer. We
-     * should move stuff from the loop to methods to be called from the loop to
-     * keep it tidier and more readable. Also lots of repetition in place at the
-     * moment.
+     * This method starts the game loop which is a javafx AnimationTimer.
      *
-     * @param scene
-     * @return
+     * @return true when loop is successfully run
      */
     public boolean startLoop(SceneTemplate scene) {
 
@@ -91,9 +82,6 @@ public class GameLoop {
         stopLoop = false;
         allowIncoming = true;
         try {
-            System.out.println("Hello from The Game Loop!");
-            System.out.println("Level " + gameStatus.level);
-            System.out.println("Incoming total " + gameStatus.incomingTotal + " in level");
 
             new AnimationTimer() {
 
@@ -102,7 +90,6 @@ public class GameLoop {
                     // Handle loop stopping first
                     if (stopLoop) {
                         stopLoop = false;
-                        System.out.println("Stopping Game Loop.");
                         enemyMissiles.clear();
                         enemyExplosions.clear();
                         baseExplosions.clear();
@@ -110,10 +97,7 @@ public class GameLoop {
                     }
 
                     // Bases
-                    basesToRemove.forEach(base -> {
-                        scene.getSceneRoot().getChildren().remove(base);
-                    });
-                    basesToRemove.clear();
+                    handleBases();
 
                     // Enemy missiles
                     handleEnemyMissiles();
@@ -135,10 +119,8 @@ public class GameLoop {
             return true;
 
         } catch (Exception ex) {
-
             System.out.println("Failed to start game loop: " + ex.getMessage());
             return false;
-
         }
 
     }
@@ -165,7 +147,6 @@ public class GameLoop {
             if (allowIncoming && Math.random() < 0.005) {
                 incoming();
                 gameStatus.incomingMissilesDecrease();
-                System.out.println("Incoming left " + gameStatus.numberOfIncomingLeft());
             }
         } else {
             allowIncoming = false;
@@ -179,19 +160,14 @@ public class GameLoop {
 
     /**
      * This method adds a new enemy missile to the scene.
-     *
-     * @param scene
      */
     private void incoming() {
-        //System.out.println("Enemy missile count before: " + enemyMissiles.size());
         EnemyMissile missile = new EnemyMissile(System.currentTimeMillis());
         enemyMissiles.add(missile);
         missile.setLayoutX(0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90));
         missile.setLayoutY(0);
         missile.setRotate(180.0);
         currentScene.getSceneRoot().getChildren().add(missile);
-        System.out.println("Incoming! (" + missile.getId() + ")");
-        //System.out.println("Enemy missile count after: " + enemyMissiles.size());
     }
 
     private void handleEnemyMissiles() {
@@ -224,17 +200,16 @@ public class GameLoop {
             explosion.fade(System.currentTimeMillis());
             bases.forEach(base -> {
                 if (didDestroyBase(explosion, base)) {
-                    System.out.println("ANNIHILATION!");
                     Explosion annihilation = base.detonate();
                     currentScene.getSceneRoot().getChildren().add(annihilation);
                     baseExplosions.add(annihilation);
                     basesToRemove.add(base);
+                    gameStatus.destroyBase(base.id);
                 }
             });
             cities.forEach(city -> {
                 if (!gameStatus.citiesForLevelDestructed()) {
                     if (didDestroyCity(explosion, city)) {
-                        System.out.println("DESTRUCTION!");
                         citiesToRemove.add(city);
                         gameStatus.destroyCity(city.id);
                     }
@@ -248,6 +223,13 @@ public class GameLoop {
         });
         enemyExplosions.removeAll(enemyExplosionsToRemove);
 
+    }
+
+    private void handleBases() {
+        basesToRemove.forEach(base -> {
+            currentScene.getSceneRoot().getChildren().remove(base);
+        });
+        basesToRemove.clear();
     }
 
     private void handleBaseExplosions() {
@@ -272,8 +254,6 @@ public class GameLoop {
      * This method is called from the actual game loop. It checks the status if
      * the cities and instructs the SceneController to switch the scene if no
      * cities are left or if already 3 cities were destroyed in level.
-     *
-     * @param scene
      */
     private void handleCities() {
 
@@ -340,29 +320,31 @@ public class GameLoop {
 
         // Bases are arcs. Unlike e.g. Polygons that have their location in (0,0)
         // Arcs have their (0,0) in the center of the arc.
-        if (gameStatus.baseOk[0]) {
+        if (gameStatus.baseNotDestroyed(0)) {
             Base baseLeft = new Base();
             baseLeft.setLayoutX(baseLeft.getBaseWidth() * 1.5);
             baseLeft.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 4.0);
+            baseLeft.id = 0;
             this.bases.add(baseLeft);
             currentScene.getSceneRoot().getChildren().add(baseLeft);
         }
-        if (gameStatus.baseOk[1]) {
+        if (gameStatus.baseNotDestroyed(1)) {
             Base baseCenter = new Base();
             baseCenter.setLayoutX(APP_WIDTH / 2.0);
             baseCenter.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 4.0);
+            baseCenter.id = 1;
             this.bases.add(baseCenter);
             currentScene.getSceneRoot().getChildren().add(baseCenter);
         }
-        if (gameStatus.baseOk[2]) {
+        if (gameStatus.baseNotDestroyed(2)) {
             Base baseRight = new Base();
             baseRight.setLayoutX(APP_WIDTH - (baseRight.getBaseWidth() * 1.5));
             baseRight.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 4.0);
+            baseRight.id = 2;
             this.bases.add(baseRight);
             currentScene.getSceneRoot().getChildren().add(baseRight);
         }
 
-        System.out.println("Bases containing " + this.bases.size() + " bases");
     }
 
     /**
@@ -375,8 +357,8 @@ public class GameLoop {
         this.cities.clear();
 
         // Cities are polygons that have their location in (0,0) = left upper corner
-        for (double c = 1.0; c <= 3.0; c += 1.0) {
-            if (gameStatus.cityNotDestroyed(((int) c) - 1)) {
+        for (int c = 1; c <= 3; c += 1) {
+            if (gameStatus.cityNotDestroyed(c - 1)) {
                 City cityL = new City();
                 cityL.setLayoutX((APP_WIDTH / 32.0) + ((APP_WIDTH / 8.0) * c) - (cityL.width / 2.0));
                 cityL.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
@@ -384,7 +366,7 @@ public class GameLoop {
                 this.cities.add(cityL);
                 currentScene.getSceneRoot().getChildren().add(cityL);
             }
-            if (gameStatus.cityNotDestroyed(((int) c) + 2)) {
+            if (gameStatus.cityNotDestroyed(c + 2)) {
                 City cityR = new City();
                 cityR.setLayoutX((APP_WIDTH / 2.0) + ((APP_WIDTH / 8.0) * c) - (cityR.width / 2.0));
                 cityR.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
@@ -393,8 +375,6 @@ public class GameLoop {
                 currentScene.getSceneRoot().getChildren().add(cityR);
             }
         }
-
-        System.out.println("Cities containing " + this.cities.size() + " cities");
     }
 
     public int basesLeft() {

@@ -18,11 +18,11 @@ public class City extends Polygon {
     public double width;
     public double height;
     public int id;
-    
-    public City () {
-        
+
+    public City() {
+
         this.width = CITY_WIDTH;
-        this.height = SMALL_LENGTH*2.0;
+        this.height = SMALL_LENGTH * 2.0;
         this.setId("CITY");
         this.getPoints().addAll(
                 0.0, this.height, // Lower left corner
@@ -31,9 +31,7 @@ public class City extends Polygon {
                 0.0, 0.0 // Upper left corner
         );
         this.setFill(Color.GRAY);
-        
+
     }
-    
-    
-    
+
 }

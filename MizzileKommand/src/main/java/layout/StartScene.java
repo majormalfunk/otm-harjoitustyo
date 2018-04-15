@@ -16,6 +16,7 @@ import static mizzilekommand.MizzileKommand.APP_WIDTH;
 
 /**
  * This is the Starting scene for the game.
+ *
  * @author jaakkovilenius
  */
 public class StartScene extends SceneTemplate {
@@ -25,9 +26,9 @@ public class StartScene extends SceneTemplate {
     public StartScene(SceneController controller, GamePane gamepane) {
 
         super(controller);
-        
+
         this.root.getChildren().add(gamepane);
-        
+
         btnPlay = new Button();
         btnPlay.setText("PLAY!");
         btnPlay.setMinSize(100, 50);

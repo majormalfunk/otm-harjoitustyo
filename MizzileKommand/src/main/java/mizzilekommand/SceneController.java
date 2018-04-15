@@ -35,7 +35,7 @@ public class SceneController {
     public Scenes nextScene;
 
     public enum Actions {
-        PLAY, CONTINUE, NOINCOMING, NOBASES, NOCITIES, ENOUGHDESTROYED, THEEND //, QUIT
+        PLAY, CONTINUE, NOINCOMING, NOCITIES, ENOUGHDESTROYED, THEEND //, QUIT
     }
 
     /**
@@ -58,7 +58,7 @@ public class SceneController {
      */
     public void applyFirstScene() {
         applyStartScene();
-        
+
     }
 
     public void chooseNextScene(Actions action) {
@@ -111,7 +111,6 @@ public class SceneController {
      */
     private void prepareStartScene() {
         if (startScn == null) {
-            System.out.println("Start Scene is null. Making a new one");
             startScn = new StartScene(this, gamepane);
         }
     }
@@ -134,7 +133,6 @@ public class SceneController {
      */
     public void prepareGamePlayScene() {
         if (gamePlayScn == null) {
-            System.out.println("Game Play Scene is null. Making a new one");
             gamePlayScn = new GamePlayScene(this, gamepane);
         }
     }
@@ -158,7 +156,6 @@ public class SceneController {
      */
     public void prepareBonusScene() {
         if (bonusScn == null) {
-            System.out.println("Bonus Scene is null. Making a new one");
             gameloop.levelUp();
             bonusScn = new BonusScene(this, gamepane);
         }
@@ -173,7 +170,7 @@ public class SceneController {
         prepareBonusScene();
         stage.setScene(bonusScn);
         //if (gameloop.startLoop(bonusScn)) {
-            stage.show();
+        stage.show();
         //}
 
     }
@@ -184,7 +181,6 @@ public class SceneController {
      */
     public void prepareEndScene() {
         if (endScn == null) {
-            System.out.println("End Scene is null. Making a new one");
             endScn = new EndScene(this, gamepane);
         }
     }
@@ -202,42 +198,31 @@ public class SceneController {
 
     /**
      * Convenience method that calls applyNextScene(String) with parameter
-     * NOBASES. Used to transition from GamePlayScene to next scene in the event
-     * of all player bases been destroyed
-     */
-    public void noBasesLeft() {
-        this.chooseNextScene(Actions.NOBASES);
-        this.applyNextScene();
-    }
-
-    /**
-     * Convenience method that calls applyNextScene(String) with parameter
-     * NOCITIES. Used to transition from GamePlayScene to next scene in the event
-     * of all player cities been destroyed
+     * NOCITIES. Used to transition from GamePlayScene to next scene in the
+     * event of all player cities been destroyed
      */
     public void noCitiesLeft() {
         this.chooseNextScene(Actions.NOCITIES);
         this.applyNextScene();
     }
-    
+
     /**
      * Convenience method that calls applyNextScene(String) with parameter
-     * ENOUGHDESTROYED. Used to transition from GamePlayScene to next scene in the event
-     * of enough of player cities have been destroyed
+     * ENOUGHDESTROYED. Used to transition from GamePlayScene to next scene in
+     * the event of enough of player cities have been destroyed
      */
     public void enoughCitiesDestroyed() {
         this.chooseNextScene(Actions.ENOUGHDESTROYED);
         this.applyNextScene();
     }
-    
+
     /**
      * Convenience method that calls applysNextScene(String) with parameter
-     * NOINCOMING. Used to transition from GamePlayScene to next scene in the event
-     * of no more incoming missiles in level
+     * NOINCOMING. Used to transition from GamePlayScene to next scene in the
+     * event of no more incoming missiles in level
      */
     public void noIncomingLeft() {
         this.chooseNextScene(Actions.NOINCOMING);
         this.applyNextScene();
     }
 }
-
