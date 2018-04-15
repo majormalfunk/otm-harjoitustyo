@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import static mizzilekommand.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.MizzileKommand.BASE_Y;
+import static mizzilekommand.MizzileKommand.SMALL_LENGTH;
 
 /**
  * This Pane provides the background for the game play scene
@@ -36,9 +37,9 @@ public class GamePane extends Pane {
         this.setPrefSize(APP_WIDTH, APP_HEIGHT);
 
         // Ground
-        ground = new Ground(APP_WIDTH, APP_HEIGHT-BASE_Y);
+        ground = new Ground();
         ground.setLayoutX(0.0);
-        ground.setLayoutY(BASE_Y);
+        ground.setLayoutY(APP_HEIGHT-(SMALL_LENGTH*4.0));
         this.getChildren().add(ground);
 
     }

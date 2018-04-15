@@ -29,7 +29,7 @@ public class Missile extends Polygon {
         this.width = APP_HEIGHT / 240.0;
         this.height = APP_HEIGHT / 40.0;
         this.direction = new Point2D(0, 1);
-
+        
         this.setId("MISSILE" + id);
         this.getPoints().addAll(
                 this.width * 0.2, this.height,
@@ -46,7 +46,6 @@ public class Missile extends Polygon {
                 0.0, this.height * 0.9,
                 this.width * 0.2, this.height * 0.9
         );
-        this.setFill(Color.CRIMSON);
 
     }
 
@@ -63,12 +62,11 @@ public class Missile extends Polygon {
      * This method returns an explosion at the missile location with an initial
      * burn radius of 3 * the base radius. This is supposed to be called when
      * the missile detonates.
-     * @return 
+     * @return Explosion
      */
     public Explosion detonate() {
         this.setFill(Color.TRANSPARENT);
-        return new EnemyMissileExplosion(getLayoutX(), getLayoutY(), BASE_RADIUS*3.0, System.currentTimeMillis());
+        return new EnemyMissileExplosion(getLayoutX(), getLayoutY(), BASE_RADIUS * 3.0, System.currentTimeMillis());
     }
-
 
 }

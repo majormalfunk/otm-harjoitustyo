@@ -18,7 +18,10 @@ public class MizzileKommand extends Application {
     public static final double APP_WIDTH = 640.0;
     public static final double APP_HEIGHT = 480.0;
     public static final double BASE_RADIUS = APP_WIDTH/48.0;
+    public static final double CITY_WIDTH = APP_WIDTH/32.0;
+    public static final double SMALL_LENGTH = APP_WIDTH/48.0;
     public static final double BASE_Y = APP_HEIGHT*0.9;
+    public static final double GROUND_LEVEL = APP_HEIGHT*0.9;
     
     private GameLoop gameloop;
     private SceneController scnController;

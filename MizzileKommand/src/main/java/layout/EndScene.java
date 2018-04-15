@@ -7,7 +7,9 @@ package layout;
 import mizzilekommand.SceneController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import mizzilekommand.SceneController.Actions;
 import static mizzilekommand.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.MizzileKommand.APP_WIDTH;
@@ -37,6 +39,18 @@ public class EndScene extends SceneTemplate {
                 System.out.println("THE END");
                 getController().chooseNextScene(Actions.THEEND);
                 getController().applyNextScene();
+            }
+        });
+        btnEnd.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                setCursor(Cursor.HAND); //Change cursor to hand
+            }
+        });
+        btnEnd.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                setCursor(Cursor.CROSSHAIR); //Change cursor to crosshair
             }
         });
 

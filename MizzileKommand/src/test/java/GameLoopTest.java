@@ -29,7 +29,7 @@ public class GameLoopTest {
         Base base = new Base();
         base.setLayoutX(20.0);
         base.setLayoutY(20.0);
-        assertTrue(gameloop.didDestroy(explosion, base));
+        assertTrue(gameloop.didDestroyBase(explosion, base));
     }
 
     @Test
@@ -38,6 +38,6 @@ public class GameLoopTest {
         Base base = new Base();
         base.setLayoutX(100.0);
         base.setLayoutY(20.0);
-        assertFalse(gameloop.didDestroy(explosion, base));
+        assertFalse(gameloop.didDestroyBase(explosion, base));
     }
 }
