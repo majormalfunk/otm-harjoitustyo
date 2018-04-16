@@ -17,7 +17,7 @@
 
 ### Luokka/pakkauskaavio tärkeimmistä luokista
 
-
+![Luokka/pakkauskaavio](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/LuokkaPakkauskaavio.png)
 
 ## Tietojen pysyväistallennus
 
