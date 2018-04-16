@@ -14,18 +14,16 @@ import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import mizzilekommand.logics.SceneController;
 
 /**
- * Not implemented yet
+ * Not fully implemented yet
  *
  * @author jaakkovilenius
  */
 public class BonusScene extends SceneTemplate {
 
-    public BonusScene(SceneController controller, GamePane gamepane) {
+    public BonusScene(SceneController controller) {
         super(controller);
 
         Button btnContinue;
-
-        this.root.getChildren().add(gamepane);
 
         btnContinue = new Button();
         btnContinue.setText("CONTINUE");

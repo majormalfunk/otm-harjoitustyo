@@ -23,11 +23,9 @@ public class StartScene extends SceneTemplate {
 
     Button btnPlay;
 
-    public StartScene(SceneController controller, GamePane gamepane) {
+    public StartScene(SceneController controller) {
 
         super(controller);
-
-        this.root.getChildren().add(gamepane);
 
         btnPlay = new Button();
         btnPlay.setText("PLAY!");

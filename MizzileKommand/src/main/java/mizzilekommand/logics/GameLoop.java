@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.shape.Shape;
-import mizzilekommand.layout.SceneTemplate;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
@@ -30,7 +29,7 @@ public class GameLoop {
     private boolean allowIncoming;
 
     public GameStatus gameStatus;
-    public SceneTemplate currentScene;
+    public SceneController controller;
 
     public List<EnemyMissile> enemyMissiles;
     public List<EnemyMissile> enemyMissilesToRemove;
@@ -68,13 +67,20 @@ public class GameLoop {
     }
 
     /**
+     * This method sets the SceneController that is needed to perform the
+     * actions decided in the game loop logic on the current scene.
+     * @param controller a SceneController
+     */
+    public void setSceneController(SceneController controller) {
+        this.controller = controller;
+    }
+    
+    /**
      * This method starts the game loop which is a javafx AnimationTimer.
      *
      * @return true when loop is successfully run
      */
-    public boolean startLoop(SceneTemplate scene) {
-
-        currentScene = scene;
+    public boolean startLoop() {
 
         addBases();
         addCities();
@@ -133,6 +139,11 @@ public class GameLoop {
         stopLoop = true;
     }
 
+    /**
+     * This method increases the level in the game. It calls the levelUp() method
+     * of the GameStatus object.
+     * @return The new level
+     */
     public int levelUp() {
         return gameStatus.levelUp();
     }
@@ -141,6 +152,10 @@ public class GameLoop {
         gameStatus.reset();
     }
 
+    /**
+     * This method checks for the conditions in which new enemy missiles should
+     * be added to the scene.
+     */
     private void handleNewEnemyMissiles() {
 
         if (gameStatus.incomingMissilesLeft()) {
@@ -153,7 +168,7 @@ public class GameLoop {
             if (baseExplosions.isEmpty()
                     && enemyMissiles.isEmpty()
                     && enemyExplosions.isEmpty()) {
-                currentScene.getController().noIncomingLeft();
+                controller.noIncomingLeft();
             }
         }
     }
@@ -167,13 +182,23 @@ public class GameLoop {
         missile.setLayoutX(0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90));
         missile.setLayoutY(0);
         missile.setRotate(180.0);
-        currentScene.getSceneRoot().getChildren().add(missile);
+        controller.addToCurrentScene(missile);
     }
 
+    /**
+     * This method handles the existing enemy missiles.
+     * It uses two lists - one with missiles to be removed and the other
+     * with missiles continuing in the game. The removables will be removed
+     * by the scene controller. After that it checks to see if the missiles
+     * have reached the height at which they explode and if that is the case
+     * adds those to the removables list and adds an explosion to the enemy
+     * explosions list and instructs the controller to add the explosion to
+     * the scene.
+     */
     private void handleEnemyMissiles() {
         // Enemy missiles
         enemyMissilesToRemove.forEach(missile -> {
-            currentScene.getSceneRoot().getChildren().remove(missile);
+            controller.removeFromCurrentScene(missile);
         });
         enemyMissilesToRemove.clear();
         enemyMissiles.forEach(missile -> missile.fly());
@@ -182,7 +207,7 @@ public class GameLoop {
                 enemyMissilesToRemove.add(missile);
                 Explosion explosion = missile.detonate();
                 if (explosion != null) {
-                    currentScene.getSceneRoot().getChildren().add(explosion);
+                    controller.addToCurrentScene(explosion);
                     enemyExplosions.add(explosion);
                 }
             }
@@ -191,9 +216,18 @@ public class GameLoop {
 
     }
 
+    /**
+     * This method handles the existing enemy missile explosions.
+     * It uses two lists - one with explosions to be removed and the other
+     * with explosinos continuing in the game. The removables will be removed
+     * by the scene controller. The method checks to see if the explosion
+     * causes any destruction to cities or bases. After that it checks to see
+     * if the explosions have faded enough and if that is the case adds those
+     * to the removables list.
+     */
     private void handleEnemyMissileExplosions() {
         enemyExplosionsToRemove.forEach(explosion -> {
-            currentScene.getSceneRoot().getChildren().remove(explosion);
+            controller.removeFromCurrentScene(explosion);
         });
         enemyExplosionsToRemove.clear();
         enemyExplosions.forEach(explosion -> {
@@ -201,7 +235,7 @@ public class GameLoop {
             bases.forEach(base -> {
                 if (didDestroyBase(explosion, base)) {
                     Explosion annihilation = base.detonate();
-                    currentScene.getSceneRoot().getChildren().add(annihilation);
+                    controller.addToCurrentScene(annihilation);
                     baseExplosions.add(annihilation);
                     basesToRemove.add(base);
                     gameStatus.destroyBase(base.id);
@@ -225,17 +259,28 @@ public class GameLoop {
 
     }
 
+    /**
+     * This method intructs the SceneController to remove destructed bases
+     * from the scene.
+     */
     private void handleBases() {
         basesToRemove.forEach(base -> {
-            currentScene.getSceneRoot().getChildren().remove(base);
+            controller.removeFromCurrentScene(base);
         });
         basesToRemove.clear();
     }
 
+    /**
+     * This method handles the existing enemy base explosions.
+     * It uses two lists - one with explosions to be removed and the other
+     * with explosinos continuing in the game. The removables will be removed
+     * by the scene controller. After that it checks to see if the explosions
+     * have faded enough and if that is the case adds those to the removables list.
+     */
     private void handleBaseExplosions() {
         bases.removeAll(basesToRemove);
         baseExplosionsToRemove.forEach(explosion -> {
-            currentScene.getSceneRoot().getChildren().remove(explosion);
+            controller.removeFromCurrentScene(explosion);
         });
         baseExplosionsToRemove.clear();
         baseExplosions.forEach(explosion -> {
@@ -260,7 +305,7 @@ public class GameLoop {
         cities.removeAll(citiesToRemove);
 
         citiesToRemove.forEach(city -> {
-            currentScene.getSceneRoot().getChildren().remove(city);
+            controller.removeFromCurrentScene(city);
         });
         citiesToRemove.clear();
 
@@ -270,7 +315,7 @@ public class GameLoop {
             if (baseExplosions.isEmpty()
                     && enemyMissiles.isEmpty()
                     && enemyExplosions.isEmpty()) {
-                currentScene.getController().noCitiesLeft();
+                controller.noCitiesLeft();
             }
         } else {
             // Otherwise if already enough cities were destroyed -> Bonus Scene
@@ -279,7 +324,7 @@ public class GameLoop {
                 if (baseExplosions.isEmpty()
                         && enemyMissiles.isEmpty()
                         && enemyExplosions.isEmpty()) {
-                    currentScene.getController().enoughCitiesDestroyed();
+                    controller.enoughCitiesDestroyed();
                 }
             }
         }
@@ -326,7 +371,7 @@ public class GameLoop {
             baseLeft.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 4.0);
             baseLeft.id = 0;
             this.bases.add(baseLeft);
-            currentScene.getSceneRoot().getChildren().add(baseLeft);
+            controller.addToCurrentScene(baseLeft);
         }
         if (gameStatus.baseNotDestroyed(1)) {
             Base baseCenter = new Base();
@@ -334,7 +379,7 @@ public class GameLoop {
             baseCenter.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 4.0);
             baseCenter.id = 1;
             this.bases.add(baseCenter);
-            currentScene.getSceneRoot().getChildren().add(baseCenter);
+            controller.addToCurrentScene(baseCenter);
         }
         if (gameStatus.baseNotDestroyed(2)) {
             Base baseRight = new Base();
@@ -342,7 +387,7 @@ public class GameLoop {
             baseRight.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 4.0);
             baseRight.id = 2;
             this.bases.add(baseRight);
-            currentScene.getSceneRoot().getChildren().add(baseRight);
+            controller.addToCurrentScene(baseRight);
         }
 
     }
@@ -364,7 +409,7 @@ public class GameLoop {
                 cityL.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
                 cityL.id = (int) c - 1;
                 this.cities.add(cityL);
-                currentScene.getSceneRoot().getChildren().add(cityL);
+                controller.addToCurrentScene(cityL);
             }
             if (gameStatus.cityNotDestroyed(c + 2)) {
                 City cityR = new City();
@@ -372,19 +417,34 @@ public class GameLoop {
                 cityR.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
                 cityR.id = (int) c + 2;
                 this.cities.add(cityR);
-                currentScene.getSceneRoot().getChildren().add(cityR);
+                controller.addToCurrentScene(cityR);
             }
         }
     }
 
+    /**
+     * Convenience method that tells how many bases are left in the list containing
+     * the base objects.
+     * @return number of bases left
+     */
     public int basesLeft() {
         return bases.size();
     }
 
+    /**
+     * Convenience method that tells how many cities are left in the list containing
+     * the city objects.
+     * @return number of cities left
+     */
     public int citiesLeft() {
         return cities.size();
     }
 
+    /**
+     * Convenience method that tells how many enemy missiles are left in the list
+     * containing the enemy missile objects.
+     * @return number of enemy missiles left
+     */
     public int enemyMissilesLeft() {
         return enemyMissiles.size();
     }

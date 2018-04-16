@@ -12,12 +12,10 @@ import mizzilekommand.logics.SceneController;
  */
 public class GamePlayScene extends SceneTemplate {
 
-    public GamePlayScene(SceneController controller, GamePane gamepane) {
+    public GamePlayScene(SceneController controller) {
         //public GamePlayScene(Parent root) {
         //super(root);
         super(controller);
-
-        this.root.getChildren().add(gamepane);
 
     }
 

@@ -24,7 +24,6 @@ public class MizzileKommand extends Application {
     public static final double BASE_Y = APP_HEIGHT * 0.9;
     public static final double GROUND_LEVEL = APP_HEIGHT * 0.9;
 
-    private GameLoop gameloop;
     private SceneController scnController;
 
     @Override
@@ -37,8 +36,7 @@ public class MizzileKommand extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Mizzile Kömmänd");
 
-        gameloop = new GameLoop();
-        scnController = new SceneController(primaryStage, gameloop);
+        scnController = new SceneController(primaryStage);
         scnController.applyFirstScene();
 
     }

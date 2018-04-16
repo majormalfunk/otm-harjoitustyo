@@ -54,10 +54,10 @@
                 <version>0.8.0</version>
                 <configuration>
                     <excludes>
-                        <exclude>layout/*</exclude>
-                        <exclude>nodes/*</exclude>
-                        <exclude>mizzilekommand/MizzileKommand</exclude>
-                        <exclude>mizzilekommand/SceneController</exclude>
+                        <exclude>mizzilekommand/layout/*</exclude>
+                        <exclude>mizzilekommand/nodes/*</exclude>
+                        <exclude>mizzilekommand/logics/MizzileKommand</exclude>
+                        <exclude>mizzilekommand/logics/SceneController</exclude>
                     </excludes>
                 </configuration>
                 <executions>

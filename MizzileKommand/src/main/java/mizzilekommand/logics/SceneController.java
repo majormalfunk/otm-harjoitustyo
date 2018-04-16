@@ -4,11 +4,12 @@
  */
 package mizzilekommand.logics;
 
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import mizzilekommand.layout.BonusScene;
 import mizzilekommand.layout.EndScene;
-import mizzilekommand.layout.GamePane;
 import mizzilekommand.layout.GamePlayScene;
+import mizzilekommand.layout.SceneTemplate;
 import mizzilekommand.layout.StartScene;
 import mizzilekommand.layout.TopScoreScene;
 
@@ -20,14 +21,8 @@ public class SceneController {
 
     private Stage stage;
     private GameLoop gameloop;
-    public GamePane gamepane;
     public ActionSelector actionSelector;
-
-    public StartScene startScn;
-    public GamePlayScene gamePlayScn;
-    public BonusScene bonusScn;
-    public TopScoreScene topScoreScn;
-    public EndScene endScn;
+    public SceneTemplate currentScene;
 
     public enum Scenes {
         START, PLAY, BONUS, TOP, END
@@ -44,11 +39,11 @@ public class SceneController {
      * @param stage
      * @param gameloop
      */
-    public SceneController(Stage stage, GameLoop gameloop) {
+    public SceneController(Stage stage) {
 
         this.stage = stage;
-        this.gameloop = gameloop;
-        this.gamepane = new GamePane();
+        this.gameloop = new GameLoop();
+        this.gameloop.setSceneController(this);
         this.actionSelector = new ActionSelector();
 
     }
@@ -68,73 +63,36 @@ public class SceneController {
     public void applyNextScene() {
         switch (nextScene) {
             case START:
-                gamePlayScn = null;
-                bonusScn = null;
-                topScoreScn = null;
-                endScn = null;
                 applyStartScene();
                 break;
             case PLAY:
-                startScn = null;
-                bonusScn = null;
-                topScoreScn = null;
-                endScn = null;
                 applyGamePlayScene();
                 break;
             case BONUS:
-                startScn = null;
-                gamePlayScn = null;
-                topScoreScn = null;
-                endScn = null;
                 applyBonusScene();
                 break;
             case TOP:
-                startScn = null;
-                gamePlayScn = null;
-                bonusScn = null;
-                endScn = null;
-                //applyTopScoreScene();
                 break;
             case END:
-                startScn = null;
-                gamePlayScn = null;
-                bonusScn = null;
-                topScoreScn = null;
                 applyEndScene();
                 break;
         }
     }
 
-    /**
-     * This method prepares the StartScene. It calls the constructor of
-     * StartScene if the current StartScene instance is null.
-     */
-    private void prepareStartScene() {
-        if (startScn == null) {
-            startScn = new StartScene(this, gamepane);
-        }
+    public void applyScene() {
+        stage.setScene(currentScene);
+        stage.show();
     }
 
     /**
      * This method applies the StartScene. The method is a collection operations
      * to be run in order for the scene to function properly.
      */
-    public void applyStartScene() {
+    private void applyStartScene() {
         gameloop.stopLoop();
-        prepareStartScene();
+        currentScene = new StartScene(this);
         gameloop.resetGameStatus();
-        stage.setScene(startScn);
-        stage.show();
-    }
-
-    /**
-     * This method prepares the GamePlayScene. It calls the constructor of
-     * GamePlayScene if the current GamePlayScene instance is null.
-     */
-    public void prepareGamePlayScene() {
-        if (gamePlayScn == null) {
-            gamePlayScn = new GamePlayScene(this, gamepane);
-        }
+        applyScene();
     }
 
     /**
@@ -142,22 +100,9 @@ public class SceneController {
      * operations to be run in order for the scene to function properly.
      */
     public void applyGamePlayScene() {
-        prepareGamePlayScene();
-        stage.setScene(gamePlayScn);
-        if (gameloop.startLoop(gamePlayScn)) {
-            stage.show();
-        }
-
-    }
-
-    /**
-     * This method prepares the BonusScene. It calls the constructor of
-     * BonusScene if the current BonusScene instance is null.
-     */
-    public void prepareBonusScene() {
-        if (bonusScn == null) {
-            gameloop.levelUp();
-            bonusScn = new BonusScene(this, gamepane);
+        currentScene = new GamePlayScene(this);
+        if (gameloop.startLoop()) {
+            applyScene();
         }
     }
 
@@ -167,22 +112,9 @@ public class SceneController {
      */
     public void applyBonusScene() {
         gameloop.stopLoop();
-        prepareBonusScene();
-        stage.setScene(bonusScn);
-        //if (gameloop.startLoop(bonusScn)) {
-        stage.show();
-        //}
-
-    }
-
-    /**
-     * This method prepares the EndScene. It calls the constructor of EndScene
-     * if the current EndScene instance is null.
-     */
-    public void prepareEndScene() {
-        if (endScn == null) {
-            endScn = new EndScene(this, gamepane);
-        }
+        gameloop.levelUp();
+        currentScene = new BonusScene(this);
+        applyScene();
     }
 
     /**
@@ -191,11 +123,18 @@ public class SceneController {
      */
     public void applyEndScene() {
         gameloop.stopLoop();
-        prepareEndScene();
-        stage.setScene(endScn);
-        stage.show();
+        currentScene = new EndScene(this);
+        applyScene();
     }
 
+    public void addToCurrentScene(Node node) {
+        currentScene.getSceneRoot().getChildren().add(node);
+    }
+    
+    public void removeFromCurrentScene(Node node) {
+        currentScene.getSceneRoot().getChildren().remove(node);
+    }
+    
     /**
      * Convenience method that calls applyNextScene(String) with parameter
      * NOCITIES. Used to transition from GamePlayScene to next scene in the

@@ -4,7 +4,6 @@ package mizzilekommand.tests;
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-
 import mizzilekommand.logics.GameStatus;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -61,6 +60,11 @@ public class GameStatusTest {
     }
 
     @Test
+    public void falseCityIdDestroyesNoCity() {
+        assertFalse(gameStatus.cityNotDestroyed(99));
+    }
+
+    @Test
     public void threeCitiesDestroyedIsEnough() {
         gameStatus.destroyCity(0);
         gameStatus.destroyCity(1);
@@ -81,6 +85,11 @@ public class GameStatusTest {
     public void baseGetsDestroyed() {
         gameStatus.destroyBase(0);
         assertFalse(gameStatus.baseNotDestroyed(0));
+    }
+
+    @Test
+    public void falseBaseIdDestroyesNoBase() {
+        assertFalse(gameStatus.baseNotDestroyed(99));
     }
 
     @Test

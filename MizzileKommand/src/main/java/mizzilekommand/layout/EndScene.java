@@ -22,11 +22,9 @@ public class EndScene extends SceneTemplate {
 
     Button btnEnd;
 
-    public EndScene(SceneController controller, GamePane gamepane) {
+    public EndScene(SceneController controller) {
 
         super(controller);
-
-        this.root.getChildren().add(gamepane);
 
         btnEnd = new Button();
         btnEnd.setText("THE END");

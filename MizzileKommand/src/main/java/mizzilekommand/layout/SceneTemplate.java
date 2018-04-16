@@ -35,6 +35,8 @@ public abstract class SceneTemplate extends Scene {
         this.root = (Group) this.getRoot();
         this.controller = controller;
 
+        this.root.getChildren().add(new GamePane());
+
         this.setOnKeyPressed(event -> {
             nappiPainettu(event.getCode());
         });
