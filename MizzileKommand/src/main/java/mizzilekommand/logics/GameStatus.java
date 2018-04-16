@@ -2,7 +2,7 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package mizzilekommand;
+package mizzilekommand.logics;
 
 /**
  *

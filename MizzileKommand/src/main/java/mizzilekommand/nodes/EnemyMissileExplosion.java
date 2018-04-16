@@ -2,7 +2,7 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package nodes;
+package mizzilekommand.nodes;
 
 /**
  * This extends the explosion class. Here we have a hardcoded value for burn
@@ -11,10 +11,10 @@ package nodes;
  *
  * @author jaakkovilenius
  */
-public class BaseExplosion extends Explosion {
+public class EnemyMissileExplosion extends Explosion {
 
-    public BaseExplosion(double centerX, double centerY, double radius, long now) {
-        super(centerX, centerY, radius, now, 3000l);
+    public EnemyMissileExplosion(double centerX, double centerY, double radius, long now) {
+        super(centerX, centerY, radius, now, 2000l);
     }
 
 }

@@ -2,10 +2,10 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package mizzilekommand;
+package mizzilekommand.logics;
 
-import mizzilekommand.SceneController.Actions;
-import mizzilekommand.SceneController.Scenes;
+import mizzilekommand.logics.SceneController.Actions;
+import mizzilekommand.logics.SceneController.Scenes;
 
 /**
  *

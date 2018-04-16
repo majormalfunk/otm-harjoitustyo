@@ -2,16 +2,16 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package layout;
+package mizzilekommand.layout;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import static mizzilekommand.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.MizzileKommand.APP_WIDTH;
-import mizzilekommand.SceneController;
+import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
+import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
+import mizzilekommand.logics.SceneController;
 
 /**
  * Not implemented yet

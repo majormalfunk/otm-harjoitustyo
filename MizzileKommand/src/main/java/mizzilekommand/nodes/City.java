@@ -2,12 +2,12 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package nodes;
+package mizzilekommand.nodes;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import static mizzilekommand.MizzileKommand.CITY_WIDTH;
-import static mizzilekommand.MizzileKommand.SMALL_LENGTH;
+import static mizzilekommand.logics.MizzileKommand.CITY_WIDTH;
+import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
 
 /**
  *

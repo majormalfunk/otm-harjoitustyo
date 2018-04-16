@@ -2,9 +2,9 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package layout;
+package mizzilekommand.layout;
 
-import mizzilekommand.SceneController;
+import mizzilekommand.logics.SceneController;
 import java.util.HashMap;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -12,8 +12,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import static mizzilekommand.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.MizzileKommand.APP_WIDTH;
+import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
+import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 
 /**
  * This is an abstract class designed to be inherited by the actual scene

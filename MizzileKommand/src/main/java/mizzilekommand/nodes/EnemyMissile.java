@@ -2,7 +2,7 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package nodes;
+package mizzilekommand.nodes;
 
 import javafx.scene.paint.Color;
 

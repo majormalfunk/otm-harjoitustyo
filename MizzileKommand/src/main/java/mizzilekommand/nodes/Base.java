@@ -2,12 +2,12 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package nodes;
+package mizzilekommand.nodes;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
-import static mizzilekommand.MizzileKommand.BASE_RADIUS;
+import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 
 /**
  * This is a class representing player bases

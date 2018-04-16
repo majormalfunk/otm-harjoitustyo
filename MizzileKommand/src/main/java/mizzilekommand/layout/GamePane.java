@@ -2,18 +2,18 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package layout;
+package mizzilekommand.layout;
 
-import nodes.Ground;
+import mizzilekommand.nodes.Ground;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import static mizzilekommand.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.MizzileKommand.APP_WIDTH;
-import static mizzilekommand.MizzileKommand.SMALL_LENGTH;
+import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
+import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
+import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
 
 /**
  * This Pane provides the background for the game play scene

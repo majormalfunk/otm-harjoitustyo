@@ -2,12 +2,12 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package nodes;
+package mizzilekommand.nodes;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import static mizzilekommand.MizzileKommand.APP_WIDTH;
-import static mizzilekommand.MizzileKommand.SMALL_LENGTH;
+import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
+import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
 
 /**
  * This represents the ground in the bottom of the screen.

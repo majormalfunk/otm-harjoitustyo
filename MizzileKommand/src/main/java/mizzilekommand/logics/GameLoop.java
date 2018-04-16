@@ -2,21 +2,21 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package mizzilekommand;
+package mizzilekommand.logics;
 
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.shape.Shape;
-import layout.SceneTemplate;
-import static mizzilekommand.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.MizzileKommand.APP_WIDTH;
-import static mizzilekommand.MizzileKommand.SMALL_LENGTH;
-import nodes.Base;
-import nodes.City;
-import nodes.Explosion;
-import nodes.EnemyMissile;
-import nodes.PlayerMissile;
+import mizzilekommand.layout.SceneTemplate;
+import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
+import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
+import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
+import mizzilekommand.nodes.Base;
+import mizzilekommand.nodes.City;
+import mizzilekommand.nodes.Explosion;
+import mizzilekommand.nodes.EnemyMissile;
+import mizzilekommand.nodes.PlayerMissile;
 
 /**
  * This is the game loop for the game. The actual implementation involves a

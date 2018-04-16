@@ -2,7 +2,7 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package mizzilekommand;
+package mizzilekommand.logics;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

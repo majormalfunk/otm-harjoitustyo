@@ -2,14 +2,14 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package nodes;
+package mizzilekommand.nodes;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import static mizzilekommand.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.MizzileKommand.APP_WIDTH;
-import static mizzilekommand.MizzileKommand.BASE_RADIUS;
+import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
+import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
+import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 
 /**
  * Class representing enemymissiles. We should create a common abtract class for

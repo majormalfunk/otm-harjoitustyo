@@ -2,9 +2,9 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package layout;
+package mizzilekommand.layout;
 
-import mizzilekommand.SceneController;
+import mizzilekommand.logics.SceneController;
 import javafx.scene.Parent;
 
 /**

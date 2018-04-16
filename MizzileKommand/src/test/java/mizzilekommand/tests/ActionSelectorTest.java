@@ -1,10 +1,12 @@
+package mizzilekommand.tests;
+
 /*
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
 
-import mizzilekommand.ActionSelector;
-import mizzilekommand.SceneController;
+import mizzilekommand.logics.ActionSelector;
+import mizzilekommand.logics.SceneController;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

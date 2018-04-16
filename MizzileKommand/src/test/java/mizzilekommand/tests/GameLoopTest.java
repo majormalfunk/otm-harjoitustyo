@@ -1,12 +1,14 @@
+package mizzilekommand.tests;
+
 /*
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
 
-import layout.GamePlayScene;
-import mizzilekommand.GameLoop;
-import nodes.Base;
-import nodes.Explosion;
+import mizzilekommand.layout.GamePlayScene;
+import mizzilekommand.logics.GameLoop;
+import mizzilekommand.nodes.Base;
+import mizzilekommand.nodes.Explosion;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

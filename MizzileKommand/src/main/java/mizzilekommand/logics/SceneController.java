@@ -2,15 +2,15 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package mizzilekommand;
+package mizzilekommand.logics;
 
 import javafx.stage.Stage;
-import layout.BonusScene;
-import layout.EndScene;
-import layout.GamePane;
-import layout.GamePlayScene;
-import layout.StartScene;
-import layout.TopScoreScene;
+import mizzilekommand.layout.BonusScene;
+import mizzilekommand.layout.EndScene;
+import mizzilekommand.layout.GamePane;
+import mizzilekommand.layout.GamePlayScene;
+import mizzilekommand.layout.StartScene;
+import mizzilekommand.layout.TopScoreScene;
 
 /**
  *

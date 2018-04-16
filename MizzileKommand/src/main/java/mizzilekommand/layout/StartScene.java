@@ -2,17 +2,17 @@
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
-package layout;
+package mizzilekommand.layout;
 
-import mizzilekommand.SceneController;
+import mizzilekommand.logics.SceneController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import mizzilekommand.SceneController.Actions;
-import static mizzilekommand.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.MizzileKommand.APP_WIDTH;
+import mizzilekommand.logics.SceneController.Actions;
+import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
+import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 
 /**
  * This is the Starting scene for the game.

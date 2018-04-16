@@ -1,9 +1,11 @@
+package mizzilekommand.tests;
+
 /*
  * OTM-harjoitustyö kevät 2018
  * Jaakko Vilenius
  */
 
-import mizzilekommand.GameStatus;
+import mizzilekommand.logics.GameStatus;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
