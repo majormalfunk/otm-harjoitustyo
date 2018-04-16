@@ -15,6 +15,6 @@
 |1.4.     |11,00    |perustoiminnallisuus, refaktorointi, javadocs, testit       |
 |**Vko 3**|**32,00**|*Kumul 41,00*                                               |
 |14.4.    |4,00     |Pelin toiminnallisuudet mm. kaupungit ja niiden tuhoutuminen|
-|15.4.    |4,00     |Pelin toiminnallisuudet mm. kaupungit ja niiden tuhoutuminen|
-|**Vko 4**|**8,00** |                                                            |
-|**YHT**  |**49,00**|                                                            |
+|15.4.    |7,00     |Pelin toiminnallisuudet, testit, checkstyle                 |
+|**Vko 4**|**11,00**|                                                            |
+|**YHT**  |**52,00**|                                                            |
