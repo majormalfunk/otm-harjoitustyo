@@ -12,8 +12,8 @@ import javafx.scene.paint.Color;
  */
 public class PlayerMissile extends Missile {
 
-    public PlayerMissile(long id) {
-        super(id);
+    public PlayerMissile(long id, double tgtX, double tgtY) {
+        super(id, 0, -1, tgtX, tgtY); // 0, -1 = up
 
         this.setFill(Color.LIGHTCYAN);
         this.setStroke(Color.CORNFLOWERBLUE);

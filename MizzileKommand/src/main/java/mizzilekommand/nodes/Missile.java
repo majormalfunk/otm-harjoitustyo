@@ -12,22 +12,24 @@ import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 
 /**
- * Class representing enemymissiles. We should create a common abtract class for
- * player and enemy classes to be inherited.
+ * Class representing missiles. This is a common abtract class for
+ * player and enemy missile classes to inherit.
  *
  * @author jaakkovilenius
  */
-public class Missile extends Polygon {
+public abstract class Missile extends Polygon {
 
-    private final double width;
-    private final double height;
+    public final double width;
+    public final double height;
+    public final Point2D target;
     private Point2D direction;
 
-    public Missile(long id) {
+    public Missile(long id, double dirX, double dirY, double tgtX, double tgtY) {
 
         this.width = APP_HEIGHT / 240.0;
         this.height = APP_HEIGHT / 40.0;
-        this.direction = new Point2D(0, 1);
+        this.target = new Point2D(tgtX, tgtY);
+        this.direction = new Point2D(dirX, dirY);
 
         this.setId("MISSILE" + id);
         this.getPoints().addAll(
@@ -55,6 +57,34 @@ public class Missile extends Polygon {
     public void fly() {
         setLayoutX(getLayoutX() + getTranslateX() + direction.getX());
         setLayoutY(getLayoutY() + getTranslateY() + direction.getY());
+    }
+    
+    /**
+     * Returns the missiles target X coordinate.
+     * @return The target's x coordinate
+     */
+    public double getTargetX() {
+        return target.getX();
+    }
+    
+    /**
+     * Returns the missiles target Y coordinate.
+     * @return The target's y coordinate
+     */
+    public double getTargetY() {
+        return target.getY();
+    }
+
+    /**
+     * This sets the missile direction in degrees.
+     * In this case 0.0 degrees is up and 180.0 is down since the missile is
+     * drawn pointing up.
+     * 
+     * @param degrees direction in degrees.
+     */
+    public void setDirectionTo(double x, double y) {
+        
+        System.out.println("Suunta: " + (new Point2D(x, y)).normalize());
     }
 
     /**

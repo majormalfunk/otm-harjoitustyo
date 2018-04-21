@@ -82,6 +82,15 @@ public class GameStatusTest {
     }
 
     @Test
+    public void basesGetRebuiltAtLevelUp() {
+        gameStatus.destroyBase(0);
+        gameStatus.destroyBase(1);
+        gameStatus.destroyBase(2);
+        gameStatus.levelUp();
+        assertEquals(3, gameStatus.basesLeft());
+    }
+
+    @Test
     public void baseGetsDestroyed() {
         gameStatus.destroyBase(0);
         assertFalse(gameStatus.baseNotDestroyed(0));

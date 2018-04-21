@@ -5,6 +5,7 @@
 package mizzilekommand.logics;
 
 import javafx.application.Application;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 /**
@@ -21,13 +22,22 @@ public class MizzileKommand extends Application {
     public static final double BASE_RADIUS = APP_WIDTH / 48.0;
     public static final double CITY_WIDTH = APP_WIDTH / 32.0;
     public static final double SMALL_LENGTH = APP_WIDTH / 48.0;
-    public static final double BASE_Y = APP_HEIGHT * 0.9;
-    public static final double GROUND_LEVEL = APP_HEIGHT * 0.9;
-
+    public static final double GROUND_LEVEL = 450.0;
+    
+    public static final double[] BASE_X = {
+        (BASE_RADIUS * 3.0), (APP_WIDTH / 2.0), APP_WIDTH - (BASE_RADIUS * 3.0)};
+    public static final double BASE_Y = APP_HEIGHT - (SMALL_LENGTH * 4.0);
+    
     private SceneController scnController;
+
+    AudioClip muzak = new AudioClip("file:MizzileKommand.m4a");
 
     @Override
     public void start(Stage primaryStage) {
+
+        muzak.setVolume(0.15);
+        muzak.setCycleCount(-1); // Looped
+        muzak.play();
 
         primaryStage.setMaxWidth(APP_WIDTH);
         primaryStage.setMinWidth(APP_WIDTH);

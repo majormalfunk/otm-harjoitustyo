@@ -24,23 +24,22 @@ public class GameStatus {
 
     public int levelUp() {
 
-        this.level++;
-        this.incomingTotal = 5 + (level * 5);
-        this.incomingLeft = incomingTotal;
-        this.citiesDestroyedInLevel = 0;
-        for (int b = 0; b < 3; b++) {
-            missilesLeft[b] = (baseOk[b] ? 10 : 0);
-        }
+        level++;
+        incomingTotal = 5 + (level * 5);
+        incomingLeft = incomingTotal;
+        citiesDestroyedInLevel = 0;
+        baseOk = new boolean[]{true, true, true};
+        missilesLeft = new int[]{10, 10, 10};
         return level;
 
     }
 
     public void reset() {
 
-        this.level = 1;
-        this.incomingTotal = 5;
-        this.incomingLeft = incomingTotal;
-        this.citiesDestroyedInLevel = 0;
+        level = 1;
+        incomingTotal = 5;
+        incomingLeft = incomingTotal;
+        citiesDestroyedInLevel = 0;
         cityOk = new boolean[]{true, true, true, true, true, true};
         baseOk = new boolean[]{true, true, true};
         missilesLeft = new int[]{10, 10, 10};
@@ -111,6 +110,19 @@ public class GameStatus {
     }
 
     /**
+     * This method tells the number of bases left.
+     * 
+     * @return number of bases left
+     */
+    public int basesLeft() {
+        return (baseOk[0] ? 1 : 0) + (baseOk[1] ? 1 : 0) + (baseOk[2] ? 1 : 0);
+    }
+
+    public boolean baseMissilesLeft(int base) {
+         return (baseNotDestroyed(base) && missilesLeft[base] > 0);
+    }
+    
+    /**
      * This method returns true if any incoming missiles are left in the current
      * level
      *
@@ -126,6 +138,7 @@ public class GameStatus {
      */
     public void incomingMissilesDecrease() {
         incomingLeft--;
+        System.out.println("Incoming left " + incomingLeft);
     }
 
     public int numberOfIncomingLeft() {

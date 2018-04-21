@@ -5,6 +5,7 @@
 package mizzilekommand.logics;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import mizzilekommand.layout.BonusScene;
 import mizzilekommand.layout.EndScene;
@@ -12,6 +13,8 @@ import mizzilekommand.layout.GamePlayScene;
 import mizzilekommand.layout.SceneTemplate;
 import mizzilekommand.layout.StartScene;
 import mizzilekommand.layout.TopScoreScene;
+import mizzilekommand.nodes.CityDestruction;
+import mizzilekommand.nodes.EnemyMissileExplosion;
 
 /**
  *
@@ -48,6 +51,39 @@ public class SceneController {
 
     }
 
+    /**
+     * This method handles the game control input from the player.
+     * It receives the pressed key and the X and Y coordinates of the mouse
+     * pointer at the time the user pressed the key.
+     * 
+     * @param key
+     * @param targetX
+     * @param targetY 
+     */
+    public void keyDown(KeyCode key, double targetX, double targetY) {
+        switch (key) {
+            case LEFT:
+            case Z:
+                System.out.println("Left (" + targetX + ", " + targetY + ")");
+                gameloop.launchNewPlayerMissile(0, targetX, targetY);
+                break;
+            case DOWN:
+            case UP:
+            case X:
+                System.out.println("Center (" + targetX + ", " + targetY + ")");
+                gameloop.launchNewPlayerMissile(1, targetX, targetY);
+                break;
+            case RIGHT:
+            case C:
+                System.out.println("Right (" + targetX + ", " + targetY + ")");
+                gameloop.launchNewPlayerMissile(2, targetX, targetY);
+                break;
+            default:
+                System.out.println("Unknown command");
+                break;
+        }
+    }
+    
     /**
      * Convenience method for starting the game application
      */
@@ -127,14 +163,27 @@ public class SceneController {
         applyScene();
     }
 
+    /**
+     * This method adds to the current scene the node given as parameter. This
+     * is because we want to isolate access to the scene from the game logic
+     *
+     * @param node The node to be added
+     */
     public void addToCurrentScene(Node node) {
         currentScene.getSceneRoot().getChildren().add(node);
     }
-    
+
+    /**
+     * This method removes from the current scene the node given as parameter.
+     * This is because we want to isolate access to the scene from the game
+     * logic
+     *
+     * @param node The node to be removed
+     */
     public void removeFromCurrentScene(Node node) {
         currentScene.getSceneRoot().getChildren().remove(node);
     }
-    
+
     /**
      * Convenience method that calls applyNextScene(String) with parameter
      * NOCITIES. Used to transition from GamePlayScene to next scene in the

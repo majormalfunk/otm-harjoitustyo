@@ -5,32 +5,44 @@
 package mizzilekommand.nodes;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 
 /**
- * This is a base class for explosions
  *
  * @author jaakkovilenius
  */
-public class Explosion extends Circle {
+public class CityDestruction extends Arc {
 
-    private double radiusOriginal;
-    private double radius;
     private long burnFrom;
     private long burnUntil;
     private long burnTime;
+    private int r;
+    private int g;
+    private int b;
 
-    public Explosion(double centerX, double centerY, double radius, long now, long burnTime) {
-
-        super(centerX, centerY, radius);
-
-        this.radiusOriginal = radius;
-        this.radius = radius;
+    public CityDestruction(double centerX, double centerY, double radius, long now, long burnTime) {
+        
         this.burnFrom = now;
-        this.burnUntil = now + burnTime;
+        this.burnUntil = (long) (now + burnTime);
         this.burnTime = burnTime;
-        this.setFill(Color.WHITE);
 
+        this.setLayoutX(centerX);
+        this.setLayoutY(centerY);
+        
+        this.setRadiusX(radius);
+        this.setRadiusY(radius);
+        this.setStartAngle(0.0);
+        this.setLength(180.0);
+
+        //Setting the type of the arc 
+        this.setType(ArcType.ROUND);
+        r = 255;
+        g = 160;
+        b = 0;
+        this.setFill(Color.rgb(r, g, b, 1.0));
+        
+        this.setId("City destruction");
     }
 
     /**
@@ -41,11 +53,11 @@ public class Explosion extends Circle {
      */
     public void fade(long now) {
         double factor = ((double) (now - burnFrom) / (double) burnTime);
-        this.setFill(Color.rgb(255, 255, 255, Math.max(1.0 - factor, 0.0)));
+        this.setFill(Color.rgb(r, g, b, Math.max(1.0 - factor, 0.0)));
         double scale = 1.0 + (factor * 0.33);
-        this.radius = radiusOriginal * scale;
         this.setScaleX(scale);
         this.setScaleY(scale);
+        this.setLayoutY(getLayoutY()*0.9999);
     }
 
     /**
