@@ -16,5 +16,8 @@
 |**Vko 3**|**32,00**|*Kumul 41,00*                                               |
 |14.4.    |4,00     |Pelin toiminnallisuudet mm. kaupungit ja niiden tuhoutuminen|
 |15.4.    |7,00     |Pelin toiminnallisuudet, testit, checkstyle                 |
-|**Vko 4**|**11,00**|                                                            |
-|**YHT**  |**52,00**|                                                            |
+|16.4.    |6,00     |Testit, dokumentaatio, pakkausrakenne                       |
+|**Vko 4**|**17,00**|                                                            |
+|21.4.    |10,00    |Toiminnallisuudet mm. kaupungit ja pelaajan ohjukset, äänet |
+|**Vko 5**|10,00    |*Kumul 68,00*                                               |
+|**YHT**  |**68,00**|                                                            |
