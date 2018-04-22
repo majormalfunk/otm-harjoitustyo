@@ -10,6 +10,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 
@@ -24,6 +26,7 @@ public abstract class SceneTemplate extends Scene {
 
     SceneController controller;
     Group root;
+    Text levelIndicator;
 
     public SceneTemplate(SceneController controller) {
 
@@ -45,6 +48,12 @@ public abstract class SceneTemplate extends Scene {
             }
         });
 
+        // Level indicator
+        levelIndicator = new Text();
+        levelIndicator.setLayoutX(10);
+        levelIndicator.setLayoutY(20);
+        levelIndicator.setStroke(Color.WHITE);
+
     }
 
     /**
@@ -63,5 +72,24 @@ public abstract class SceneTemplate extends Scene {
      */
     public Group getSceneRoot() {
         return root;
+    }
+
+    public void showLevelIndicator(int level) {
+        levelIndicator.setText("LEVEL: " + level);
+        try {
+            this.root.getChildren().add(levelIndicator);
+        } catch (Exception e) {
+            // Do nothing
+            System.out.println("Exception trying to show level indicator");
+        }
+    }
+    
+    public void hideLevelIndicator() {
+        try {
+            this.root.getChildren().remove(levelIndicator);
+        } catch (Exception e) {
+            // Do nothing
+            System.out.println("Exception trying to hide level indicator");
+        }
     }
 }

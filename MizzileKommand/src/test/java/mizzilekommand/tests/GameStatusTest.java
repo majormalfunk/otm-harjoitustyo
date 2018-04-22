@@ -45,15 +45,6 @@ public class GameStatusTest {
     }
 
     @Test
-    public void statusResetWorks() {
-        int level = gameStatus.level;
-        level = gameStatus.levelUp();
-        level = gameStatus.levelUp();
-        gameStatus.reset();
-        assertEquals(1, gameStatus.level);
-    }
-
-    @Test
     public void cityGetsDestroyed() {
         gameStatus.destroyCity(0);
         assertFalse(gameStatus.cityNotDestroyed(0));

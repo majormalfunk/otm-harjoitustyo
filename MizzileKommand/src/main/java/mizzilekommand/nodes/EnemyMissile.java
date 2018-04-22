@@ -5,6 +5,7 @@
 package mizzilekommand.nodes;
 
 import javafx.scene.paint.Color;
+import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 
 /**
  *
@@ -20,4 +21,18 @@ public class EnemyMissile extends Missile {
 
     }
 
+    /**
+     * This method returns an explosion at the missile location with an initial
+     * burn radius of 3 * the base radius. This is supposed to be called when
+     * the missile detonates.
+     *
+     * @return Explosion
+     */
+    @Override
+    public Explosion detonate() {
+        this.setFill(Color.TRANSPARENT);
+        return new EnemyMissileExplosion(getLayoutX(), getLayoutY(), BASE_RADIUS * 3.0, System.currentTimeMillis());
+    }
+
+    
 }

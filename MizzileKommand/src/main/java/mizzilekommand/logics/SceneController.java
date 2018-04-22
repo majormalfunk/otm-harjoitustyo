@@ -4,6 +4,7 @@
  */
 package mizzilekommand.logics;
 
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -132,7 +133,7 @@ public class SceneController {
      * operations to be run in order for the scene to function properly.
      */
     public void applyGamePlayScene() {
-        currentScene = new GamePlayScene(this);
+        currentScene = new GamePlayScene(this, gameloop.gameStatus.level);
         if (gameloop.startLoop()) {
             applyScene();
         }
@@ -145,7 +146,7 @@ public class SceneController {
     public void applyBonusScene() {
         gameloop.stopLoop();
         gameloop.levelUp();
-        currentScene = new BonusScene(this);
+        currentScene = new BonusScene(this, gameloop.gameStatus.level);
         applyScene();
     }
 
@@ -155,7 +156,7 @@ public class SceneController {
      */
     public void applyEndScene() {
         gameloop.stopLoop();
-        currentScene = new EndScene(this);
+        currentScene = new EndScene(this, gameloop.gameStatus.level);
         applyScene();
     }
 
@@ -170,6 +171,16 @@ public class SceneController {
     }
 
     /**
+     * This method adds to the current scene the list of nodes given as parameter.
+     * This is because we want to isolate access to the scene from the game logic
+     * 
+     * @param nodes to be added
+     */
+    public void addAllToCurrentScene(List nodes) {
+        currentScene.getSceneRoot().getChildren().addAll(nodes);
+    }
+    
+    /**
      * This method removes from the current scene the node given as parameter.
      * This is because we want to isolate access to the scene from the game
      * logic
@@ -180,6 +191,16 @@ public class SceneController {
         currentScene.getSceneRoot().getChildren().remove(node);
     }
 
+    /**
+     * This method removes from the current scene the list of nodes given as parameter.
+     * This is because we want to isolate access to the scene from the game logic
+     * 
+     * @param nodes to be removed
+     */
+    public void removeAllFromCurrentScene(List nodes) {
+        currentScene.getSceneRoot().getChildren().removeAll(nodes);
+    }
+    
     /**
      * Convenience method that calls applyNextScene(String) with parameter
      * NOCITIES. Used to transition from GamePlayScene to next scene in the

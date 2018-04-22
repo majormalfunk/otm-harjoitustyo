@@ -101,9 +101,6 @@ public abstract class Missile extends Polygon {
      *
      * @return Explosion
      */
-    public Explosion detonate() {
-        this.setFill(Color.TRANSPARENT);
-        return new EnemyMissileExplosion(getLayoutX(), getLayoutY(), BASE_RADIUS * 3.0, System.currentTimeMillis());
-    }
+    public abstract Explosion detonate();
 
 }

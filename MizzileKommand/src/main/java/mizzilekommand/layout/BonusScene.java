@@ -20,9 +20,11 @@ import mizzilekommand.logics.SceneController;
  */
 public class BonusScene extends SceneTemplate {
 
-    public BonusScene(SceneController controller) {
+    public BonusScene(SceneController controller, int level) {
         super(controller);
 
+        showLevelIndicator(level);
+        
         Button btnContinue;
 
         btnContinue = new Button();

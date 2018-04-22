@@ -17,7 +17,7 @@ public class Explosion extends Circle {
     private double radiusOriginal;
     private double radius;
     private long burnFrom;
-    private long burnUntil;
+    public long burnUntil;
     private long burnTime;
 
     public Explosion(double centerX, double centerY, double radius, long now, long burnTime) {
@@ -39,8 +39,8 @@ public class Explosion extends Circle {
      * @param now System time in milliseconds used to calculate the remaining
      * burn time and current size
      */
-    public void fade(long now) {
-        double factor = ((double) (now - burnFrom) / (double) burnTime);
+    public void fade() {
+        double factor = ((double) (System.currentTimeMillis() - burnFrom) / (double) burnTime);
         this.setFill(Color.rgb(255, 255, 255, Math.max(1.0 - factor, 0.0)));
         double scale = 1.0 + (factor * 0.33);
         this.radius = radiusOriginal * scale;

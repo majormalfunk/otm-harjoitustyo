@@ -22,9 +22,11 @@ public class EndScene extends SceneTemplate {
 
     Button btnEnd;
 
-    public EndScene(SceneController controller) {
+    public EndScene(SceneController controller, int level) {
 
         super(controller);
+
+        showLevelIndicator(level);
 
         btnEnd = new Button();
         btnEnd.setText("THE END");
