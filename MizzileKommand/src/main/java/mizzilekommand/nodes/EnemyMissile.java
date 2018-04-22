@@ -12,8 +12,8 @@ import javafx.scene.paint.Color;
  */
 public class EnemyMissile extends Missile {
 
-    public EnemyMissile(long id, double tgtX, double tgtY) {
-        super(id, 0, 1, tgtX, tgtY); // 0, 1 = down
+    public EnemyMissile(long id, double boost, double tgtX, double tgtY) {
+        super(id, boost, 0, 1, tgtX, tgtY); // 0, 1 = down
 
         this.setFill(Color.PINK);
         this.setStroke(Color.CRIMSON);

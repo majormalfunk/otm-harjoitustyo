@@ -64,22 +64,18 @@ public class SceneController {
         switch (key) {
             case LEFT:
             case Z:
-                System.out.println("Left (" + targetX + ", " + targetY + ")");
                 gameloop.launchNewPlayerMissile(0, targetX, targetY);
                 break;
             case DOWN:
             case UP:
             case X:
-                System.out.println("Center (" + targetX + ", " + targetY + ")");
                 gameloop.launchNewPlayerMissile(1, targetX, targetY);
                 break;
             case RIGHT:
             case C:
-                System.out.println("Right (" + targetX + ", " + targetY + ")");
                 gameloop.launchNewPlayerMissile(2, targetX, targetY);
                 break;
             default:
-                System.out.println("Unknown command");
                 break;
         }
     }

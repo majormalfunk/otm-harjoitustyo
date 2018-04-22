@@ -35,7 +35,7 @@ public class MizzileKommand extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        muzak.setVolume(0.15);
+        muzak.setVolume(0.10);
         muzak.setCycleCount(-1); // Looped
         muzak.play();
 

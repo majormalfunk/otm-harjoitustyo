@@ -33,7 +33,6 @@ public class BonusScene extends SceneTemplate {
         btnContinue.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("CONTINUE!");
                 getController().chooseNextScene(SceneController.Actions.CONTINUE);
                 getController().applyNextScene();
             }

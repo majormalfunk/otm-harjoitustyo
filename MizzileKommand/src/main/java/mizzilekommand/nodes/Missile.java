@@ -21,10 +21,11 @@ public abstract class Missile extends Polygon {
 
     public final double width;
     public final double height;
+    private final double boost;
     public final Point2D target;
     private Point2D direction;
 
-    public Missile(long id, double dirX, double dirY, double tgtX, double tgtY) {
+    public Missile(long id, double boost, double dirX, double dirY, double tgtX, double tgtY) {
 
         this.width = APP_HEIGHT / 240.0;
         this.height = APP_HEIGHT / 40.0;
@@ -32,6 +33,7 @@ public abstract class Missile extends Polygon {
         this.direction = new Point2D(dirX, dirY);
 
         this.setId("MISSILE" + id);
+        this.boost = boost;
         this.getPoints().addAll(
                 this.width * 0.2, this.height,
                 this.width * 0.8, this.height,
@@ -49,14 +51,22 @@ public abstract class Missile extends Polygon {
         );
 
     }
+    
+    public void setDirection() {
+        Point2D subs = target.subtract(getLayoutX(), getLayoutY());
+        direction = subs.normalize();
+        double angle = (new Point2D(0.0, -1.0)).angle(direction.getX(), direction.getY());
+        this.setRotate(angle * (direction.getX() < 0 ? -1.0 : 1.0));
+
+    }
 
     /**
      * This method moves the missile to the direction given in the direction
      * attribute.
      */
     public void fly() {
-        setLayoutX(getLayoutX() + getTranslateX() + direction.getX());
-        setLayoutY(getLayoutY() + getTranslateY() + direction.getY());
+        setLayoutX(getLayoutX() + getTranslateX() + (direction.getX()*boost));
+        setLayoutY(getLayoutY() + getTranslateY() + (direction.getY()*boost));
     }
     
     /**
@@ -74,17 +84,14 @@ public abstract class Missile extends Polygon {
     public double getTargetY() {
         return target.getY();
     }
-
-    /**
-     * This sets the missile direction in degrees.
-     * In this case 0.0 degrees is up and 180.0 is down since the missile is
-     * drawn pointing up.
-     * 
-     * @param degrees direction in degrees.
-     */
-    public void setDirectionTo(double x, double y) {
-        
-        System.out.println("Suunta: " + (new Point2D(x, y)).normalize());
+    
+    public boolean isAtTargetHeight() {
+        if (direction.getY() > 0.0 && getLayoutY() >= getTargetY()) {
+            return true;
+        } else if (direction.getY() < 0.0 && getLayoutY() <= getTargetY()) {
+            return true;
+        }
+        return false;
     }
 
     /**

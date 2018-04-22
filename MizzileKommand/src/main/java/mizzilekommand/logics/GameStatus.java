@@ -13,6 +13,7 @@ public class GameStatus {
     public int level;
     public int incomingTotal;
     private int incomingLeft;
+    private double incomingBoost;
     private int citiesDestroyedInLevel;
     private boolean[] cityOk;
     private boolean[] baseOk;
@@ -27,6 +28,7 @@ public class GameStatus {
         level++;
         incomingTotal = 5 + (level * 5);
         incomingLeft = incomingTotal;
+        incomingBoost += 0.25;
         citiesDestroyedInLevel = 0;
         baseOk = new boolean[]{true, true, true};
         missilesLeft = new int[]{10, 10, 10};
@@ -39,6 +41,7 @@ public class GameStatus {
         level = 1;
         incomingTotal = 5;
         incomingLeft = incomingTotal;
+        incomingBoost = 1.0;
         citiesDestroyedInLevel = 0;
         cityOk = new boolean[]{true, true, true, true, true, true};
         baseOk = new boolean[]{true, true, true};
@@ -138,11 +141,20 @@ public class GameStatus {
      */
     public void incomingMissilesDecrease() {
         incomingLeft--;
-        System.out.println("Incoming left " + incomingLeft);
+        //System.out.println("Incoming left " + incomingLeft);
     }
 
+    /**
+     * Returns the number of incoming missiles left in the level.
+     *
+     * @return the number of incoming missiles
+     */
     public int numberOfIncomingLeft() {
         return incomingLeft;
+    }
+    
+    public double getIncomingSpeedFactor() {
+        return incomingBoost;
     }
 
 }

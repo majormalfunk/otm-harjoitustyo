@@ -34,7 +34,6 @@ public class EndScene extends SceneTemplate {
         btnEnd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("THE END");
                 getController().chooseNextScene(Actions.THEEND);
                 getController().applyNextScene();
             }

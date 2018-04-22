@@ -35,7 +35,6 @@ public class StartScene extends SceneTemplate {
         btnPlay.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("PLAY!");
                 getController().chooseNextScene(Actions.PLAY);
                 getController().applyNextScene();
             }

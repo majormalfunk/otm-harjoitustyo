@@ -25,7 +25,6 @@ public class ActionSelector {
      * @param action The action
      */
     public Scenes chooseNextScene(Actions action) {
-        System.out.println(action);
         switch (action) {
             case PLAY:
             case CONTINUE:

@@ -79,7 +79,7 @@ public class GameLoop {
         this.cityDestructions = new ArrayList<>();
         this.cityDestructionsToRemove = new ArrayList<>();
 
-        explosionAudio.setVolume(0.25);
+        explosionAudio.setVolume(0.35);
         explosionAudio.setCycleCount(0); // Played once
 
     }
@@ -115,28 +115,20 @@ public class GameLoop {
                     // Handle loop stopping first
                     if (stopLoop) {
                         stopLoop = false;
-                        enemyMissiles.clear();
-                        enemyExplosions.clear();
-                        baseExplosions.clear();
-                        cityDestructions.clear();
+                        clearNodes();
                         stop();
                     }
 
-                    // These need to be in the following order:
-                    // 1 - handleBases()
-                    // 2 - handleCities()
-                    // 3 - handleEnemyMissiles()
-                    // 4 - handleNewEnemyMissiles()
-                    // 5 - handleEnemyMissileExplosions()
-                    // 6 - handleBaseExplosions()
-                    // 7 - handleCityDesctructions()
-                    handleBases();
-                    handleCities();
-                    handleEnemyMissiles();
-                    handleNewEnemyMissiles();
-                    handleEnemyMissileExplosions();
-                    handleBaseExplosions();
-                    handleCityDestructions();
+                    // DO NOT change the order:
+                    handleBases(); // 1
+                    handleCities(); // 2
+                    handlePlayerMissiles(); // 3
+                    handlePlayerMissileExplosions(); // 4
+                    handleEnemyMissiles(); // 5
+                    handleNewEnemyMissiles(); // 6
+                    handleEnemyMissileExplosions(); // 7
+                    handleBaseExplosions(); // 8
+                    handleCityDestructions(); // 9
 
                 }
 
@@ -160,6 +152,18 @@ public class GameLoop {
     }
 
     /**
+     * This clears the nodes from the lists handled by the game loop
+     */
+    private void clearNodes() {
+        playerMissiles.clear();
+        playerExplosions.clear();
+        enemyMissiles.clear();
+        enemyExplosions.clear();
+        baseExplosions.clear();
+        cityDestructions.clear();
+    }
+
+    /**
      * This method increases the level in the game. It calls the levelUp()
      * method of the GameStatus object.
      *
@@ -174,28 +178,38 @@ public class GameLoop {
     }
 
     /**
-     * This method is used to add new player missiles to the game.
-     * It checks from the gamestatus object if the base from which it should
-     * be launched is still operational and whether any missiles are left
-     * in that base. The method constructs a missile and adds it to the list
-     * for the game loop to handle and asks the controller to add it to the scene
-     * 
+     * This method is used to add new player missiles to the game. It checks
+     * from the gamestatus object if the base from which it should be launched
+     * is still operational and whether any missiles are left in that base. The
+     * method constructs a missile and adds it to the list for the game loop to
+     * handle and asks the controller to add it to the scene
+     *
      * @param base The id of the base from which it should be launched
      * @param targetX The x coordinate of the missile's target
      * @param targetY The y coordinate of the missile's target
      */
     public void launchNewPlayerMissile(int base, double targetX, double targetY) {
         if (gameStatus.baseMissilesLeft(base)) {
-            PlayerMissile missile = new PlayerMissile(System.currentTimeMillis(), targetX, targetY);
+            PlayerMissile missile = new PlayerMissile(System.currentTimeMillis(),
+                    (base == 1 ? 2.5 : 2.0), targetX, targetY);
             playerMissiles.add(missile);
-            missile.setLayoutX(BASE_X[base]-(missile.width/2.0));
-            missile.setLayoutY(BASE_Y-BASE_RADIUS-missile.height);
-            //missile.setRotate(180.0);
+            missile.setLayoutX(BASE_X[base] - (missile.width / 2.0));
+            missile.setLayoutY(BASE_Y - BASE_RADIUS - missile.height);
+            missile.setDirection();
             controller.addToCurrentScene(missile);
-        
+
         }
     }
-    
+
+    /**
+     * This method handles the existing player missiles. It uses two lists - one
+     * with missiles to be removed and the other with missiles continuing in the
+     * game. The removables will be removed by the scene controller. After that
+     * it checks to see if the missiles have reached the height at which they
+     * explode and if that is the case adds those to the removables list and
+     * adds an explosion to the player explosions list and instructs the
+     * controller to add the explosion to the scene.
+     */
     private void handlePlayerMissiles() {
         // Player missiles
         playerMissilesToRemove.forEach(missile -> {
@@ -204,7 +218,7 @@ public class GameLoop {
         playerMissilesToRemove.clear();
         playerMissiles.forEach(missile -> missile.fly());
         playerMissiles.forEach(missile -> {
-            if (missile.getLayoutY() >= APP_HEIGHT * 0.8) {
+            if (missile.isAtTargetHeight()) {
                 playerMissilesToRemove.add(missile);
                 Explosion explosion = missile.detonate();
                 if (explosion != null) {
@@ -218,7 +232,41 @@ public class GameLoop {
 
     }
 
-    
+    /**
+     * This method handles the existing player missile explosions. It uses two
+     * lists - one with explosions to be removed and the other with explosinos
+     * continuing in the game. The removables will be removed by the scene
+     * controller. The method checks to see if the explosion destroys any enemy
+     * missiles. After that it checks to see if the explosions have faded enough
+     * and if that is the case adds those to the removables list.
+     */
+    private void handlePlayerMissileExplosions() {
+        playerExplosionsToRemove.forEach(explosion -> {
+            controller.removeFromCurrentScene(explosion);
+        });
+        playerExplosionsToRemove.clear();
+        playerExplosions.forEach(explosion -> {
+            explosion.fade(System.currentTimeMillis());
+            enemyMissiles.forEach(missile -> {
+                if (didDestroyEnemyMissile(explosion, missile)) {
+                    Explosion destruction = missile.detonate();
+                    controller.addToCurrentScene(destruction);
+                    enemyExplosions.add(destruction);
+                    explosionAudio.play();
+                    enemyMissilesToRemove.add(missile);
+                }
+            });
+        });
+        enemyMissiles.removeAll(enemyMissilesToRemove);
+        playerExplosions.forEach(explosion -> {
+            if (explosion.faded()) {
+                playerExplosionsToRemove.add(explosion);
+            }
+        });
+        playerExplosions.removeAll(playerExplosionsToRemove);
+
+    }
+
     /**
      * This method checks for the conditions in which new enemy missiles should
      * be added to the scene.
@@ -234,6 +282,8 @@ public class GameLoop {
             allowIncoming = false;
             if (cityDestructions.isEmpty()
                     && baseExplosions.isEmpty()
+                    && playerMissiles.isEmpty()
+                    && playerExplosions.isEmpty()
                     && enemyMissiles.isEmpty()
                     && enemyExplosions.isEmpty()) {
                 controller.noIncomingLeft();
@@ -246,7 +296,8 @@ public class GameLoop {
      */
     private void incoming() {
         double x = 0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90);
-        EnemyMissile missile = new EnemyMissile(System.currentTimeMillis(), x, APP_HEIGHT * 0.8);
+        EnemyMissile missile = new EnemyMissile(System.currentTimeMillis(),
+                gameStatus.getIncomingSpeedFactor(), x, APP_HEIGHT * 0.8);
         enemyMissiles.add(missile);
         missile.setLayoutX(x);
         missile.setLayoutY(0);
@@ -271,7 +322,7 @@ public class GameLoop {
         enemyMissilesToRemove.clear();
         enemyMissiles.forEach(missile -> missile.fly());
         enemyMissiles.forEach(missile -> {
-            if (missile.getLayoutY() >= missile.getTargetY()) {
+            if (missile.isAtTargetHeight()) {
                 enemyMissilesToRemove.add(missile);
                 Explosion explosion = missile.detonate();
                 if (explosion != null) {
@@ -384,6 +435,8 @@ public class GameLoop {
             allowIncoming = false;
             if (cityDestructions.isEmpty()
                     && baseExplosions.isEmpty()
+                    && playerMissiles.isEmpty()
+                    && playerExplosions.isEmpty()
                     && enemyMissiles.isEmpty()
                     && enemyExplosions.isEmpty()) {
                 controller.noCitiesLeft();
@@ -394,6 +447,8 @@ public class GameLoop {
                 allowIncoming = false;
                 if (cityDestructions.isEmpty()
                         && baseExplosions.isEmpty()
+                        && playerMissiles.isEmpty()
+                        && playerExplosions.isEmpty()
                         && enemyMissiles.isEmpty()
                         && enemyExplosions.isEmpty()) {
                     controller.enoughCitiesDestroyed();
@@ -418,6 +473,20 @@ public class GameLoop {
         });
         cityDestructions.removeAll(cityDestructionsToRemove);
 
+    }
+
+    /**
+     * This method checks to see if an enemy missile was destroyed by an
+     * explosion
+     *
+     * @param explosion
+     * @param missile
+     * @return true if the missile was destroyed by the explosion false
+     * otherwise
+     */
+    public boolean didDestroyEnemyMissile(Explosion explosion, EnemyMissile missile) {
+        Shape impactZone = Shape.intersect(explosion, missile);
+        return impactZone.getBoundsInLocal().getWidth() != -1;
     }
 
     /**
