@@ -20,5 +20,6 @@
 |**Vko 4**|**17,00**|                                                            |
 |21.4.    |10,00    |Toiminnallisuudet mm. kaupungit ja pelaajan ohjukset, äänet |
 |22.4.    |7,00     |Pelaajan ohjukset, testit                                   |
-|**Vko 5**|17,00    |*Kumul 75,00*                                               |
-|**YHT**  |**75,00**|                                                            |
+|23.4.    |5,00     |Testit, Checkstyle, jar                                     |
+|**Vko 5**|22,00    |*Kumul 80,00*                                               |
+|**YHT**  |**80,00**|                                                            |
