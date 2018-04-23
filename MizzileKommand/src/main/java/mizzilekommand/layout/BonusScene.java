@@ -24,7 +24,7 @@ public class BonusScene extends SceneTemplate {
         super(controller);
 
         showLevelIndicator(level);
-        
+
         Button btnContinue;
 
         btnContinue = new Button();

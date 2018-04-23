@@ -21,14 +21,14 @@ public class GamePlayScene extends SceneTemplate {
 
     double targetX;
     double targetY;
-    
+
     public GamePlayScene(SceneController controller, int level) {
         //public GamePlayScene(Parent root) {
         //super(root);
         super(controller);
 
         showLevelIndicator(level);
-        
+
         targetX = APP_WIDTH / 2.0;
         targetY = APP_HEIGHT / 2.0;
         this.setOnKeyPressed(event -> {
@@ -36,11 +36,10 @@ public class GamePlayScene extends SceneTemplate {
         });
 
         this.setOnMouseMoved(event -> {
-                targetX = event.getX();
-                targetY = event.getY();
+            targetX = event.getX();
+            targetY = event.getY();
         });
 
-        
     }
 
 }

@@ -21,7 +21,7 @@ public class PlayerMissile extends Missile {
         this.setStroke(Color.CORNFLOWERBLUE);
 
     }
-    
+
     /**
      * This method returns an explosion at the missile location with an initial
      * burn radius of 3 * the base radius. This is supposed to be called when
@@ -34,6 +34,5 @@ public class PlayerMissile extends Missile {
         this.setFill(Color.TRANSPARENT);
         return new PlayerMissileExplosion(getLayoutX(), getLayoutY(), BASE_RADIUS * 3.0, System.currentTimeMillis());
     }
-
 
 }

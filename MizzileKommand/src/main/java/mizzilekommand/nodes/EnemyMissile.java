@@ -34,5 +34,4 @@ public class EnemyMissile extends Missile {
         return new EnemyMissileExplosion(getLayoutX(), getLayoutY(), BASE_RADIUS * 3.0, System.currentTimeMillis());
     }
 
-    
 }

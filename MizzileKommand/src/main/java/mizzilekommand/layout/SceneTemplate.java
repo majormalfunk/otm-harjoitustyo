@@ -83,7 +83,7 @@ public abstract class SceneTemplate extends Scene {
             System.out.println("Exception trying to show level indicator");
         }
     }
-    
+
     public void hideLevelIndicator() {
         try {
             this.root.getChildren().remove(levelIndicator);

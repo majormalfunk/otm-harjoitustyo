@@ -12,8 +12,8 @@ import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 
 /**
- * Class representing missiles. This is a common abtract class for
- * player and enemy missile classes to inherit.
+ * Class representing missiles. This is a common abtract class for player and
+ * enemy missile classes to inherit.
  *
  * @author jaakkovilenius
  */
@@ -51,7 +51,7 @@ public abstract class Missile extends Polygon {
         );
 
     }
-    
+
     public void setDirection() {
         Point2D subs = target.subtract(getLayoutX(), getLayoutY());
         direction = subs.normalize();
@@ -65,26 +65,28 @@ public abstract class Missile extends Polygon {
      * attribute.
      */
     public void fly() {
-        setLayoutX(getLayoutX() + getTranslateX() + (direction.getX()*boost));
-        setLayoutY(getLayoutY() + getTranslateY() + (direction.getY()*boost));
+        setLayoutX(getLayoutX() + getTranslateX() + (direction.getX() * boost));
+        setLayoutY(getLayoutY() + getTranslateY() + (direction.getY() * boost));
     }
-    
+
     /**
      * Returns the missiles target X coordinate.
+     *
      * @return The target's x coordinate
      */
     public double getTargetX() {
         return target.getX();
     }
-    
+
     /**
      * Returns the missiles target Y coordinate.
+     *
      * @return The target's y coordinate
      */
     public double getTargetY() {
         return target.getY();
     }
-    
+
     public boolean isAtTargetHeight() {
         if (direction.getY() > 0.0 && getLayoutY() >= getTargetY()) {
             return true;

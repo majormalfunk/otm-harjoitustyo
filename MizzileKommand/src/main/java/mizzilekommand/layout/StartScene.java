@@ -31,7 +31,7 @@ public class StartScene extends SceneTemplate {
         super(controller);
 
         hideLevelIndicator();
-        
+
         btnPlay = new Button();
         btnPlay.setText("PLAY!");
         btnPlay.setMinSize(100, 50);
@@ -60,18 +60,17 @@ public class StartScene extends SceneTemplate {
         this.root.getChildren().add(btnPlay);
         btnPlay.setLayoutX((APP_WIDTH / 2) - 50);
         btnPlay.setLayoutY((APP_HEIGHT / 2) - 50);
-        
+
         Label keys = new Label();
         keys.setTextFill(Color.WHITESMOKE);
         keys.setTextAlignment(TextAlignment.CENTER);
-        String guide = "POINT WITH MOUSE. FIRE MISSILE FROM BASE:\n" +
-                "Z/\u21E6 Left Base   X/\u21E7/\u21E9 Center Base    C/\u21E8 Right Base";
+        String guide = "POINT WITH MOUSE. FIRE MISSILE FROM BASE:\n"
+                + "Z/\u21E6 Left Base   X/\u21E7/\u21E9 Center Base    C/\u21E8 Right Base";
         keys.setText(guide);
         this.root.getChildren().add(keys);
         keys.setMinWidth(200);
         keys.setLayoutY((APP_HEIGHT / 2) + 50);
         keys.layoutXProperty().bind(this.widthProperty().subtract(keys.widthProperty()).divide(2));
-        
 
     }
 

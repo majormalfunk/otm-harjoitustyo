@@ -12,7 +12,8 @@ public class GameStatus {
 
     public int level;
     public int incomingTotal;
-    private int incomingLeft;
+    public int incomingLeft;
+    public double incomingPace;
     private double incomingBoost;
     private int citiesDestroyedInLevel;
     private boolean[] cityOk;
@@ -28,6 +29,7 @@ public class GameStatus {
         level++;
         incomingTotal = 5 + (level * 5);
         incomingLeft = incomingTotal;
+        incomingPace += 0.002;
         incomingBoost += 0.25;
         citiesDestroyedInLevel = 0;
         baseOk = new boolean[]{true, true, true};
@@ -41,6 +43,7 @@ public class GameStatus {
         level = 1;
         incomingTotal = 5;
         incomingLeft = incomingTotal;
+        incomingPace = 0.005;
         incomingBoost = 1.0;
         citiesDestroyedInLevel = 0;
         cityOk = new boolean[]{true, true, true, true, true, true};
@@ -88,6 +91,16 @@ public class GameStatus {
     }
 
     /**
+     * This method tells the number of cities left.
+     *
+     * @return number of cities left
+     */
+    public int citiesLeft() {
+        return (cityOk[0] ? 1 : 0) + (cityOk[1] ? 1 : 0) + (cityOk[2] ? 1 : 0)
+                + (cityOk[3] ? 1 : 0) + (cityOk[4] ? 1 : 0) + (cityOk[5] ? 1 : 0);
+    }
+
+    /**
      * This method marks a base as destroyed.
      *
      * @param id The id of the base
@@ -114,7 +127,7 @@ public class GameStatus {
 
     /**
      * This method tells the number of bases left.
-     * 
+     *
      * @return number of bases left
      */
     public int basesLeft() {
@@ -122,9 +135,9 @@ public class GameStatus {
     }
 
     public boolean baseMissilesLeft(int base) {
-         return (baseNotDestroyed(base) && missilesLeft[base] > 0);
+        return (baseNotDestroyed(base) && missilesLeft[base] > 0);
     }
-    
+
     /**
      * This method returns true if any incoming missiles are left in the current
      * level
@@ -152,7 +165,7 @@ public class GameStatus {
     public int numberOfIncomingLeft() {
         return incomingLeft;
     }
-    
+
     public double getIncomingSpeedFactor() {
         return incomingBoost;
     }

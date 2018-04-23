@@ -22,14 +22,14 @@ public class CityDestruction extends Arc {
     private int b;
 
     public CityDestruction(double centerX, double centerY, double radius, long now, long burnTime) {
-        
+
         this.burnFrom = now;
         this.burnUntil = (long) (now + burnTime);
         this.burnTime = burnTime;
 
         this.setLayoutX(centerX);
         this.setLayoutY(centerY);
-        
+
         this.setRadiusX(radius);
         this.setRadiusY(radius);
         this.setStartAngle(0.0);
@@ -41,7 +41,7 @@ public class CityDestruction extends Arc {
         g = 160;
         b = 0;
         this.setFill(Color.rgb(r, g, b, 1.0));
-        
+
         this.setId("City destruction");
     }
 
@@ -57,7 +57,7 @@ public class CityDestruction extends Arc {
         double scale = 1.0 + (factor * 0.33);
         this.setScaleX(scale);
         this.setScaleY(scale);
-        this.setLayoutY(getLayoutY()*0.9999);
+        this.setLayoutY(getLayoutY() * 0.9999);
     }
 
     /**

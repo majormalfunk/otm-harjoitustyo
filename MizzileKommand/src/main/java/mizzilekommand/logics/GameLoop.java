@@ -31,12 +31,12 @@ import mizzilekommand.nodes.PlayerMissile;
  */
 public class GameLoop {
 
-    private boolean stopLoop;
-    private boolean allowIncoming;
+    public boolean stopLoop;
+    public boolean allowIncoming;
 
     public GameStatus gameStatus;
     public SceneController controller;
-    
+
     public List<Node> addToScene;
     public List<Node> removeFromScene;
 
@@ -108,11 +108,8 @@ public class GameLoop {
      */
     public boolean startLoop() {
 
-        addBases();
-        addCities();
-
-        stopLoop = false;
-        allowIncoming = true;
+        prepareForGameLoop();
+        
         try {
 
             new AnimationTimer() {
@@ -126,18 +123,7 @@ public class GameLoop {
                         stop();
                     }
 
-                    // DO NOT change the order:
-                    handleBases(); // 1
-                    handleCities(); // 2
-                    handlePlayerMissiles(); // 3
-                    handlePlayerMissileExplosions(); // 4
-                    handleEnemyMissiles(); // 5
-                    handleNewEnemyMissiles(); // 6
-                    handleEnemyMissileExplosions(); // 7
-                    handleBaseExplosions(); // 8
-                    handleCityDestructions(); // 9
-                    removeNodesFromScene();
-                    addNodesToScene();
+                    handleGameLoopCalls();
 
                 }
 
@@ -146,10 +132,39 @@ public class GameLoop {
             return true;
 
         } catch (Exception ex) {
-            System.out.println("Failed to start game loop: " + ex.getMessage());
             return false;
         }
 
+    }
+    
+    /**
+     * This handles the calls neccessary to be called befrore start of loop
+     */
+    private void prepareForGameLoop() {
+        addBases();
+        addCities();
+        addNodesToScene();
+        stopLoop = false;
+        allowIncoming = true;
+    }
+    
+    /**
+     * This method handles the action inside the gameloop
+     */
+    private void handleGameLoopCalls() {
+        // DO NOT change the order:
+        checkLevelStatus(); // 0
+        handleBases(); // 1
+        handleCities(); // 2
+        handlePlayerMissiles(); // 3
+        handlePlayerMissileExplosions(); // 4
+        handleEnemyMissiles(); // 5
+        handleNewEnemyMissiles(); // 6
+        handleEnemyMissileExplosions(); // 7
+        handleBaseExplosions(); // 8
+        handleCityDestructions(); // 9
+        removeNodesFromScene();
+        addNodesToScene();
     }
 
     /**
@@ -188,7 +203,7 @@ public class GameLoop {
     public void resetGameStatus() {
         gameStatus.reset();
     }
-    
+
     /**
      * This adds to the current scene all the nodes in the list addToScene
      */
@@ -198,12 +213,50 @@ public class GameLoop {
             addToScene.clear();
         }
     }
-    
+
+    /**
+     * This removes from the current scene all the nodes in list removeFromScene
+     */
     private void removeNodesFromScene() {
         if (!removeFromScene.isEmpty()) {
             controller.removeAllFromCurrentScene(removeFromScene);
             removeFromScene.clear();
         }
+    }
+
+    private void checkLevelStatus() {
+        // If no cities are left, it's game over -> The End Scene
+        if (cities.isEmpty()) {
+            allowIncoming = false;
+            if (actionsDone()) {
+                controller.noCitiesLeft();
+            }
+        } else if (gameStatus.citiesForLevelDestructed()) {
+            // Otherwise if already enough cities were destroyed -> Bonus Scene
+            allowIncoming = false;
+            if (actionsDone()) {
+                controller.enoughCitiesDestroyed();
+            }
+        } else if (!gameStatus.incomingMissilesLeft()) {
+            allowIncoming = false;
+            if (actionsDone()) {
+                controller.noIncomingLeft();
+            }
+        }
+    }
+
+    /**
+     * Method to check that all actions have played out
+     *
+     * @return true if no unfinished actions, false otherwise
+     */
+    public boolean actionsDone() {
+        return cityDestructions.isEmpty()
+                && baseExplosions.isEmpty()
+                && playerMissiles.isEmpty()
+                && playerExplosions.isEmpty()
+                && enemyMissiles.isEmpty()
+                && enemyExplosions.isEmpty();
     }
 
     /**
@@ -278,11 +331,7 @@ public class GameLoop {
             explosion.fade();
             enemyMissiles.forEach(missile -> {
                 if (didDestroyEnemyMissile(explosion, missile)) {
-                    Explosion destruction = missile.detonate();
-                    addToScene.add(destruction);
-                    enemyExplosions.add(destruction);
-                    explosionAudio.play();
-                    enemyMissilesToRemove.add(missile);
+                    detonateMissile(missile);
                 }
             });
         });
@@ -295,27 +344,29 @@ public class GameLoop {
         playerExplosions.removeAll(playerExplosionsToRemove);
 
     }
+    
+    /**
+     * This detonates the enemy missile
+     * @param missile The missile to be detonated
+     */
+    private void detonateMissile(EnemyMissile missile) {
+        Explosion destruction = missile.detonate();
+        addToScene.add(destruction);
+        enemyExplosions.add(destruction);
+        explosionAudio.play();
+        enemyMissilesToRemove.add(missile);
+    }
 
     /**
      * This method checks for the conditions in which new enemy missiles should
      * be added to the scene.
      */
-    private void handleNewEnemyMissiles() {
+    public void handleNewEnemyMissiles() {
 
         if (gameStatus.incomingMissilesLeft()) {
-            if (allowIncoming && Math.random() < 0.005) {
+            if (allowIncoming && Math.random() < gameStatus.incomingPace) {
                 incoming();
                 gameStatus.incomingMissilesDecrease();
-            }
-        } else {
-            allowIncoming = false;
-            if (cityDestructions.isEmpty()
-                    && baseExplosions.isEmpty()
-                    && playerMissiles.isEmpty()
-                    && playerExplosions.isEmpty()
-                    && enemyMissiles.isEmpty()
-                    && enemyExplosions.isEmpty()) {
-                controller.noIncomingLeft();
             }
         }
     }
@@ -383,22 +434,13 @@ public class GameLoop {
             explosion.fade();
             bases.forEach(base -> {
                 if (didDestroyBase(explosion, base)) {
-                    Explosion annihilation = base.detonate();
-                    addToScene.add(annihilation);
-                    baseExplosions.add(annihilation);
-                    explosionAudio.play();
-                    basesToRemove.add(base);
-                    gameStatus.destroyBase(base.id);
+                    explodeBase(base);
                 }
             });
             cities.forEach(city -> {
                 if (!gameStatus.citiesForLevelDestructed()) {
                     if (didDestroyCity(explosion, city)) {
-                        CityDestruction armageddon = city.destruct();
-                        addToScene.add(armageddon);
-                        cityDestructions.add(armageddon);
-                        citiesToRemove.add(city);
-                        gameStatus.destroyCity(city.id);
+                        destructCity(city);
                     }
                 }
             });
@@ -411,12 +453,37 @@ public class GameLoop {
         enemyExplosions.removeAll(enemyExplosionsToRemove);
 
     }
+    
+    /**
+     * This method explodes the base
+     * @param base The base to be exploded
+     */
+    private void explodeBase(Base base) {
+        Explosion annihilation = base.detonate();
+        addToScene.add(annihilation);
+        baseExplosions.add(annihilation);
+        explosionAudio.play();
+        basesToRemove.add(base);
+        gameStatus.destroyBase(base.id);
+    }
+    
+    /**
+     * This method detructs the city
+     * @param city The city to be destructed
+     */
+    private void destructCity(City city) {
+        CityDestruction armageddon = city.destruct();
+        addToScene.add(armageddon);
+        cityDestructions.add(armageddon);
+        citiesToRemove.add(city);
+        gameStatus.destroyCity(city.id);
+    }
 
     /**
      * This method intructs the SceneController to remove destructed bases from
      * the scene.
      */
-    private void handleBases() {
+    public void handleBases() {
         basesToRemove.forEach(base -> {
             removeFromScene.add(base);
         });
@@ -430,7 +497,7 @@ public class GameLoop {
      * controller. After that it checks to see if the explosions have faded
      * enough and if that is the case adds those to the removables list.
      */
-    private void handleBaseExplosions() {
+    public void handleBaseExplosions() {
         bases.removeAll(basesToRemove);
         baseExplosionsToRemove.forEach(explosion -> {
             removeFromScene.add(explosion);
@@ -453,40 +520,14 @@ public class GameLoop {
      * the cities and instructs the SceneController to switch the scene if no
      * cities are left or if already 3 cities were destroyed in level.
      */
-    private void handleCities() {
+    public void handleCities() {
         citiesToRemove.forEach(city -> {
             removeFromScene.add(city);
         });
         citiesToRemove.clear();
-
-        // If no cities are left, it's game over -> The End Scene
-        if (cities.isEmpty()) {
-            allowIncoming = false;
-            if (cityDestructions.isEmpty()
-                    && baseExplosions.isEmpty()
-                    && playerMissiles.isEmpty()
-                    && playerExplosions.isEmpty()
-                    && enemyMissiles.isEmpty()
-                    && enemyExplosions.isEmpty()) {
-                controller.noCitiesLeft();
-            }
-        } else {
-            // Otherwise if already enough cities were destroyed -> Bonus Scene
-            if (gameStatus.citiesForLevelDestructed()) {
-                allowIncoming = false;
-                if (cityDestructions.isEmpty()
-                        && baseExplosions.isEmpty()
-                        && playerMissiles.isEmpty()
-                        && playerExplosions.isEmpty()
-                        && enemyMissiles.isEmpty()
-                        && enemyExplosions.isEmpty()) {
-                    controller.enoughCitiesDestroyed();
-                }
-            }
-        }
     }
 
-    private void handleCityDestructions() {
+    public void handleCityDestructions() {
         cities.removeAll(citiesToRemove);
         cityDestructionsToRemove.forEach(destruction -> {
             removeFromScene.add(destruction);
@@ -548,34 +589,16 @@ public class GameLoop {
      *
      * @param scene a scene to add the bases to
      */
-    private void addBases() {
+    public void addBases() {
         this.bases.clear();
-
-        if (gameStatus.baseNotDestroyed(0)) {
-            Base baseLeft = new Base();
-            baseLeft.setLayoutX(BASE_X[0]);
-            baseLeft.setLayoutY(BASE_Y);
-            baseLeft.id = 0;
-            this.bases.add(baseLeft);
-            controller.addToCurrentScene(baseLeft);
+        for (int id = 0; id < 3; id++) {
+            Base base = new Base();
+            base.setLayoutX(BASE_X[id]);
+            base.setLayoutY(BASE_Y);
+            base.id = id;
+            this.bases.add(base);
+            addToScene.add(base);
         }
-        if (gameStatus.baseNotDestroyed(1)) {
-            Base baseCenter = new Base();
-            baseCenter.setLayoutX(BASE_X[1]);
-            baseCenter.setLayoutY(BASE_Y);
-            baseCenter.id = 1;
-            this.bases.add(baseCenter);
-            controller.addToCurrentScene(baseCenter);
-        }
-        if (gameStatus.baseNotDestroyed(2)) {
-            Base baseRight = new Base();
-            baseRight.setLayoutX(BASE_X[2]);
-            baseRight.setLayoutY(BASE_Y);
-            baseRight.id = 2;
-            this.bases.add(baseRight);
-            controller.addToCurrentScene(baseRight);
-        }
-
     }
 
     /**
@@ -584,7 +607,7 @@ public class GameLoop {
      *
      * @param scene a scene to add the cities to
      */
-    private void addCities() {
+    public void addCities() {
         this.cities.clear();
 
         // Cities are polygons that have their location in (0,0) = left upper corner
@@ -595,7 +618,7 @@ public class GameLoop {
                 cityL.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
                 cityL.id = (int) c - 1;
                 this.cities.add(cityL);
-                controller.addToCurrentScene(cityL);
+                addToScene.add(cityL);
             }
             if (gameStatus.cityNotDestroyed(c + 2)) {
                 City cityR = new City();
@@ -603,7 +626,7 @@ public class GameLoop {
                 cityR.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
                 cityR.id = (int) c + 2;
                 this.cities.add(cityR);
-                controller.addToCurrentScene(cityR);
+                addToScene.add(cityR);
             }
         }
     }

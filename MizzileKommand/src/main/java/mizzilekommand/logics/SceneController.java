@@ -53,13 +53,13 @@ public class SceneController {
     }
 
     /**
-     * This method handles the game control input from the player.
-     * It receives the pressed key and the X and Y coordinates of the mouse
-     * pointer at the time the user pressed the key.
-     * 
+     * This method handles the game control input from the player. It receives
+     * the pressed key and the X and Y coordinates of the mouse pointer at the
+     * time the user pressed the key.
+     *
      * @param key
      * @param targetX
-     * @param targetY 
+     * @param targetY
      */
     public void keyDown(KeyCode key, double targetX, double targetY) {
         switch (key) {
@@ -80,7 +80,7 @@ public class SceneController {
                 break;
         }
     }
-    
+
     /**
      * Convenience method for starting the game application
      */
@@ -171,15 +171,16 @@ public class SceneController {
     }
 
     /**
-     * This method adds to the current scene the list of nodes given as parameter.
-     * This is because we want to isolate access to the scene from the game logic
-     * 
+     * This method adds to the current scene the list of nodes given as
+     * parameter. This is because we want to isolate access to the scene from
+     * the game logic
+     *
      * @param nodes to be added
      */
     public void addAllToCurrentScene(List nodes) {
         currentScene.getSceneRoot().getChildren().addAll(nodes);
     }
-    
+
     /**
      * This method removes from the current scene the node given as parameter.
      * This is because we want to isolate access to the scene from the game
@@ -192,15 +193,16 @@ public class SceneController {
     }
 
     /**
-     * This method removes from the current scene the list of nodes given as parameter.
-     * This is because we want to isolate access to the scene from the game logic
-     * 
+     * This method removes from the current scene the list of nodes given as
+     * parameter. This is because we want to isolate access to the scene from
+     * the game logic
+     *
      * @param nodes to be removed
      */
     public void removeAllFromCurrentScene(List nodes) {
         currentScene.getSceneRoot().getChildren().removeAll(nodes);
     }
-    
+
     /**
      * Convenience method that calls applyNextScene(String) with parameter
      * NOCITIES. Used to transition from GamePlayScene to next scene in the

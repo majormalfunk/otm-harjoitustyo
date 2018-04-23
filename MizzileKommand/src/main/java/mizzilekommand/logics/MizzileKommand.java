@@ -23,11 +23,11 @@ public class MizzileKommand extends Application {
     public static final double CITY_WIDTH = APP_WIDTH / 32.0;
     public static final double SMALL_LENGTH = APP_WIDTH / 48.0;
     public static final double GROUND_LEVEL = 450.0;
-    
+
     public static final double[] BASE_X = {
         (BASE_RADIUS * 3.0), (APP_WIDTH / 2.0), APP_WIDTH - (BASE_RADIUS * 3.0)};
     public static final double BASE_Y = APP_HEIGHT - (SMALL_LENGTH * 4.0);
-    
+
     private SceneController scnController;
 
     AudioClip muzak = new AudioClip("file:MizzileKommand.m4a");

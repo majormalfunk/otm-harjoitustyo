@@ -16,9 +16,8 @@ public class TopScoreScene extends SceneTemplate {
 
     public TopScoreScene(SceneController controller, int level) {
         super(controller);
-        
-        showLevelIndicator(level);
 
+        showLevelIndicator(level);
 
     }
 

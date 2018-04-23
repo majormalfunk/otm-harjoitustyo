@@ -15,7 +15,7 @@ public class BaseExplosion extends Explosion {
 
     public BaseExplosion(double centerX, double centerY, double radius, long now) {
         super(centerX, centerY, radius, now, 3000l);
-        
+
         setId("Base explosion");
     }
 
