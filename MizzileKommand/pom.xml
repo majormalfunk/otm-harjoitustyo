@@ -67,7 +67,25 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>  
+            </plugin> 
+                <plugin>
+                    <!-- Build an executable JAR -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                                <mainClass>mizzilekommand.logics.MizzileKommand</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+             
+              
+                
         </plugins>
 
     </build>

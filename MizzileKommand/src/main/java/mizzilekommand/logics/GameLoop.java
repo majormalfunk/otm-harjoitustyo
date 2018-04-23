@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
-import javafx.scene.media.AudioClip;
+//import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
@@ -57,7 +57,7 @@ public class GameLoop {
     public List<CityDestruction> cityDestructions;
     public List<CityDestruction> cityDestructionsToRemove;
 
-    AudioClip explosionAudio = new AudioClip("file:Explosion.m4a");
+    //AudioClip explosionAudio = new AudioClip("file:Explosion.m4a");
 
     public GameLoop() {
 
@@ -86,8 +86,8 @@ public class GameLoop {
         this.cityDestructions = new ArrayList<>();
         this.cityDestructionsToRemove = new ArrayList<>();
 
-        explosionAudio.setVolume(0.35);
-        explosionAudio.setCycleCount(0); // Played once
+        //explosionAudio.setVolume(0.35);
+        //explosionAudio.setCycleCount(0); // Played once
 
     }
 
@@ -306,7 +306,7 @@ public class GameLoop {
                 if (explosion != null) {
                     addToScene.add(explosion);
                     playerExplosions.add(explosion);
-                    explosionAudio.play();
+                    //explosionAudio.play();
                 }
             }
         });
@@ -353,7 +353,7 @@ public class GameLoop {
         Explosion destruction = missile.detonate();
         addToScene.add(destruction);
         enemyExplosions.add(destruction);
-        explosionAudio.play();
+        //explosionAudio.play();
         enemyMissilesToRemove.add(missile);
     }
 
@@ -408,7 +408,7 @@ public class GameLoop {
                 if (explosion != null) {
                     addToScene.add(explosion);
                     enemyExplosions.add(explosion);
-                    explosionAudio.play();
+                    //explosionAudio.play();
                 }
             }
         });
@@ -462,7 +462,7 @@ public class GameLoop {
         Explosion annihilation = base.detonate();
         addToScene.add(annihilation);
         baseExplosions.add(annihilation);
-        explosionAudio.play();
+        //explosionAudio.play();
         basesToRemove.add(base);
         gameStatus.destroyBase(base.id);
     }
@@ -586,8 +586,6 @@ public class GameLoop {
     /**
      * This method constructs and adds all player bases to the scene and a List
      * that holds references to bases.
-     *
-     * @param scene a scene to add the bases to
      */
     public void addBases() {
         this.bases.clear();
@@ -604,8 +602,6 @@ public class GameLoop {
     /**
      * This method constructs and adds all player cities to the scene and a List
      * that holds references to cities.
-     *
-     * @param scene a scene to add the cities to
      */
     public void addCities() {
         this.cities.clear();

@@ -5,7 +5,7 @@
 package mizzilekommand.logics;
 
 import javafx.application.Application;
-import javafx.scene.media.AudioClip;
+//import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 /**
@@ -30,14 +30,14 @@ public class MizzileKommand extends Application {
 
     private SceneController scnController;
 
-    AudioClip muzak = new AudioClip("file:MizzileKommand.m4a");
+    //AudioClip muzak = new AudioClip("file:MizzileKommand.m4a");
 
     @Override
     public void start(Stage primaryStage) {
 
-        muzak.setVolume(0.10);
-        muzak.setCycleCount(-1); // Looped
-        muzak.play();
+        //muzak.setVolume(0.10);
+        //muzak.setCycleCount(-1); // Looped
+        //muzak.play();
 
         primaryStage.setMaxWidth(APP_WIDTH);
         primaryStage.setMinWidth(APP_WIDTH);
