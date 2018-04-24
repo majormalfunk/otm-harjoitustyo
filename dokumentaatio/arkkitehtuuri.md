@@ -29,7 +29,11 @@
 
 ## Päätoiminnallisuudet
 
+### Pelin käynnistyminen sekvenssikaaviona
 
+Peli käynnistyy alla olevan sekvenssikaavion mukaisesti:
+
+![Sekvenssikaavio pelin käynnistymisestä](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/SekvenssikaavioKaynnistymisesta.png)
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
 
