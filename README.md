@@ -28,8 +28,8 @@ Koodin tyylitarkastusraportti luodaan komennolla
 ```
 mvn jxr:jxr checkstyle:checkstyle
 ```
+---------------------
 
 ### Release-versiot
 
-[Releaset](https://github.com/majormalfunk/otm-harjoitustyo/releases)
----------------------
+[Release-versiot](https://github.com/majormalfunk/otm-harjoitustyo/releases)
