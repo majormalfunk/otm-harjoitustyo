@@ -28,6 +28,11 @@ Koodin tyylitarkastusraportti luodaan komennolla
 ```
 mvn jxr:jxr checkstyle:checkstyle
 ```
+
+Suoritettava jar luodaan komennolla
+```
+mvn package
+```
 ---------------------
 
 ### Release-versiot
