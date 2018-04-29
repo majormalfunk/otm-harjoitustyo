@@ -31,7 +31,13 @@ public class GamePlayScene extends SceneTemplate {
         showScoreCounter(status.score);
         showLevelIndicator(status.level);
         showIncomingCounter(status.incomingLeft);
+        showBaseMissileCounters(status.missilesLeft);
+        status.scoreCounter = this.scoreCounter;
+        status.levelIndicator = this.levelIndicator;
         status.incomingCounter = this.incomingCounter;
+        status.baseMissileCounter[0] = this.baseMissileCounter[0];
+        status.baseMissileCounter[1] = this.baseMissileCounter[1];
+        status.baseMissileCounter[2] = this.baseMissileCounter[2];
 
         targetX = APP_WIDTH / 2.0;
         targetY = APP_HEIGHT / 2.0;

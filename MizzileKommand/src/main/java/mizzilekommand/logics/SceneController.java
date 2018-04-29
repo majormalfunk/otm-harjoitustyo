@@ -88,6 +88,9 @@ public class SceneController {
     }
 
     public void chooseNextScene(Actions action) {
+        if (action == Actions.CONTINUE) {
+            gameloop.levelUp();
+        }
         nextScene = actionSelector.chooseNextScene(action);
     }
 
@@ -143,7 +146,6 @@ public class SceneController {
      */
     public void applyBonusScene() {
         gameloop.stopLoop();
-        gameloop.levelUp();
         currentScene = new BonusScene(this, gameloop.gameStatus.level);
         applyScene();
     }

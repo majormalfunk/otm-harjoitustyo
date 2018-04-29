@@ -284,7 +284,7 @@ public class GameLoop {
             missile.setLayoutY(BASE_Y - BASE_RADIUS - missile.height);
             missile.setDirection();
             addToScene.add(missile);
-
+            gameStatus.substractMissileFromBase(base);
         }
     }
 
@@ -337,6 +337,7 @@ public class GameLoop {
             enemyMissiles.forEach(missile -> {
                 if (didDestroyEnemyMissile(explosion, missile)) {
                     detonateMissile(missile);
+                    gameStatus.enemyMissileDestroyed();
                 }
             });
         });

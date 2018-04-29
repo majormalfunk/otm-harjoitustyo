@@ -14,6 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
+import static mizzilekommand.logics.MizzileKommand.BASE_X;
+import static mizzilekommand.logics.MizzileKommand.INCOMING;
+import static mizzilekommand.logics.MizzileKommand.LEVEL;
+import static mizzilekommand.logics.MizzileKommand.SCORE;
 
 /**
  * This is an abstract class designed to be inherited by the actual scene
@@ -29,6 +33,7 @@ public abstract class SceneTemplate extends Scene {
     Text scoreCounter;
     Text levelIndicator;
     Text incomingCounter;
+    public Text[] baseMissileCounter;
 
     public SceneTemplate(SceneController controller) {
 
@@ -62,12 +67,19 @@ public abstract class SceneTemplate extends Scene {
         incomingCounter = new Text();
         incomingCounter.setStroke(Color.WHITE);
 
+        // Base missile counter
+        baseMissileCounter = new Text[]{new Text(), new Text(), new Text()};
+        baseMissileCounter[0].setStroke(Color.WHITE);
+        baseMissileCounter[1].setStroke(Color.WHITE);
+        baseMissileCounter[2].setStroke(Color.WHITE);
+
     }
 
     /**
      * This is a convenience method to get a reference to the SceneController.
      *
-     * @return SceneController a reference to the current SceneController instance
+     * @return SceneController a reference to the current SceneController
+     * instance
      */
     public SceneController getController() {
         return controller;
@@ -83,7 +95,7 @@ public abstract class SceneTemplate extends Scene {
     }
 
     public void showScoreCounter(int count) {
-        updateScoreCounter(count);
+        scoreCounter.setText(SCORE + " " + count);
         scoreCounter.setLayoutX(20.0);
         scoreCounter.setLayoutY(20.0);
         try {
@@ -92,10 +104,6 @@ public abstract class SceneTemplate extends Scene {
             // Do nothing
             System.out.println("Exception trying to show score counter");
         }
-    }
-    
-    public void updateScoreCounter(int count) {
-        scoreCounter.setText("SCORE: " + count);
     }
 
     public void hideScoreCounter() {
@@ -108,7 +116,7 @@ public abstract class SceneTemplate extends Scene {
     }
 
     public void showLevelIndicator(int level) {
-        levelIndicator.setText("LEVEL: " + level);
+        levelIndicator.setText(LEVEL + " " + level);
         levelIndicator.setLayoutX((APP_WIDTH / 2.0) - (levelIndicator.getLayoutBounds().getWidth() / 2.0));
         levelIndicator.setLayoutY(20);
         try {
@@ -129,7 +137,7 @@ public abstract class SceneTemplate extends Scene {
     }
 
     public void showIncomingCounter(int count) {
-        updateIncomingCounter(count);
+        incomingCounter.setText(INCOMING + " " + count);
         incomingCounter.setLayoutX(APP_WIDTH - incomingCounter.getLayoutBounds().getWidth() - 20.0);
         incomingCounter.setLayoutY(20);
         try {
@@ -139,10 +147,6 @@ public abstract class SceneTemplate extends Scene {
             System.out.println("Exception trying to show incoming counter");
         }
     }
-    
-    public void updateIncomingCounter(int count) {
-        incomingCounter.setText("INCOMING: " + count);
-    }
 
     public void hideIncomingCounter() {
         try {
@@ -150,6 +154,31 @@ public abstract class SceneTemplate extends Scene {
         } catch (Exception e) {
             // Do nothing
             System.out.println("Exception trying to hide incoming counter");
+        }
+    }
+
+    public void showBaseMissileCounters(int[] count) {
+        for (int i = 0; i < baseMissileCounter.length; i++) {
+            baseMissileCounter[i].setText(""+count[i]);
+            baseMissileCounter[i].setLayoutX(BASE_X[i]-(baseMissileCounter[i].getLayoutBounds().getWidth() / 2.0));
+            baseMissileCounter[i].setLayoutY(APP_HEIGHT - 40.0);
+            try {
+                this.root.getChildren().add(baseMissileCounter[i]);
+            } catch (Exception e) {
+                // Do nothing
+                System.out.println("Exception trying to show base " + i + " missile counter");
+            }
+        }
+    }
+
+    public void hideBaseMissileCounters() {
+        for (int i = 0; i < baseMissileCounter.length; i++) {
+            try {
+                this.root.getChildren().remove(baseMissileCounter[i]);
+            } catch (Exception e) {
+                // Do nothing
+                System.out.println("Exception trying to hide base " + i + " counter");
+            }
         }
     }
 }

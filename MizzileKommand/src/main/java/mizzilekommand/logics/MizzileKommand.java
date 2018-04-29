@@ -33,6 +33,10 @@ public class MizzileKommand extends Application {
         (BASE_RADIUS * 3.0), (APP_WIDTH / 2.0), APP_WIDTH - (BASE_RADIUS * 3.0)};
     public static final double BASE_Y = APP_HEIGHT - (SMALL_LENGTH * 4.0);
 
+    public static final String SCORE = "SCORE";
+    public static final String LEVEL = "LEVEL";
+    public static final String INCOMING = "INCOMING";
+    
     private SceneController scnController;
     
     private Clip ominousBackgroundSound;

@@ -5,6 +5,9 @@
 package mizzilekommand.logics;
 
 import javafx.scene.text.Text;
+import static mizzilekommand.logics.MizzileKommand.SCORE;
+import static mizzilekommand.logics.MizzileKommand.INCOMING;
+import static mizzilekommand.logics.MizzileKommand.LEVEL;
 
 /**
  *
@@ -16,6 +19,7 @@ public class GameStatus {
     public int level;
     public int incomingTotal;
     public int incomingLeft;
+    public int enemyMissilesDestroyed;
     public double incomingPace;
     private double incomingBoost;
     private int citiesDestroyedInLevel;
@@ -23,23 +27,33 @@ public class GameStatus {
     private boolean[] baseOk;
     public int[] missilesLeft;
 
+    public Text scoreCounter;
+    public Text levelIndicator;
     public Text incomingCounter;
+    public Text[] baseMissileCounter;
 
     public GameStatus() {
+        scoreCounter = new Text();
+        levelIndicator = new Text();
         incomingCounter = new Text();
+        baseMissileCounter = new Text[]{new Text(), new Text(), new Text()};
         reset();
     }
 
     public int levelUp() {
 
         level++;
-        incomingTotal = 5 + (level * 5);
+        setLevelIndicatorText();
+        incomingTotal = 5 + (level * 2);
         incomingLeft = incomingTotal;
         incomingPace += 0.002;
         incomingBoost += 0.25;
         citiesDestroyedInLevel = 0;
         baseOk = new boolean[]{true, true, true};
         missilesLeft = new int[]{10, 10, 10};
+        baseMissileCounter[0].setText(""+missilesLeft[0]);
+        baseMissileCounter[1].setText(""+missilesLeft[0]);
+        baseMissileCounter[2].setText(""+missilesLeft[0]);
         return level;
 
     }
@@ -47,17 +61,38 @@ public class GameStatus {
     public void reset() {
 
         score = 0;
+        setScoreCounterText();
         level = 1;
+        setLevelIndicatorText();
         incomingTotal = 5;
         incomingLeft = incomingTotal;
         setIncomingCounterText();
+        enemyMissilesDestroyed = 0;
         incomingPace = 0.005;
         incomingBoost = 1.0;
         citiesDestroyedInLevel = 0;
         cityOk = new boolean[]{true, true, true, true, true, true};
         baseOk = new boolean[]{true, true, true};
         missilesLeft = new int[]{10, 10, 10};
-
+        setBaseMissileCounterTexts();
+    }
+    
+    public void setScoreCounterText() {
+        scoreCounter.setText(SCORE + " " + score);
+    }
+    public void setLevelIndicatorText() {
+        levelIndicator.setText(LEVEL + " " + level);
+    }
+    public void setIncomingCounterText() {
+        incomingCounter.setText(INCOMING + " " + incomingLeft);
+    }
+    public void setBaseMissileCounterTexts() {
+        setBaseMissileCounterText(0);
+        setBaseMissileCounterText(1);
+        setBaseMissileCounterText(2);
+    }
+    public void setBaseMissileCounterText(int base) {
+        baseMissileCounter[base].setText(" "+missilesLeft[base]);
     }
 
     /**
@@ -111,11 +146,13 @@ public class GameStatus {
     /**
      * This method marks a base as destroyed.
      *
-     * @param id The id of the base
+     * @param base The number of the base
      */
-    public void destroyBase(int id) {
-        if (id >= 0 && id < baseOk.length) {
-            baseOk[id] = false;
+    public void destroyBase(int base) {
+        if (base >= 0 && base < baseOk.length) {
+            baseOk[base] = false;
+            missilesLeft[base] = 0;
+            baseMissileCounter[base].setText("");
         }
     }
 
@@ -146,6 +183,13 @@ public class GameStatus {
         return (baseNotDestroyed(base) && missilesLeft[base] > 0);
     }
 
+    public void substractMissileFromBase(int base) {
+        if (missilesLeft[base] > 0) {
+            missilesLeft[base]--;
+            setBaseMissileCounterText(base);
+        }
+    }
+    
     /**
      * This method returns true if any incoming missiles are left in the current
      * level
@@ -164,8 +208,15 @@ public class GameStatus {
         incomingLeft--;
         setIncomingCounterText();
     }
-    private void setIncomingCounterText() {
-        incomingCounter.setText("INCOMING: " + incomingLeft);
+    
+    /**
+     * This method increases the score counter when an enemy missile is destroyed
+     * by the player
+     */
+    public void enemyMissileDestroyed() {
+        enemyMissilesDestroyed++;
+        score += 5;
+        setScoreCounterText();
     }
 
     /**
