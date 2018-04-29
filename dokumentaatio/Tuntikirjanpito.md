@@ -17,12 +17,12 @@
 |14.4.    |4,00     |Pelin toiminnallisuudet mm. kaupungit ja niiden tuhoutuminen|
 |15.4.    |7,00     |Pelin toiminnallisuudet, testit, checkstyle                 |
 |16.4.    |6,00     |Testit, dokumentaatio, pakkausrakenne                       |
-|**Vko 4**|**17,00**|                                                            |
+|**Vko 4**|**17,00**|*Kumul 58,00*                                               |
 |21.4.    |10,00    |Toiminnallisuudet mm. kaupungit ja pelaajan ohjukset, äänet |
 |22.4.    |7,00     |Pelaajan ohjukset, testit                                   |
 |23.4.    |5,00     |Testit, Checkstyle, jar                                     |
 |24.4.    |1,50     |Sekvenssikaavio pelin käynnistymisestä                      |
-|**Vko 5**|23,50    |*Kumul 81,50*                                               |
+|**Vko 5**|**23,50**|*Kumul 81,50*                                               |
 |29.4.    |6,00     |Peliäänet korjattu, piste-, taso- ja muut laskurit ruudulle |
 |**Vko 6**|6,00     |*Kumul 87,50*                                               |
 |**YHT**  |**87,50**|                                                            |
