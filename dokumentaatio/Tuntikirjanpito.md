@@ -23,4 +23,6 @@
 |23.4.    |5,00     |Testit, Checkstyle, jar                                     |
 |24.4.    |1,50     |Sekvenssikaavio pelin käynnistymisestä                      |
 |**Vko 5**|23,50    |*Kumul 81,50*                                               |
-|**YHT**  |**81,50**|                                                            |
+|29.4.    |6,00     |Peliäänet korjattu, piste-, taso- ja muut laskurit ruudulle |
+|**Vko 6**|6,00     |*Kumul 87,50*                                               |
+|**YHT**  |**87,50**|                                                            |
