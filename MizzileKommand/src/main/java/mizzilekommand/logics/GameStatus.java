@@ -4,12 +4,15 @@
  */
 package mizzilekommand.logics;
 
+import javafx.scene.text.Text;
+
 /**
  *
  * @author jaakkovilenius
  */
 public class GameStatus {
 
+    public int score;
     public int level;
     public int incomingTotal;
     public int incomingLeft;
@@ -20,7 +23,10 @@ public class GameStatus {
     private boolean[] baseOk;
     public int[] missilesLeft;
 
+    public Text incomingCounter;
+
     public GameStatus() {
+        incomingCounter = new Text();
         reset();
     }
 
@@ -40,9 +46,11 @@ public class GameStatus {
 
     public void reset() {
 
+        score = 0;
         level = 1;
         incomingTotal = 5;
         incomingLeft = incomingTotal;
+        setIncomingCounterText();
         incomingPace = 0.005;
         incomingBoost = 1.0;
         citiesDestroyedInLevel = 0;
@@ -154,7 +162,10 @@ public class GameStatus {
      */
     public void incomingMissilesDecrease() {
         incomingLeft--;
-        //System.out.println("Incoming left " + incomingLeft);
+        setIncomingCounterText();
+    }
+    private void setIncomingCounterText() {
+        incomingCounter.setText("INCOMING: " + incomingLeft);
     }
 
     /**

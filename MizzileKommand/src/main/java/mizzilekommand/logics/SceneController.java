@@ -14,8 +14,6 @@ import mizzilekommand.layout.GamePlayScene;
 import mizzilekommand.layout.SceneTemplate;
 import mizzilekommand.layout.StartScene;
 import mizzilekommand.layout.TopScoreScene;
-import mizzilekommand.nodes.CityDestruction;
-import mizzilekommand.nodes.EnemyMissileExplosion;
 
 /**
  *
@@ -133,7 +131,7 @@ public class SceneController {
      * operations to be run in order for the scene to function properly.
      */
     public void applyGamePlayScene() {
-        currentScene = new GamePlayScene(this, gameloop.gameStatus.level);
+        currentScene = new GamePlayScene(this, gameloop.gameStatus);
         if (gameloop.startLoop()) {
             applyScene();
         }
@@ -232,4 +230,5 @@ public class SceneController {
         this.chooseNextScene(Actions.NOINCOMING);
         this.applyNextScene();
     }
+
 }

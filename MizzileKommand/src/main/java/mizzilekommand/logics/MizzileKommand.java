@@ -4,9 +4,14 @@
  */
 package mizzilekommand.logics;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import javafx.application.Application;
-//import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 /**
  * MIZZILE KÖMMÄND Application
@@ -29,15 +34,11 @@ public class MizzileKommand extends Application {
     public static final double BASE_Y = APP_HEIGHT - (SMALL_LENGTH * 4.0);
 
     private SceneController scnController;
-
-    //AudioClip muzak = new AudioClip("file:MizzileKommand.m4a");
+    
+    private Clip ominousBackgroundSound;
 
     @Override
     public void start(Stage primaryStage) {
-
-        //muzak.setVolume(0.10);
-        //muzak.setCycleCount(-1); // Looped
-        //muzak.play();
 
         primaryStage.setMaxWidth(APP_WIDTH);
         primaryStage.setMinWidth(APP_WIDTH);
@@ -49,6 +50,32 @@ public class MizzileKommand extends Application {
         scnController = new SceneController(primaryStage);
         scnController.applyFirstScene();
 
+        loadOminousBackgroundSound();
+        playOminousBackgroundSound();
+
+    }
+    
+    private void loadOminousBackgroundSound() {
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("MizzileKommand.wav");
+            AudioInputStream sound = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
+            ominousBackgroundSound = AudioSystem.getClip();
+            ominousBackgroundSound.open(sound);
+            FloatControl control = (FloatControl) ominousBackgroundSound.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue(control.getMinimum() * (15.0f / 100.0f));
+        } catch (Exception e) {
+            System.out.println("Something went wrong loading the background sounds: " + e);
+        }
+    }
+    
+    public void playOminousBackgroundSound() {
+        try {
+            ominousBackgroundSound.start();
+            ominousBackgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            System.out.println("Something went wrong playing the background sounds: " + e);
+        }
     }
 
     /**

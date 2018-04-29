@@ -13,7 +13,15 @@ import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
  */
 public class EnemyMissile extends Missile {
 
-    public EnemyMissile(long id, double boost, double tgtX, double tgtY) {
+    /**
+     * 
+     * @param id
+     * @param boost
+     * @param srcX The X-coordinate where the missile originates
+     * @param tgtX The X-coordinate where the missile is targeting
+     * @param tgtY The Y-coordinate where the missile is targeting
+     */
+    public EnemyMissile(long id, double boost, double srcX, double tgtX, double tgtY) {
         super(id, boost, 0, 1, tgtX, tgtY); // 0, 1 = down
 
         this.setFill(Color.PINK);

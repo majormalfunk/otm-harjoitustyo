@@ -26,7 +26,9 @@ public abstract class SceneTemplate extends Scene {
 
     SceneController controller;
     Group root;
+    Text scoreCounter;
     Text levelIndicator;
+    Text incomingCounter;
 
     public SceneTemplate(SceneController controller) {
 
@@ -48,18 +50,24 @@ public abstract class SceneTemplate extends Scene {
             }
         });
 
+        // Score counter
+        scoreCounter = new Text();
+        scoreCounter.setStroke(Color.WHITE);
+
         // Level indicator
         levelIndicator = new Text();
-        levelIndicator.setLayoutX(10);
-        levelIndicator.setLayoutY(20);
         levelIndicator.setStroke(Color.WHITE);
+
+        // Incoming counter
+        incomingCounter = new Text();
+        incomingCounter.setStroke(Color.WHITE);
 
     }
 
     /**
      * This is a convenience method to get a reference to the SceneController.
      *
-     * @return SceneController a refernce to the curren SceneController instance
+     * @return SceneController a reference to the current SceneController instance
      */
     public SceneController getController() {
         return controller;
@@ -74,8 +82,35 @@ public abstract class SceneTemplate extends Scene {
         return root;
     }
 
+    public void showScoreCounter(int count) {
+        updateScoreCounter(count);
+        scoreCounter.setLayoutX(20.0);
+        scoreCounter.setLayoutY(20.0);
+        try {
+            this.root.getChildren().add(scoreCounter);
+        } catch (Exception e) {
+            // Do nothing
+            System.out.println("Exception trying to show score counter");
+        }
+    }
+    
+    public void updateScoreCounter(int count) {
+        scoreCounter.setText("SCORE: " + count);
+    }
+
+    public void hideScoreCounter() {
+        try {
+            this.root.getChildren().remove(scoreCounter);
+        } catch (Exception e) {
+            // Do nothing
+            System.out.println("Exception trying to hide score counter");
+        }
+    }
+
     public void showLevelIndicator(int level) {
         levelIndicator.setText("LEVEL: " + level);
+        levelIndicator.setLayoutX((APP_WIDTH / 2.0) - (levelIndicator.getLayoutBounds().getWidth() / 2.0));
+        levelIndicator.setLayoutY(20);
         try {
             this.root.getChildren().add(levelIndicator);
         } catch (Exception e) {
@@ -90,6 +125,31 @@ public abstract class SceneTemplate extends Scene {
         } catch (Exception e) {
             // Do nothing
             System.out.println("Exception trying to hide level indicator");
+        }
+    }
+
+    public void showIncomingCounter(int count) {
+        updateIncomingCounter(count);
+        incomingCounter.setLayoutX(APP_WIDTH - incomingCounter.getLayoutBounds().getWidth() - 20.0);
+        incomingCounter.setLayoutY(20);
+        try {
+            this.root.getChildren().add(incomingCounter);
+        } catch (Exception e) {
+            // Do nothing
+            System.out.println("Exception trying to show incoming counter");
+        }
+    }
+    
+    public void updateIncomingCounter(int count) {
+        incomingCounter.setText("INCOMING: " + count);
+    }
+
+    public void hideIncomingCounter() {
+        try {
+            this.root.getChildren().remove(incomingCounter);
+        } catch (Exception e) {
+            // Do nothing
+            System.out.println("Exception trying to hide incoming counter");
         }
     }
 }

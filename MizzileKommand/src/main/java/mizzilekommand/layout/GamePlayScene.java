@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import mizzilekommand.logics.GameStatus;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import mizzilekommand.logics.SceneController;
@@ -22,12 +23,15 @@ public class GamePlayScene extends SceneTemplate {
     double targetX;
     double targetY;
 
-    public GamePlayScene(SceneController controller, int level) {
+    public GamePlayScene(SceneController controller, GameStatus status) {
         //public GamePlayScene(Parent root) {
         //super(root);
         super(controller);
 
-        showLevelIndicator(level);
+        showScoreCounter(status.score);
+        showLevelIndicator(status.level);
+        showIncomingCounter(status.incomingLeft);
+        status.incomingCounter = this.incomingCounter;
 
         targetX = APP_WIDTH / 2.0;
         targetY = APP_HEIGHT / 2.0;

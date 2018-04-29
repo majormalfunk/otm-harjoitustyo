@@ -4,12 +4,18 @@
  */
 package mizzilekommand.logics;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 //import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
@@ -57,7 +63,7 @@ public class GameLoop {
     public List<CityDestruction> cityDestructions;
     public List<CityDestruction> cityDestructionsToRemove;
 
-    //AudioClip explosionAudio = new AudioClip("file:Explosion.m4a");
+    private Clip explosionSound;
 
     public GameLoop() {
 
@@ -86,8 +92,7 @@ public class GameLoop {
         this.cityDestructions = new ArrayList<>();
         this.cityDestructionsToRemove = new ArrayList<>();
 
-        //explosionAudio.setVolume(0.35);
-        //explosionAudio.setCycleCount(0); // Played once
+        loadExplosionSound();
 
     }
 
@@ -306,7 +311,7 @@ public class GameLoop {
                 if (explosion != null) {
                     addToScene.add(explosion);
                     playerExplosions.add(explosion);
-                    //explosionAudio.play();
+                    playExplosionSound();
                 }
             }
         });
@@ -353,7 +358,7 @@ public class GameLoop {
         Explosion destruction = missile.detonate();
         addToScene.add(destruction);
         enemyExplosions.add(destruction);
-        //explosionAudio.play();
+        playExplosionSound();
         enemyMissilesToRemove.add(missile);
     }
 
@@ -375,13 +380,14 @@ public class GameLoop {
      * This method adds a new enemy missile to the scene.
      */
     public void incoming() {
-        double x = 0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90);
+        double sourceX = 0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90);
+        double targetX = 0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90);
         EnemyMissile missile = new EnemyMissile(System.currentTimeMillis(),
-                gameStatus.getIncomingSpeedFactor(), x, APP_HEIGHT * 0.8);
+                gameStatus.getIncomingSpeedFactor(), sourceX, targetX, APP_HEIGHT * 0.8);
         enemyMissiles.add(missile);
-        missile.setLayoutX(x);
+        missile.setLayoutX(sourceX);
         missile.setLayoutY(0);
-        missile.setRotate(180.0);
+        missile.setDirection();
         addToScene.add(missile);
     }
 
@@ -408,7 +414,7 @@ public class GameLoop {
                 if (explosion != null) {
                     addToScene.add(explosion);
                     enemyExplosions.add(explosion);
-                    //explosionAudio.play();
+                    playExplosionSound();
                 }
             }
         });
@@ -462,13 +468,13 @@ public class GameLoop {
         Explosion annihilation = base.detonate();
         addToScene.add(annihilation);
         baseExplosions.add(annihilation);
-        //explosionAudio.play();
+        playExplosionSound();
         basesToRemove.add(base);
         gameStatus.destroyBase(base.id);
     }
     
     /**
-     * This method detructs the city
+     * This method destructs the city
      * @param city The city to be destructed
      */
     private void destructCity(City city) {
@@ -655,6 +661,30 @@ public class GameLoop {
      */
     public int enemyMissilesLeft() {
         return enemyMissiles.size();
+    }
+
+    private void loadExplosionSound() {
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("Explosion.wav");
+            AudioInputStream sound = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
+            explosionSound = AudioSystem.getClip();
+            explosionSound.open(sound);
+            FloatControl control = (FloatControl) explosionSound.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue(control.getMinimum() * (1.0f / 100.0f));
+        } catch (Exception e) {
+            System.out.println("Something went wrong loading the explosion sound: " + e);
+        }
+    }
+
+    public void playExplosionSound() {
+        try {
+            explosionSound.stop();
+            explosionSound.setMicrosecondPosition(0);
+            explosionSound.start();
+        } catch (Exception e) {
+            System.out.println("Something went wrong playing the explosion sound: " + e);
+        }
     }
 
 }
