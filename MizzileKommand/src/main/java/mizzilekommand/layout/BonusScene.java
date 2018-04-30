@@ -9,21 +9,24 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import mizzilekommand.logics.GameStatus;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import mizzilekommand.logics.SceneController;
 
 /**
- * Not fully implemented yet
+ * The Bonus scene shown after every successful level in game
  *
  * @author jaakkovilenius
  */
 public class BonusScene extends SceneTemplate {
 
-    public BonusScene(SceneController controller, int level) {
+    public BonusScene(SceneController controller, GameStatus status) {
         super(controller);
 
-        showLevelIndicator(level);
+        showScoreCounter(status.score);
+        showLevelIndicator(status.level);
+        // ADD TOTAL INCOMING DESTROYED
 
         Button btnContinue;
 

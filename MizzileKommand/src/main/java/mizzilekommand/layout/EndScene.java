@@ -15,7 +15,8 @@ import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 
 /**
- *
+ * The End -scene shown when the game ends without a new high score
+ * 
  * @author jaakkovilenius
  */
 public class EndScene extends SceneTemplate {

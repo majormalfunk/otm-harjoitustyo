@@ -35,6 +35,10 @@ public abstract class SceneTemplate extends Scene {
     Text incomingCounter;
     public Text[] baseMissileCounter;
 
+    /**
+     * The constructor
+     * @param controller 
+     */
     public SceneTemplate(SceneController controller) {
 
         super(new Group(), APP_WIDTH, APP_HEIGHT);
@@ -94,6 +98,11 @@ public abstract class SceneTemplate extends Scene {
         return root;
     }
 
+    /**
+     * This shows the score counter
+     * 
+     * @param count current score to shoe
+     */
     public void showScoreCounter(int count) {
         scoreCounter.setText(SCORE + " " + count);
         scoreCounter.setLayoutX(20.0);
@@ -106,6 +115,10 @@ public abstract class SceneTemplate extends Scene {
         }
     }
 
+    /**
+     * This hides the score counter
+     * 
+     */
     public void hideScoreCounter() {
         try {
             this.root.getChildren().remove(scoreCounter);
@@ -115,6 +128,11 @@ public abstract class SceneTemplate extends Scene {
         }
     }
 
+    /**
+     * This shows the level indicator
+     * 
+     * @param level current level to show
+     */
     public void showLevelIndicator(int level) {
         levelIndicator.setText(LEVEL + " " + level);
         levelIndicator.setLayoutX((APP_WIDTH / 2.0) - (levelIndicator.getLayoutBounds().getWidth() / 2.0));
@@ -127,6 +145,10 @@ public abstract class SceneTemplate extends Scene {
         }
     }
 
+    /**
+     * This hides the level indicator
+     * 
+     */
     public void hideLevelIndicator() {
         try {
             this.root.getChildren().remove(levelIndicator);
@@ -136,6 +158,11 @@ public abstract class SceneTemplate extends Scene {
         }
     }
 
+    /**
+     * This shows the counter of incoming missiles left in the scene
+     * 
+     * @param count The count of incoming missiles left in the current level
+     */
     public void showIncomingCounter(int count) {
         incomingCounter.setText(INCOMING + " " + count);
         incomingCounter.setLayoutX(APP_WIDTH - incomingCounter.getLayoutBounds().getWidth() - 20.0);
@@ -148,6 +175,10 @@ public abstract class SceneTemplate extends Scene {
         }
     }
 
+    /**
+     * This hides the incoming counter
+     * 
+     */
     public void hideIncomingCounter() {
         try {
             this.root.getChildren().remove(incomingCounter);
@@ -157,10 +188,15 @@ public abstract class SceneTemplate extends Scene {
         }
     }
 
+    /**
+     * This shows the counters that tell how many missiles are left at the player bases
+     * 
+     * @param count 
+     */
     public void showBaseMissileCounters(int[] count) {
         for (int i = 0; i < baseMissileCounter.length; i++) {
-            baseMissileCounter[i].setText(""+count[i]);
-            baseMissileCounter[i].setLayoutX(BASE_X[i]-(baseMissileCounter[i].getLayoutBounds().getWidth() / 2.0));
+            baseMissileCounter[i].setText("" + count[i]);
+            baseMissileCounter[i].setLayoutX(BASE_X[i] - (baseMissileCounter[i].getLayoutBounds().getWidth() / 2.0));
             baseMissileCounter[i].setLayoutY(APP_HEIGHT - 40.0);
             try {
                 this.root.getChildren().add(baseMissileCounter[i]);
@@ -171,6 +207,10 @@ public abstract class SceneTemplate extends Scene {
         }
     }
 
+    /**
+     * This hides the counters that tell how many missiles are left at the player bases.
+     * 
+     */
     public void hideBaseMissileCounters() {
         for (int i = 0; i < baseMissileCounter.length; i++) {
             try {

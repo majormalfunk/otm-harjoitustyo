@@ -15,6 +15,7 @@ import javax.sound.sampled.FloatControl;
 
 /**
  * MIZZILE KÖMMÄND Application
+ * The Main class of the game.
  *
  * @author jaakkovilenius
  */
@@ -31,6 +32,14 @@ public class MizzileKommand extends Application {
 
     public static final double[] BASE_X = {
         (BASE_RADIUS * 3.0), (APP_WIDTH / 2.0), APP_WIDTH - (BASE_RADIUS * 3.0)};
+    public static final double[] CITY_X = {
+        (BASE_X[0] + ((BASE_X[1] - BASE_X[0]) / 4.0)), 
+        (BASE_X[0] + ((BASE_X[1] - BASE_X[0]) / 2.0)), 
+        (BASE_X[1] - ((BASE_X[1] - BASE_X[0]) / 4.0)), 
+        (BASE_X[1] + ((BASE_X[1] - BASE_X[0]) / 4.0)), 
+        (BASE_X[1] + ((BASE_X[2] - BASE_X[1]) / 2.0)), 
+        (BASE_X[2] - ((BASE_X[1] - BASE_X[0]) / 4.0))
+    };
     public static final double BASE_Y = APP_HEIGHT - (SMALL_LENGTH * 4.0);
 
     public static final String SCORE = "SCORE";
@@ -59,6 +68,9 @@ public class MizzileKommand extends Application {
 
     }
     
+    /**
+     * This loads the ominous backgroundsounds
+     */
     private void loadOminousBackgroundSound() {
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -73,6 +85,9 @@ public class MizzileKommand extends Application {
         }
     }
     
+    /**
+     * This starts the playback of the ominous background sounds
+     */
     public void playOminousBackgroundSound() {
         try {
             ominousBackgroundSound.start();
@@ -83,6 +98,8 @@ public class MizzileKommand extends Application {
     }
 
     /**
+     * This is the main method that starts the game
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {

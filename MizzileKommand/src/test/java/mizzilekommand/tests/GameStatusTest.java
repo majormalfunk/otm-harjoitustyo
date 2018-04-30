@@ -51,8 +51,13 @@ public class GameStatusTest {
     }
 
     @Test
-    public void falseCityIdDestroyesNoCity() {
+    public void falseCityIdsDestroyNoCities() {
+        gameStatus.destroyCity(-1);
+        assertFalse(gameStatus.cityNotDestroyed(-1));
+        gameStatus.destroyCity(99);
         assertFalse(gameStatus.cityNotDestroyed(99));
+        assertEquals(6, gameStatus.citiesLeft());
+
     }
 
     @Test
@@ -88,8 +93,12 @@ public class GameStatusTest {
     }
 
     @Test
-    public void falseBaseIdDestroyesNoBase() {
+    public void falseBaseIdsDestroyNoBases() {
+        gameStatus.destroyBase(-1);
+        assertFalse(gameStatus.baseNotDestroyed(-1));
+        gameStatus.destroyBase(99);
         assertFalse(gameStatus.baseNotDestroyed(99));
+        assertEquals(3, gameStatus.basesLeft());
     }
 
     @Test
@@ -111,4 +120,14 @@ public class GameStatusTest {
         }
         assertFalse(gameStatus.incomingMissilesLeft());
     }
+    
+    @Test
+    public void missileCountDoesntGoNegative() {
+        int m = gameStatus.missilesLeft[0];
+        for (int i = 0; i <= m; i++) {
+            gameStatus.substractMissileFromBase(0);
+        }
+        assertTrue(gameStatus.missilesLeft[0] == 0);
+    }
+    
 }

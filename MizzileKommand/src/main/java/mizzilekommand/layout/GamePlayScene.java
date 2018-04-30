@@ -15,7 +15,8 @@ import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import mizzilekommand.logics.SceneController;
 
 /**
- *
+ * The actual game play scene where all the action happens
+ * 
  * @author jaakkovilenius
  */
 public class GamePlayScene extends SceneTemplate {

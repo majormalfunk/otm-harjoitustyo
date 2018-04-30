@@ -21,6 +21,7 @@ import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 import static mizzilekommand.logics.MizzileKommand.BASE_X;
 import static mizzilekommand.logics.MizzileKommand.BASE_Y;
+import static mizzilekommand.logics.MizzileKommand.CITY_X;
 import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
 import mizzilekommand.nodes.Base;
 import mizzilekommand.nodes.City;
@@ -65,6 +66,11 @@ public class GameLoop {
 
     private Clip explosionSound;
 
+    /**
+     * GameLoop constructor. GameLoop handles the game operation
+     * 
+     * @see mizzilekommand.logics.GameStatus
+     */
     public GameLoop() {
 
         this.stopLoop = false;
@@ -100,7 +106,9 @@ public class GameLoop {
      * This method sets the SceneController that is needed to perform the
      * actions decided in the game loop logic on the current scene.
      *
-     * @param controller a SceneController
+     * @param controller a SceneController Scenecontroller takes care of displaying the correct view
+     * 
+     * @see mizzilekommand.logics.SceneController
      */
     public void setSceneController(SceneController controller) {
         this.controller = controller;
@@ -114,7 +122,7 @@ public class GameLoop {
     public boolean startLoop() {
 
         prepareForGameLoop();
-        
+
         try {
 
             new AnimationTimer() {
@@ -141,18 +149,18 @@ public class GameLoop {
         }
 
     }
-    
+
     /**
      * This handles the calls neccessary to be called befrore start of loop
      */
-    private void prepareForGameLoop() {
+    public void prepareForGameLoop() {
         addBases();
         addCities();
         addNodesToScene();
         stopLoop = false;
         allowIncoming = true;
     }
-    
+
     /**
      * This method handles the action inside the gameloop
      */
@@ -183,7 +191,7 @@ public class GameLoop {
     /**
      * This clears the nodes from the lists handled by the game loop
      */
-    private void clearNodes() {
+    public void clearNodes() {
         playerMissiles.clear();
         playerExplosions.clear();
         enemyMissiles.clear();
@@ -196,6 +204,8 @@ public class GameLoop {
      * This method increases the level in the game. It calls the levelUp()
      * method of the GameStatus object.
      *
+     * @see mizzilekommand.logics.GameStatus#levelUp() 
+     * 
      * @return The new level
      */
     public int levelUp() {
@@ -204,6 +214,8 @@ public class GameLoop {
 
     /**
      * This method resets the game status. It Calls the GameStatus object
+     * 
+     * @see mizzilekommand.logics.GameStatus#reset() 
      */
     public void resetGameStatus() {
         gameStatus.reset();
@@ -211,16 +223,22 @@ public class GameLoop {
 
     /**
      * This adds to the current scene all the nodes in the list addToScene
+     * 
+     * @see mizzilekommand.logics.SceneController#addToCurrentScene(javafx.scene.Node) 
      */
     private void addNodesToScene() {
         if (!addToScene.isEmpty()) {
-            controller.addAllToCurrentScene(addToScene);
+            if (controller != null) {
+                controller.addAllToCurrentScene(addToScene);
+            }
             addToScene.clear();
         }
     }
 
     /**
      * This removes from the current scene all the nodes in list removeFromScene
+     * 
+     * @see mizzilekommand.logics.SceneController#removeAllFromCurrentScene(javafx.scene.Node) 
      */
     private void removeNodesFromScene() {
         if (!removeFromScene.isEmpty()) {
@@ -229,22 +247,37 @@ public class GameLoop {
         }
     }
 
-    private void checkLevelStatus() {
+    /**
+     * This method checks the game status and accordingly
+     * sets the attribute allowIncoming to false. This happens if:
+     * 
+     * - all cities have been destroyed or
+     * - enough cities for the level has been destroyed or
+     * - no more incoming missiles are left in the curren level
+     * 
+     * It instructs the SceneController of the case when no more ongoing actions
+     * are playing in the scene.
+     * 
+     * @see mizzilekommand.logics.SceneController#noCitiesLeft() 
+     * @see mizzilekommand.logics.SceneController#enoughCitiesDestroyed() 
+     * @see mizzilekommand.logics.SceneController#noIncomingLeft() 
+     */
+    public void checkLevelStatus() {
         // If no cities are left, it's game over -> The End Scene
         if (cities.isEmpty()) {
             allowIncoming = false;
-            if (actionsDone()) {
+            if (actionsDone() && controller != null) {
                 controller.noCitiesLeft();
             }
         } else if (gameStatus.citiesForLevelDestructed()) {
             // Otherwise if already enough cities were destroyed -> Bonus Scene
             allowIncoming = false;
-            if (actionsDone()) {
+            if (actionsDone() && controller != null) {
                 controller.enoughCitiesDestroyed();
             }
         } else if (!gameStatus.incomingMissilesLeft()) {
             allowIncoming = false;
-            if (actionsDone()) {
+            if (actionsDone() && controller != null) {
                 controller.noIncomingLeft();
             }
         }
@@ -274,6 +307,9 @@ public class GameLoop {
      * @param base The id of the base from which it should be launched
      * @param targetX The x coordinate of the missile's target
      * @param targetY The y coordinate of the missile's target
+     * 
+     * @see mizzilekommand.logics.GameStatus#baseMissilesLeft(int) 
+     * @see mizzilekommand.logics.GameStatus#substractMissileFromBase(int) 
      */
     public void launchNewPlayerMissile(int base, double targetX, double targetY) {
         if (gameStatus.baseMissilesLeft(base)) {
@@ -350,9 +386,10 @@ public class GameLoop {
         playerExplosions.removeAll(playerExplosionsToRemove);
 
     }
-    
+
     /**
      * This detonates the enemy missile
+     *
      * @param missile The missile to be detonated
      */
     private void detonateMissile(EnemyMissile missile) {
@@ -366,6 +403,8 @@ public class GameLoop {
     /**
      * This method checks for the conditions in which new enemy missiles should
      * be added to the scene.
+     * 
+     * @see mizzilekommand.logics.GameStatus#incomingMissilesDecrease() 
      */
     public void handleNewEnemyMissiles() {
 
@@ -431,6 +470,8 @@ public class GameLoop {
      * destruction to cities or bases. After that it checks to see if the
      * explosions have faded enough and if that is the case adds those to the
      * removables list.
+     * 
+     * @see mizzilekommand.logics.GameStatus#citiesForLevelDestructed() 
      */
     public void handleEnemyMissileExplosions() {
         enemyExplosionsToRemove.forEach(explosion -> {
@@ -460,10 +501,13 @@ public class GameLoop {
         enemyExplosions.removeAll(enemyExplosionsToRemove);
 
     }
-    
+
     /**
      * This method explodes the base
+     *
      * @param base The base to be exploded
+     * 
+     * @see mizzilekommand.logics.GameStatus#destroyBase(int) 
      */
     private void explodeBase(Base base) {
         Explosion annihilation = base.detonate();
@@ -473,12 +517,15 @@ public class GameLoop {
         basesToRemove.add(base);
         gameStatus.destroyBase(base.id);
     }
-    
+
     /**
      * This method destructs the city
+     *
      * @param city The city to be destructed
+     * 
+     * @see mizzilekommand.logics.GameStatus#destroyCity(int) 
      */
-    private void destructCity(City city) {
+    public void destructCity(City city) {
         CityDestruction armageddon = city.destruct();
         addToScene.add(armageddon);
         cityDestructions.add(armageddon);
@@ -609,59 +656,22 @@ public class GameLoop {
     /**
      * This method constructs and adds all player cities to the scene and a List
      * that holds references to cities.
+     * 
+     * @see mizzilekommand.logics.GameStatus#cityNotDestroyed(int) 
      */
     public void addCities() {
         this.cities.clear();
 
-        // Cities are polygons that have their location in (0,0) = left upper corner
-        for (int c = 1; c <= 3; c += 1) {
-            if (gameStatus.cityNotDestroyed(c - 1)) {
-                City cityL = new City();
-                cityL.setLayoutX((APP_WIDTH / 32.0) + ((APP_WIDTH / 8.0) * c) - (cityL.width / 2.0));
-                cityL.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
-                cityL.id = (int) c - 1;
-                this.cities.add(cityL);
-                addToScene.add(cityL);
-            }
-            if (gameStatus.cityNotDestroyed(c + 2)) {
-                City cityR = new City();
-                cityR.setLayoutX((APP_WIDTH / 2.0) + ((APP_WIDTH / 8.0) * c) - (cityR.width / 2.0));
-                cityR.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
-                cityR.id = (int) c + 2;
-                this.cities.add(cityR);
-                addToScene.add(cityR);
+        for (int c = 0; c < gameStatus.cityOk.length; c++) {
+            if (gameStatus.cityNotDestroyed(c)) {
+                City city = new City();
+                city.setLayoutX(CITY_X[c] - (city.width / 2.0));
+                city.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
+                city.id = c;
+                this.cities.add(city);
+                addToScene.add(city);
             }
         }
-    }
-
-    /**
-     * Convenience method that tells how many bases are left in the list
-     * containing the base objects.
-     *
-     * @return number of bases left
-     */
-    public int basesLeft() {
-        return bases.size();
-    }
-
-    /**
-     * Convenience method that tells how many cities are left in the list
-     * containing the city objects.
-     *
-     * @return number of cities left
-     */
-    public int citiesLeft() {
-        return cities.size();
-    }
-
-    /**
-     * Convenience method that tells how many enemy missiles are left in the
-     * list containing the enemy missile objects.
-     *
-     * @return number of enemy missiles left
-     */
-    public int enemyMissilesLeft() {
-        return enemyMissiles.size();
     }
 
     private void loadExplosionSound() {

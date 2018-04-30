@@ -26,6 +26,11 @@ public class StartScene extends SceneTemplate {
 
     Button btnPlay;
 
+    /**
+     * Constructor
+     * 
+     * @param controller 
+     */
     public StartScene(SceneController controller) {
 
         super(controller);

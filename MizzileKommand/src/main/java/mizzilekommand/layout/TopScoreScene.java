@@ -8,7 +8,7 @@ import mizzilekommand.logics.SceneController;
 import javafx.scene.Parent;
 
 /**
- * Not implemented yet
+ * Not implemented yet but will be the scene displayed when the player reaches a top score
  *
  * @author jaakkovilenius
  */

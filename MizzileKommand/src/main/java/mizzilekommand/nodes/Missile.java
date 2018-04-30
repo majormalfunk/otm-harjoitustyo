@@ -74,9 +74,9 @@ public abstract class Missile extends Polygon {
      *
      * @return The target's x coordinate
      */
-    public double getTargetX() {
-        return target.getX();
-    }
+    //public double getTargetX() {
+    //    return target.getX();
+    //}
 
     /**
      * Returns the missiles target Y coordinate.

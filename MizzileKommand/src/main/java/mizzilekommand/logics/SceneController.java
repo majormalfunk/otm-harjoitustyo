@@ -16,7 +16,9 @@ import mizzilekommand.layout.StartScene;
 import mizzilekommand.layout.TopScoreScene;
 
 /**
- *
+ * This class handles changing the correct view. It is sort of a middle man
+ * between the UI classes and the application logic.
+ * 
  * @author jaakkovilenius
  */
 public class SceneController {
@@ -36,10 +38,11 @@ public class SceneController {
     }
 
     /**
-     * Mizzile Kömmänd: Constructs a new SceneController
+     * Constructs a new SceneController.
+     * 
+     * It also creates an instance of the GameLoop and the ActionSelector
      *
      * @param stage
-     * @param gameloop
      */
     public SceneController(Stage stage) {
 
@@ -87,6 +90,13 @@ public class SceneController {
 
     }
 
+    /**
+     * This method chooses the next scene using the ActionSelector. Before that
+     * it calls the levelUp method of the GameLoop
+     * @param action 
+     * 
+     * @see mizzilekommand.logics.GameLoop#levelUp() 
+     */
     public void chooseNextScene(Actions action) {
         if (action == Actions.CONTINUE) {
             gameloop.levelUp();
@@ -94,6 +104,12 @@ public class SceneController {
         nextScene = actionSelector.chooseNextScene(action);
     }
 
+    /**
+     * This calls the method that applies the next scene set in chooseNextScene
+     * 
+     * @see mizzilekommand.logics.SceneController#chooseNextScene(mizzilekommand.logics.SceneController.Actions) 
+     * 
+     */
     public void applyNextScene() {
         switch (nextScene) {
             case START:
@@ -113,6 +129,9 @@ public class SceneController {
         }
     }
 
+    /**
+     * This applies the next scene
+     */
     public void applyScene() {
         stage.setScene(currentScene);
         stage.show();
@@ -146,7 +165,7 @@ public class SceneController {
      */
     public void applyBonusScene() {
         gameloop.stopLoop();
-        currentScene = new BonusScene(this, gameloop.gameStatus.level);
+        currentScene = new BonusScene(this, gameloop.gameStatus);
         applyScene();
     }
 
