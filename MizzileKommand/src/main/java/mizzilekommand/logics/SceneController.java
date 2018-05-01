@@ -65,16 +65,16 @@ public class SceneController {
     public void keyDown(KeyCode key, double targetX, double targetY) {
         switch (key) {
             case LEFT:
-            case Z:
+            case DIGIT1:
                 gameloop.launchNewPlayerMissile(0, targetX, targetY);
                 break;
             case DOWN:
             case UP:
-            case X:
+            case DIGIT2:
                 gameloop.launchNewPlayerMissile(1, targetX, targetY);
                 break;
             case RIGHT:
-            case C:
+            case DIGIT3:
                 gameloop.launchNewPlayerMissile(2, targetX, targetY);
                 break;
             default:

@@ -70,7 +70,7 @@ public class StartScene extends SceneTemplate {
         keys.setTextFill(Color.WHITESMOKE);
         keys.setTextAlignment(TextAlignment.CENTER);
         String guide = "POINT WITH MOUSE. FIRE MISSILE FROM BASE:\n"
-                + "Z/\u21E6 Left Base   X/\u21E7/\u21E9 Center Base    C/\u21E8 Right Base";
+                + "1/\u21E6 Left Base   2/\u21E7/\u21E9 Center Base    3/\u21E8 Right Base";
         keys.setText(guide);
         this.root.getChildren().add(keys);
         keys.setMinWidth(200);

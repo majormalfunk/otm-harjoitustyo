@@ -58,7 +58,7 @@ public class GameStatus {
 
         level++;
         setLevelIndicatorText();
-        incomingTotal = 5 + (level * 2);
+        incomingTotal = 5 + ((level - 1) * 3);
         incomingLeft = incomingTotal;
         incomingPace += 0.002;
         incomingBoost += 0.25;
