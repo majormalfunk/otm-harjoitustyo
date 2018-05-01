@@ -14,11 +14,11 @@ Osassa *.logics* on pelin käynnistävä *MizzileKommand*-luokka, luokat, jotka 
 
 Käyttöliittymä sisältää viisi näkymää:
 
-* aloitusnäkymä [StartScene]( "StartScene-luokka")
-* pelinäkymä [GamePlayScene]( "GamePlayScene-luokka")
-* bonusnäkymä [BonusScene]( "BonusScene-luokka")
-* loppunäkymä [EndScene]( "EndScene-luokka")
-* huipputulosnäkymä [TopScoreScene]( "TopScoreScene-luokka")
+* aloitusnäkymä [StartScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/StartScene.java "StartScene-luokka")
+* pelinäkymä [GamePlayScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/GamePlayScene.java "GamePlayScene-luokka")
+* bonusnäkymä [BonusScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/BonusScene.java "BonusScene-luokka")
+* loppunäkymä [EndScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/EndScene.java "EndScene-luokka")
+* huipputulosnäkymä [TopScoreScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/TopScoreScene.java "TopScoreScene-luokka")
 
 ## Sovelluslogiikka
 
