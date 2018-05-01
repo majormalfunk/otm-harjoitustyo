@@ -26,7 +26,7 @@ Pelin käynnistyessä näytetään aloitusnäkymä (*StartScene*). Kun pelaaja a
 
 Aloitusnäkymässä on nappi, jota klikkaamalla pääsee aloittamaan pelin.
 
-Pelinäkymässä ohjataan tähtäintä hiirellä ja ammutaan ohjus jostain kolmesta tukikohdasta painamalla näppäimistöltä kyseistä tukikohtaa (vasen, keski, oikea) vastaavaa näppäintä (1/&larr;, 2/&uarr;, 3/&rarr;).
+Pelinäkymässä ohjataan tähtäintä hiirellä ja ammutaan ohjus jostain kolmesta tukikohdasta painamalla näppäimistöltä kyseistä tukikohtaa (vasen, keski, oikea) vastaavaa näppäintä (1/&larr;, 2/&uarr;/&darr;, 3/&rarr;). Ammuttu ohjus räjähtää osoitetussa kohteessa. Vihollisen ohjus tuhoutuu, jos se lentää räjähdyskuvioon ennen kuin räjähdys on haihtunut. Ammutulla ohjuksella ei voi osua vihollisen ohjukseen. Omat tukikohdat ja kaupungit tuhoutuvat, jos vihollisen ohjus räjähtää niin lähellä tukikohtaa tai kaupunkia, että räjähdyskuvio ulottuu niiden päälle ennen haihtumistaan. Pelin säännöt on kuvattu kokonaisuudessaan käyttöohjeessa.
 
 ## Sovelluslogiikka
 
