@@ -10,7 +10,9 @@ Siihen asti ladattavissa oleva uusin keskeneräinen versio:
 
 Ohjelma käynnistetään komennolla
 
+```
 java -jar MizzileKommand-0.6.jar
+```
 
 ### Kirjautuminen
 
