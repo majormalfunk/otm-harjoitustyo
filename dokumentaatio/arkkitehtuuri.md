@@ -2,7 +2,7 @@
 
 ## Rakenne
 
-
+Ohjelmassa on kolmeosainen pakkausrakenne: mizzilekommand.logics, mizzilekommand.layout ja mizzilekommand.nodes.
 
 ## Käyttöliittymä
 
