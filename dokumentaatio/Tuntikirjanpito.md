@@ -25,6 +25,6 @@
 |**Vko 5**|**23,50** |*Kumul 81,50*                                               |
 |29.4.    |6,00      |Peliäänet korjattu, piste-, taso- ja muut laskurit ruudulle |
 |30.4.    |5,00      |Testit, checkstyle ja javadoc                               |
-|1.5.     |6,00      |Testit, checkstyle ja javadoc                               |
+|1.5.     |6,00      |Dokumentaatio                                               |
 |**Vko 6**|**17,00** |*Kumul 98,50*                                               |
 |**YHT**  |**98,50** |                                                            |
