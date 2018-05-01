@@ -30,7 +30,7 @@ Pelinäkymässä ohjataan tähtäintä hiirellä ja ammutaan ohjus jostain kolme
 
 ## Sovelluslogiikka
 
-Sovelluksen tärkeimmät luokat ovat käynnistyksen jälkeen (GameLoop)[https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/logics/GameLoop.java "GameLoop-luokka"]-luokka, jonka startLoop() metodi käynnistää (AnimationTimer)[https://docs.oracle.com/javafx/2/api/javafx/animation/AnimationTimer.html "Javadoc javafx.animation.AnimationTimer:sta"]:in, kun pelaaja aloittaa *aloitusnäkymä*:ssä pelin. AnimationTimerin sisällä on toeuteutettu metodikutsut jotka huolehtivat peliolioiden toiminnallisuuksista ja elinkaarista.
+Sovelluksen tärkeimmät luokat ovat käynnistyksen jälkeen [GameLoop](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/logics/GameLoop.java "GameLoop-luokka")-luokka, jonka startLoop() metodi käynnistää [AnimationTimer](https://docs.oracle.com/javafx/2/api/javafx/animation/AnimationTimer.html "Javadoc javafx.animation.AnimationTimer:sta"):in, kun pelaaja aloittaa *aloitusnäkymä*:ssä pelin. AnimationTimerin sisällä on toeuteutettu metodikutsut jotka huolehtivat peliolioiden toiminnallisuuksista ja elinkaarista.
 
 ### Luokkakaavio
 
