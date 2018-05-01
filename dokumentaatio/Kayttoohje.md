@@ -39,7 +39,7 @@ Taso päättyy, kun jäljellä ei ole enää vihollisohjuksia tai kun tasossa on
 
 #### Bonusnäkymä
 Mikäli pelaaja läpäisee pelatessaan kulloisenkin pelitason ilman, että kaikki kaupungit ovat tuhoutuneet, näytetään bonusnäkymä. Bonusnäkymässä pelaajalle lasketaan bonuspisteitä jäljellä olevien kaupunkien ja käyttämättömien ohjusten perusteella. Jäljellä olevista kaupungeista saa 50 * LEVEL pistettä per kaupunki ja käyttämättömistä ohjuksista 5 * LEVEL pistettä (maksimissaan kuitenkin 30 pistettä) per ohjus. (*Bonuspisteiden laskua ei ole vielä toteutettu*)  
-Bonusnäkymästä siirrytään takaisin pelinäkymään aikaviiveen tai CONTINUE-napin painalluksen jälkeen (*TBD*).
+Bonusnäkymästä siirrytään takaisin pelinäkymään aikaviiveen tai CONTINUE-napin painalluksen jälkeen (*TBD*). Pelin jatkuessa kaikki tukikohdat ovat taas käytössä ja niissä on kaikissa täydet 10 ohjusta.
 
 #### Loppunäkymä
 Peli päättyy, kun kaikki kaupungit ovat tuhoutuneet. Pelin päättyessä näytetään teksti THE END, jos pelaaja ei saavuttanut pistetulosta, joka oikeuttaa pääsyyn huipputuloslistalle.  
