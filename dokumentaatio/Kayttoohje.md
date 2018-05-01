@@ -26,7 +26,7 @@ Pelissä on tarkoitus puolustaa kaupunkeja lähestyviltä vihollisohjuksilta. Pu
 Peli alkaa aloitusnäkymästä. Aloitusnäkymässä on nappi (PLAY), jota klikkaamalla pääsee aloittamaan pelin, sekä ohjeet tähtäämiseen ja ampumiseen. Lisäksi aloitusnäkymässä näytetään siihen asti saavutetut huipputulokset (*Tätä ei ole vielä toteutettu*)
 
 #### Pelinäkymä
-Aloitusnäkymästä siirrytään pelinäkymään, kun PLAY-nappia on painettu. Pelinäkymässä on alalaidassa kuusi kaupunkia, joita pelaajan on tarkoitus puolustaa sekä kolme ohjustukikohtaa, joista voi ampua ohjuksia torjumaan näytön ylälaidasta lähestyviä vihollisen ohjuksia.
+Aloitusnäkymästä siirrytään pelinäkymään, kun PLAY-nappia on painettu. Pelinäkymässä on alalaidassa kuusi kaupunkia, joita pelaajan on tarkoitus puolustaa sekä kolme ohjustukikohtaa, joista voi ampua ohjuksia torjumaan näytön ylälaidasta lähestyviä vihollisen ohjuksia. 
 Pelinäkymässä ohjataan tähtäintä hiirellä ja ammutaan ohjus jostakin näytön alalaidan kolmesta tukikohdasta painamalla näppäimistöltä kyseistä tukikohtaa (vasen, keski, oikea) vastaavaa näppäintä (1/&larr;, 2/&uarr;/&darr;, 3/&rarr;).
 
 Ammuttu ohjus räjähtää hiirellä ohjattavalla tähtäimellä osoitetussa kohteessa. Vihollisen ohjus tuhoutuu, jos se lentää räjähdyskuvioon ennen kuin räjähdys on haihtunut. Tuhotusta vihollisohjuksesta saa 5 pistettä. Ammutulla ohjuksella ei voi osua vihollisen ohjukseen. Pelaajalla on käytettävissään tason aikana 10 ohjusta kussakin tukikohdassa.
