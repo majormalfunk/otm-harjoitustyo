@@ -26,7 +26,7 @@ Pelissä on tarkoitus puolustaa kaupunkeja lähestyviltä vihollisohjuksilta. Pu
 Peli alkaa aloitusnäkymästä. Aloitusnäkymässä on nappi (PLAY), jota klikkaamalla pääsee aloittamaan pelin, sekä ohjeet tähtäämiseen ja ampumiseen. Lisäksi aloitusnäkymässä näytetään siihen asti saavutetut huipputulokset (*Tätä ei ole vielä toteutettu*)
 
 #### Pelinäkymä
-Aloitusnäkymästä siirrytään pelinäkymään, kun PLAY-nappia on painettu. Pelinäkymässä on alalaidassa kuusi kaupunkia, joita pelaajan on tarkoitus puolustaa sekä kolme ohjustukikohtaa, joista voi ampua ohjuksia torjumaan näytön ylälaidasta lähestyviä vihollisen ohjuksia. 
+Aloitusnäkymästä siirrytään pelinäkymään, kun PLAY-nappia on painettu. Pelinäkymässä on alalaidassa kuusi kaupunkia, joita pelaajan on tarkoitus puolustaa sekä kolme ohjustukikohtaa, joista voi ampua ohjuksia torjumaan näytön ylälaidasta lähestyviä vihollisen ohjuksia.  
 Pelinäkymässä ohjataan tähtäintä hiirellä ja ammutaan ohjus jostakin näytön alalaidan kolmesta tukikohdasta painamalla näppäimistöltä kyseistä tukikohtaa (vasen, keski, oikea) vastaavaa näppäintä (1/&larr;, 2/&uarr;/&darr;, 3/&rarr;).
 
 Ammuttu ohjus räjähtää hiirellä ohjattavalla tähtäimellä osoitetussa kohteessa. Vihollisen ohjus tuhoutuu, jos se lentää räjähdyskuvioon ennen kuin räjähdys on haihtunut. Tuhotusta vihollisohjuksesta saa 5 pistettä. Ammutulla ohjuksella ei voi osua vihollisen ohjukseen. Pelaajalla on käytettävissään tason aikana 10 ohjusta kussakin tukikohdassa.
@@ -38,7 +38,16 @@ Pelinäkymän ylälaidassa näytetään pelaajan pisteet (SCORE), käynnissä ol
 Taso päättyy, kun jäljellä ei ole enää vihollisohjuksia tai kun tasossa on tuhoutunut 3 kaupunkia tai kun kaikki kaupungit ovat tuhoutuneet. Kaikkien kaupunkien tuhoutuminen päättää myös koko pelin. Tason aikana voi tuhoutua korkeintaan 3 kaupunkia. Matkalla olevat vihollisohjukset eivät enää tuhoa kaupunkeja kuluvassa tasossa, mikäli 3 kaupunkia on jo tuhoutunut tason aikana. Myöskään uusia vihollisohjuksia ei enää tule, jos 3 kaupunkia on jo tuhoutunut tason aikana.
 
 #### Bonusnäkymä
-Mikäli pelaaja läpäisee pelatessaan kulloisenkin pelitason ilman, että kaikki kaupungit ovat tuhoutuneet, näytetään bonusnäkymä. Bonusnäkymässä pelaajalle lasketaan bonuspisteitä jäljellä olevien kaupunkien ja käyttämättömien ohjusten perusteella.
+Mikäli pelaaja läpäisee pelatessaan kulloisenkin pelitason ilman, että kaikki kaupungit ovat tuhoutuneet, näytetään bonusnäkymä. Bonusnäkymässä pelaajalle lasketaan bonuspisteitä jäljellä olevien kaupunkien ja käyttämättömien ohjusten perusteella. Jäljellä olevista kaupungeista saa 50 * LEVEL pistettä per kaupunki ja käyttämättömistä ohjuksista 5 * LEVEL pistettä (maksimissaan kuitenkin 30 pistettä) per ohjus. (*Bonuspisteiden laskua ei ole vielä toteutettu*)  
+Bonusnäkymästä siirrytään takaisin pelinäkymään aikaviiveen tai CONTINUE-napin painalluksen jälkeen (*TBD*).
 
-[BonusScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/BonusScene.java "BonusScene-luokka") jossa lasketaan bonuspisteet tasosta suoritumisen perusteella. Bonusnäkymästä siirrytään takaisin pelinäkymään (TBD: aikaviiveen jälkeen tai pelaajan painaessa nappia). Mikäli pelaaja ei läpäise pelitasoa näytetään joko loppunäkymä [EndScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/EndScene.java "EndScene-luokka") tai huipputulosnäkymä [TopScoreScene](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/layout/TopScoreScene.java "TopScoreScene-luokka"), jos pelaaja on tehnyt huipputuloksen. Loppunäkymästä siirrytään takaisin aloitusnäkymään (TBD: aikaviiveen jälkeen tai pelaajan painaessa nappia). Huipputulosnäkymästä siirrytään takaisin aloitusnäkymään, kun pelaaja on tallentanut nimimerkkinsä tuloksensa yhteyteen.
+#### Loppunäkymä
+Peli päättyy, kun kaikki kaupungit ovat tuhoutuneet. Pelin päättyessä näytetään teksti THE END, jos pelaaja ei saavuttanut pistetulosta, joka oikeuttaa pääsyyn huipputuloslistalle.  
+Loppunäkymästä siirrytään takaisin aloitusnäkymään aikaviiveen tai THE END-napin painalluksen jälkeen (*TBD*).
+
+#### Huipputulosnäkymä
+Mikäli pelaaja saavuttaa pistetuloksen, joka oikeuttaa pääsyyn huipputuloslistalle, näytetään huipputulosnäkymä, jossa pelaaja pääsee tallentamaan nimimerkkinsä tuloksen yhteydessä tallennettavaksi huipputuloslistalle. Tallennuksen jälkeen peli palaa aloitusnäkymään.
+
+### Sovelluksen sulkeminen
+Sovellus suljetaan normaalisti käyttöjärjestelmän tarjoamasta sovellusikkunan yhteydessä olevasta sulje-napista. Tämä voi sijaita käyttöjärjestelmästä riippuen eri kohdassa ja olla eri näköinen. Sovelluksessa ei ole ohjelmallisesti toteutettua sulkemistoiminnallisuutta.
 
