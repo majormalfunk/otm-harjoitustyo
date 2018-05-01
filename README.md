@@ -10,6 +10,8 @@ Harjoitustyön aiheena on Atarin Missile Command -pelin mukaelma.
 
 [Arkkitehtuurikuvaus](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Arkkitehtuurikuvaus.md)  
 
+[Käyttöohje](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Kayttoohje.md)  
+
 [Tuntikirjanpito](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Tuntikirjanpito.md)
 
 ### Komentorivitoiminnot
