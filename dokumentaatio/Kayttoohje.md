@@ -2,9 +2,9 @@
 
 Lataa tiedosto MizzileKommand.jar (julkaisuversio, kun se valmistuu)
 
-Siihen asti ladattavissa oleva uusin keskeneräinen versio:
+Siihen asti ladattavissa oleva uusin pre-release versio:
 
-* [MizzileKommand-0.6.jar]()
+* [MizzileKommand-0.6.jar](https://github.com/majormalfunk/otm-harjoitustyo/releases)
 
 ### Ohjelman käynnistäminen
 
