@@ -38,7 +38,11 @@ Sovelluksen tärkeimmät luokat ovat käynnistyksen jälkeen
 
 Näistä luodaan vain yhdet oliot sovelluksen käynnistyessä.
 
-[GameLoop](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/logics/GameLoop.java "GameLoop-luokka")-luokka, jonka startLoop() metodi käynnistää [AnimationTimer](https://docs.oracle.com/javafx/2/api/javafx/animation/AnimationTimer.html "Javadoc javafx.animation.AnimationTimer:sta"):in, kun pelaaja aloittaa *aloitusnäkymä*:ssä pelin. AnimationTimerin sisällä on toeuteutettu metodikutsut jotka huolehtivat peliolioiden toiminnallisuuksista ja elinkaarista.
+[GameLoop](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/logics/GameLoop.java "GameLoop-luokka")-luokka, jonka startLoop() metodi käynnistää [AnimationTimer](https://docs.oracle.com/javafx/2/api/javafx/animation/AnimationTimer.html "Javadoc javafx.animation.AnimationTimer:sta"):in, kun pelaaja aloittaa *aloitusnäkymä*:ssä pelin. AnimationTimerin sisällä on toeuteutettu metodikutsut jotka huolehtivat peliolioiden toiminnallisuuksista ja elinkaarista. GameLoop-oliolla on viittaus GameStatus-olioon ja SceneController-olioon.
+
+[GameStatus](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/logics/GameStatus.java "GameStatus-luokka") pitää yllä pelitilannetta ja laskee tason vaihtuessa uudet parametriarvot seuraavaa tasoa varten. 
+
+[SceneController](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/MizzileKommand/src/main/java/mizzilekommand/logics/SceneController.java "SceneController-luokka")-luokka huolehtii oikean näkymän näyttämisestä saaden tähän komennon GameLoop:lta. SceneController olio luo GameLoop-olion. SceneController-oliolla on viittaus GameLoop-olioon ja aktiiviseen näkymä olioon. Näkymän vaihtuessa luodaan aktiivinen näkymä-olio. Javan garbage collector huolehtii edeltävän näkymän siivoamisesta pois muistista.
 
 ### Luokkakaavio
 
@@ -50,7 +54,7 @@ Näistä luodaan vain yhdet oliot sovelluksen käynnistyessä.
 
 ## Tietojen pysyväistallennus
 
-
+Tietojen pysyväistallennusta ei ole vielä toteutettu. Pysyväistallennusta on tarkoitus käyttää huipputulosten tallentamiseen. Pysyväistallennus tullaan tekemään paikalliselle levylle, koska se on sovelluksen kannalta luontevin ratkaisu.
 
 ### Tiedostot
 
@@ -66,5 +70,6 @@ Peli käynnistyy alla olevan sekvenssikaavion mukaisesti:
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
 
-
+* Ohjelman rakennetta voisi miettiä uudelleen SceneControllerin ja GameLoopin välisen suhteen kannalta. Lähinnä siinä mielessä, että mikä voisi olla parempi paikka, tapa ja järjestys näiden olioiden luomiseen.
+* Huipputulosten tallentamisen voisi tehdä johonkin pilvipalveluun, jos haluttaisiin näyttää Global High Score.
 
