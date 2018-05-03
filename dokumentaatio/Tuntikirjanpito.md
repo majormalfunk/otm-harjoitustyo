@@ -27,4 +27,7 @@
 |30.4.    |5,00      |Testit, checkstyle ja javadoc                               |
 |1.5.     |6,00      |Dokumentaatio                                               |
 |**Vko 6**|**17,00** |*Kumul 98,50*                                               |
-|**YHT**  |**98,50** |                                                            |
+|2.5.     |5,00      |High scorejen tallennus                                     |
+|3.5.     |6,00      |High scorejen tallennus ja refaktorointia                   |
+|**Vko 7**|**11,00** |*Kumul 109,50*                                              |
+|**YHT**  |**109,50**|                                                            |
