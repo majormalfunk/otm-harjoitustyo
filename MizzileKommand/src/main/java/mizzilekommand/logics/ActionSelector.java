@@ -30,12 +30,15 @@ public class ActionSelector {
             case CONTINUE:
                 return Scenes.PLAY;
             case THEEND:
+            case SCORESAVED:
                 return Scenes.START;
             case ENOUGHDESTROYED:
             case NOINCOMING:
                 return Scenes.BONUS;
             case NOCITIES:
                 return Scenes.END;
+            case TOPSCORE:
+                return Scenes.TOP;
             default:
                 return Scenes.START;
         }

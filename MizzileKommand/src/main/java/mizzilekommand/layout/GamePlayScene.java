@@ -25,8 +25,7 @@ public class GamePlayScene extends SceneTemplate {
     double targetY;
 
     public GamePlayScene(SceneController controller, GameStatus status) {
-        //public GamePlayScene(Parent root) {
-        //super(root);
+
         super(controller);
 
         showScoreCounter(status.score);

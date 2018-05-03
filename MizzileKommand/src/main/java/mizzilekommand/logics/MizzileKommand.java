@@ -6,12 +6,15 @@ package mizzilekommand.logics;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.util.Properties;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import mizzilekommand.dao.FilePropertiesHandler;
+import mizzilekommand.dao.FileStatisticDao;
 
 /**
  * MIZZILE KÖMMÄND Application
@@ -48,6 +51,8 @@ public class MizzileKommand extends Application {
     
     private SceneController scnController;
     
+    private Properties config;
+    
     private Clip ominousBackgroundSound;
 
     @Override
@@ -61,11 +66,32 @@ public class MizzileKommand extends Application {
         primaryStage.setTitle("Mizzile Kömmänd");
 
         scnController = new SceneController(primaryStage);
+        config = loadConfigProperties();
+        FileStatisticDao statDao = loadFileStatisticDao();
+        GameLoop gameloop = new GameLoop();
+        gameloop.setStatisticDao(statDao);
+        gameloop.setSceneController(scnController);
+        scnController.setGameLoop(gameloop);
         scnController.applyFirstScene();
 
         loadOminousBackgroundSound();
         playOminousBackgroundSound();
 
+    }
+    
+    private Properties loadConfigProperties() {
+        FilePropertiesHandler fpLoader = new FilePropertiesHandler();
+        Properties defaultProperties = new Properties();
+        defaultProperties.setProperty("HighScoreFile", "highscores.txt");
+        return fpLoader.loadOrCreateProperties("config.properties", defaultProperties);
+    }
+    
+    private FileStatisticDao loadFileStatisticDao() {
+        try {
+            return new FileStatisticDao(config.getProperty("HighScoreFile"));
+        } catch (Exception daoException) {
+            return null;
+        }
     }
     
     /**
@@ -81,7 +107,7 @@ public class MizzileKommand extends Application {
             FloatControl control = (FloatControl) ominousBackgroundSound.getControl(FloatControl.Type.MASTER_GAIN);
             control.setValue(control.getMinimum() * (15.0f / 100.0f));
         } catch (Exception e) {
-            System.out.println("Something went wrong loading the background sounds: " + e);
+            // Do nothing
         }
     }
     
@@ -93,7 +119,7 @@ public class MizzileKommand extends Application {
             ominousBackgroundSound.start();
             ominousBackgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
-            System.out.println("Something went wrong playing the background sounds: " + e);
+            // Do nothing
         }
     }
 

@@ -13,3 +13,8 @@
 /MizzileKommand/nbactions.xml
 /MizzileKommand/nbproject/
 
+/MizzileKommand/config.properties
+/MizzileKommand/highscores.txt
+/MizzileKommand/src/main/resources/config.properties
+/MizzileKommand/src/main/resources/highscores.txt
+

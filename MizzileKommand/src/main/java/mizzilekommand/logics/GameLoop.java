@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
-//import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import mizzilekommand.dao.StatisticDao;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
@@ -113,6 +113,10 @@ public class GameLoop {
     public void setSceneController(SceneController controller) {
         this.controller = controller;
     }
+    
+    public void setStatisticDao(StatisticDao statDao) {
+        gameStatus.setStatisticDao(statDao);
+    }
 
     /**
      * This method starts the game loop which is a javafx AnimationTimer.
@@ -134,9 +138,9 @@ public class GameLoop {
                         stopLoop = false;
                         clearNodes();
                         stop();
+                    } else {
+                        handleGameLoopCalls();
                     }
-
-                    handleGameLoopCalls();
 
                 }
 
@@ -267,18 +271,21 @@ public class GameLoop {
         if (cities.isEmpty()) {
             allowIncoming = false;
             if (actionsDone() && controller != null) {
-                controller.noCitiesLeft();
+                controller.noCitiesLeft(gameStatus.isTopScore());
+                stopLoop();
             }
         } else if (gameStatus.citiesForLevelDestructed()) {
             // Otherwise if already enough cities were destroyed -> Bonus Scene
             allowIncoming = false;
             if (actionsDone() && controller != null) {
                 controller.enoughCitiesDestroyed();
+                stopLoop();
             }
         } else if (!gameStatus.incomingMissilesLeft()) {
             allowIncoming = false;
             if (actionsDone() && controller != null) {
                 controller.noIncomingLeft();
+                stopLoop();
             }
         }
     }
@@ -684,7 +691,7 @@ public class GameLoop {
             FloatControl control = (FloatControl) explosionSound.getControl(FloatControl.Type.MASTER_GAIN);
             control.setValue(control.getMinimum() * (1.0f / 100.0f));
         } catch (Exception e) {
-            System.out.println("Something went wrong loading the explosion sound: " + e);
+            // Do nothing
         }
     }
 
@@ -694,7 +701,7 @@ public class GameLoop {
             explosionSound.setMicrosecondPosition(0);
             explosionSound.start();
         } catch (Exception e) {
-            System.out.println("Something went wrong playing the explosion sound: " + e);
+            // Do nothing
         }
     }
 

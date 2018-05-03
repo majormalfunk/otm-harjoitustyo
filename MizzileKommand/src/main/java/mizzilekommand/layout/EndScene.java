@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import mizzilekommand.logics.GameStatus;
 import mizzilekommand.logics.SceneController.Actions;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
@@ -23,11 +24,12 @@ public class EndScene extends SceneTemplate {
 
     Button btnEnd;
 
-    public EndScene(SceneController controller, int level) {
+    public EndScene(SceneController controller, GameStatus status) {
 
         super(controller);
 
-        showLevelIndicator(level);
+        showScoreCounter(status.score);
+        showLevelIndicator(status.level);
 
         btnEnd = new Button();
         btnEnd.setText("THE END");

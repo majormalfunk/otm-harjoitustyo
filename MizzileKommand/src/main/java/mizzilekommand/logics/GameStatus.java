@@ -4,14 +4,16 @@
  */
 package mizzilekommand.logics;
 
+
 import javafx.scene.text.Text;
+import mizzilekommand.dao.StatisticDao;
 import static mizzilekommand.logics.MizzileKommand.SCORE;
 import static mizzilekommand.logics.MizzileKommand.INCOMING;
 import static mizzilekommand.logics.MizzileKommand.LEVEL;
 
 /**
  * This Class handles the game status during play
- * 
+ *
  * @author jaakkovilenius
  */
 public class GameStatus {
@@ -33,25 +35,58 @@ public class GameStatus {
     public Text incomingCounter;
     public Text[] baseMissileCounter;
 
+    public boolean highScoresAvailable;
+    private StatisticDao statDao;
+
     /**
-     * Constructor for the GameStatus class.
-     * It initializes its' attributes and calls the reset() -method that
-     * sets all the values for a new start
-     * 
-     * @see mizzilekommand.logics.GameStatus#reset() 
+     * Constructor for the GameStatus class. It initializes its' attributes and
+     * calls the reset() -method that sets all the values for a new start. It
+     * also loads the high score file from the local hard drive.
+     *
+     * @see mizzilekommand.logics.GameStatus#reset()
+     *
      */
     public GameStatus() {
         scoreCounter = new Text();
         levelIndicator = new Text();
         incomingCounter = new Text();
         baseMissileCounter = new Text[]{new Text(), new Text(), new Text()};
+        highScoresAvailable = false;
         reset();
+    }
+    
+    public void setStatisticDao(StatisticDao statDao) {
+        this.statDao = statDao;
+        if (this.statDao != null) {
+            highScoresAvailable = true;
+        }
+    }
+    
+    public boolean isTopScore() {
+        return statDao.isTopScore(score);
+    }
+    
+    public void recordCurrentScore(String initials) {
+        if (highScoresAvailable) {
+            try {
+                Statistic stat = new Statistic();
+                stat.setInitials(initials);
+                stat.setScore(score);
+                stat.setLevel(level);
+                stat.setMissilesDestroyed(enemyMissilesDestroyed);
+                stat = statDao.add(stat);
+            } catch (Exception e) {
+                highScoresAvailable = false;
+            }
+            
+        }
+
     }
 
     /**
-     * This method updates all the attributes that have to be updated before 
-     * a new level is started. It returns the number of the new level.
-     * 
+     * This method updates all the attributes that have to be updated before a
+     * new level is started. It returns the number of the new level.
+     *
      * @return the new level as int
      */
     public int levelUp() {
@@ -73,8 +108,8 @@ public class GameStatus {
     }
 
     /**
-     * This method resets the game status to the beginning values.
-     * It is called also at the end of the class constructor
+     * This method resets the game status to the beginning values. It is called
+     * also at the end of the class constructor
      */
     public void reset() {
 
@@ -98,7 +133,7 @@ public class GameStatus {
     /**
      * This method sets the score counter text on the screen. Specifically it
      * sets the score counter text it has a reference to in the current scene
-     * 
+     *
      * @see mizzilekommand.layout.SceneTemplate
      */
     public void setScoreCounterText() {
@@ -108,7 +143,7 @@ public class GameStatus {
     /**
      * This method sets the level indicator text on the screen. Specifically it
      * sets the level indicator text it has a reference to in the current scene
-     * 
+     *
      * @see mizzilekommand.layout.SceneTemplate
      */
     public void setLevelIndicatorText() {
@@ -118,7 +153,7 @@ public class GameStatus {
     /**
      * This method sets the incoming counter text on the screen. Specifically it
      * sets the incoming counter text it has a reference to in the current scene
-     * 
+     *
      * @see mizzilekommand.layout.SceneTemplate
      */
     public void setIncomingCounterText() {
@@ -127,8 +162,8 @@ public class GameStatus {
 
     /**
      * This convenience method sets all the base missile counter texts
-     * 
-     * @see mizzilekommand.logics.GameStatus#setBaseMissileCounterText(int) 
+     *
+     * @see mizzilekommand.logics.GameStatus#setBaseMissileCounterText(int)
      */
     public void setBaseMissileCounterTexts() {
         setBaseMissileCounterText(0);
@@ -138,11 +173,11 @@ public class GameStatus {
 
     /**
      * This method sets the base missile counter text of the corresponding base
-     * on the screen. Specifically it sets the base missiel counter text
-     * it has a reference to in the current scene
-     * 
+     * on the screen. Specifically it sets the base missiel counter text it has
+     * a reference to in the current scene
+     *
      * @param base The id of the base (0-2)
-     * 
+     *
      * @see mizzilekommand.layout.SceneTemplate
      */
     public void setBaseMissileCounterText(int base) {
@@ -235,8 +270,9 @@ public class GameStatus {
 
     /**
      * This method tells whether there are any missiles left in the base
-     * corresponding to the id given as parameter. Specifically it checks that the
-     * base is not destroyed and that missiles are left.
+     * corresponding to the id given as parameter. Specifically it checks that
+     * the base is not destroyed and that missiles are left.
+     *
      * @param base
      * @return true if missiles left and base is not destroyed false otherwise
      */
@@ -245,10 +281,9 @@ public class GameStatus {
     }
 
     /**
-     * This method substracts a missile from the given base.
-     * It also calls the method that updates the corresponding base missile 
-     * counter
-     * 
+     * This method substracts a missile from the given base. It also calls the
+     * method that updates the corresponding base missile counter
+     *
      * @param base id of base (0-2)
      */
     public void substractMissileFromBase(int base) {
@@ -297,7 +332,8 @@ public class GameStatus {
     }
 
     /**
-     * Returns the current enemy missile speed factor. 
+     * Returns the current enemy missile speed factor.
+     *
      * @return the incoming missiles' speed factor
      */
     public double getIncomingSpeedFactor() {

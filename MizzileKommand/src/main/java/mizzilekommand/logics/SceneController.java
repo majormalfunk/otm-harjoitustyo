@@ -34,7 +34,7 @@ public class SceneController {
     public Scenes nextScene;
 
     public enum Actions {
-        PLAY, CONTINUE, NOINCOMING, NOCITIES, ENOUGHDESTROYED, THEEND //, QUIT
+        PLAY, CONTINUE, NOINCOMING, NOCITIES, ENOUGHDESTROYED, THEEND, TOPSCORE, SCORESAVED //, QUIT
     }
 
     /**
@@ -47,10 +47,14 @@ public class SceneController {
     public SceneController(Stage stage) {
 
         this.stage = stage;
-        this.gameloop = new GameLoop();
-        this.gameloop.setSceneController(this);
+        //this.gameloop = new GameLoop();
+        //this.gameloop.setSceneController(this);
         this.actionSelector = new ActionSelector();
 
+    }
+    
+    public void setGameLoop(GameLoop gameloop) {
+        this.gameloop = gameloop;
     }
 
     /**
@@ -122,6 +126,7 @@ public class SceneController {
                 applyBonusScene();
                 break;
             case TOP:
+                applyTopScoreScene();
                 break;
             case END:
                 applyEndScene();
@@ -170,12 +175,22 @@ public class SceneController {
     }
 
     /**
+     * This method applies the TopScoreScene. The method is a collection operations
+     * to be run in order for the scene to function properly.
+     */
+    public void applyTopScoreScene() {
+        gameloop.stopLoop();
+        currentScene = new TopScoreScene(this, gameloop.gameStatus);
+        applyScene();
+    }
+
+    /**
      * This method applies the EndScene. The method is a collection operations
      * to be run in order for the scene to function properly.
      */
     public void applyEndScene() {
         gameloop.stopLoop();
-        currentScene = new EndScene(this, gameloop.gameStatus.level);
+        currentScene = new EndScene(this, gameloop.gameStatus);
         applyScene();
     }
 
@@ -227,8 +242,12 @@ public class SceneController {
      * NOCITIES. Used to transition from GamePlayScene to next scene in the
      * event of all player cities been destroyed
      */
-    public void noCitiesLeft() {
-        this.chooseNextScene(Actions.NOCITIES);
+    public void noCitiesLeft(boolean topScore) {
+        if (topScore) {
+            this.chooseNextScene(Actions.TOPSCORE);
+        } else {
+            this.chooseNextScene(Actions.NOCITIES);
+        }
         this.applyNextScene();
     }
 
