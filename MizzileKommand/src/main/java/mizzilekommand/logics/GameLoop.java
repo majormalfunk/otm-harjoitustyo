@@ -21,8 +21,6 @@ import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 import static mizzilekommand.logics.MizzileKommand.BASE_X;
 import static mizzilekommand.logics.MizzileKommand.BASE_Y;
-import static mizzilekommand.logics.MizzileKommand.CITY_X;
-import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
 import mizzilekommand.nodes.Base;
 import mizzilekommand.nodes.City;
 import mizzilekommand.nodes.CityDestruction;
@@ -68,7 +66,7 @@ public class GameLoop {
 
     /**
      * GameLoop constructor. GameLoop handles the game operation
-     * 
+     *
      * @see mizzilekommand.logics.GameStatus
      */
     public GameLoop() {
@@ -106,14 +104,15 @@ public class GameLoop {
      * This method sets the SceneController that is needed to perform the
      * actions decided in the game loop logic on the current scene.
      *
-     * @param controller a SceneController Scenecontroller takes care of displaying the correct view
-     * 
+     * @param controller a SceneController Scenecontroller takes care of
+     * displaying the correct view
+     *
      * @see mizzilekommand.logics.SceneController
      */
     public void setSceneController(SceneController controller) {
         this.controller = controller;
     }
-    
+
     public void setStatisticDao(StatisticDao statDao) {
         gameStatus.setStatisticDao(statDao);
     }
@@ -208,8 +207,8 @@ public class GameLoop {
      * This method increases the level in the game. It calls the levelUp()
      * method of the GameStatus object.
      *
-     * @see mizzilekommand.logics.GameStatus#levelUp() 
-     * 
+     * @see mizzilekommand.logics.GameStatus#levelUp()
+     *
      * @return The new level
      */
     public int levelUp() {
@@ -218,8 +217,8 @@ public class GameLoop {
 
     /**
      * This method resets the game status. It Calls the GameStatus object
-     * 
-     * @see mizzilekommand.logics.GameStatus#reset() 
+     *
+     * @see mizzilekommand.logics.GameStatus#reset()
      */
     public void resetGameStatus() {
         gameStatus.reset();
@@ -227,8 +226,9 @@ public class GameLoop {
 
     /**
      * This adds to the current scene all the nodes in the list addToScene
-     * 
-     * @see mizzilekommand.logics.SceneController#addToCurrentScene(javafx.scene.Node) 
+     *
+     * @see
+     * mizzilekommand.logics.SceneController#addToCurrentScene(javafx.scene.Node)
      */
     private void addNodesToScene() {
         if (!addToScene.isEmpty()) {
@@ -241,8 +241,9 @@ public class GameLoop {
 
     /**
      * This removes from the current scene all the nodes in list removeFromScene
-     * 
-     * @see mizzilekommand.logics.SceneController#removeAllFromCurrentScene(javafx.scene.Node) 
+     *
+     * @see
+     * mizzilekommand.logics.SceneController#removeAllFromCurrentScene(javafx.scene.Node)
      */
     private void removeNodesFromScene() {
         if (!removeFromScene.isEmpty()) {
@@ -252,19 +253,19 @@ public class GameLoop {
     }
 
     /**
-     * This method checks the game status and accordingly
-     * sets the attribute allowIncoming to false. This happens if:
-     * 
-     * - all cities have been destroyed or
-     * - enough cities for the level has been destroyed or
-     * - no more incoming missiles are left in the curren level
-     * 
+     * This method checks the game status and accordingly sets the attribute
+     * allowIncoming to false. This happens if:
+     *
+     * - all cities have been destroyed or - enough cities for the level has
+     * been destroyed or - no more incoming missiles are left in the curren
+     * level
+     *
      * It instructs the SceneController of the case when no more ongoing actions
      * are playing in the scene.
-     * 
-     * @see mizzilekommand.logics.SceneController#noCitiesLeft() 
-     * @see mizzilekommand.logics.SceneController#enoughCitiesDestroyed() 
-     * @see mizzilekommand.logics.SceneController#noIncomingLeft() 
+     *
+     * @see mizzilekommand.logics.SceneController#noCitiesLeft()
+     * @see mizzilekommand.logics.SceneController#enoughCitiesDestroyed()
+     * @see mizzilekommand.logics.SceneController#noIncomingLeft()
      */
     public void checkLevelStatus() {
         // If no cities are left, it's game over -> The End Scene
@@ -314,14 +315,14 @@ public class GameLoop {
      * @param base The id of the base from which it should be launched
      * @param targetX The x coordinate of the missile's target
      * @param targetY The y coordinate of the missile's target
-     * 
-     * @see mizzilekommand.logics.GameStatus#baseMissilesLeft(int) 
-     * @see mizzilekommand.logics.GameStatus#substractMissileFromBase(int) 
+     *
+     * @see mizzilekommand.logics.GameStatus#baseMissilesLeft(int)
+     * @see mizzilekommand.logics.GameStatus#substractMissileFromBase(int)
      */
     public void launchNewPlayerMissile(int base, double targetX, double targetY) {
         if (gameStatus.baseMissilesLeft(base)) {
             PlayerMissile missile = new PlayerMissile(System.currentTimeMillis(),
-                    (base == 1 ? 2.5 : 2.0), targetX, targetY);
+                    (base == 1 ? 3.0 : 2.0), targetX, targetY);
             playerMissiles.add(missile);
             missile.setLayoutX(BASE_X[base] - (missile.width / 2.0));
             missile.setLayoutY(BASE_Y - BASE_RADIUS - missile.height);
@@ -410,8 +411,8 @@ public class GameLoop {
     /**
      * This method checks for the conditions in which new enemy missiles should
      * be added to the scene.
-     * 
-     * @see mizzilekommand.logics.GameStatus#incomingMissilesDecrease() 
+     *
+     * @see mizzilekommand.logics.GameStatus#incomingMissilesDecrease()
      */
     public void handleNewEnemyMissiles() {
 
@@ -477,8 +478,8 @@ public class GameLoop {
      * destruction to cities or bases. After that it checks to see if the
      * explosions have faded enough and if that is the case adds those to the
      * removables list.
-     * 
-     * @see mizzilekommand.logics.GameStatus#citiesForLevelDestructed() 
+     *
+     * @see mizzilekommand.logics.GameStatus#citiesForLevelDestructed()
      */
     public void handleEnemyMissileExplosions() {
         enemyExplosionsToRemove.forEach(explosion -> {
@@ -513,8 +514,8 @@ public class GameLoop {
      * This method explodes the base
      *
      * @param base The base to be exploded
-     * 
-     * @see mizzilekommand.logics.GameStatus#destroyBase(int) 
+     *
+     * @see mizzilekommand.logics.GameStatus#destroyBase(int)
      */
     private void explodeBase(Base base) {
         Explosion annihilation = base.detonate();
@@ -529,8 +530,8 @@ public class GameLoop {
      * This method destructs the city
      *
      * @param city The city to be destructed
-     * 
-     * @see mizzilekommand.logics.GameStatus#destroyCity(int) 
+     *
+     * @see mizzilekommand.logics.GameStatus#destroyCity(int)
      */
     public void destructCity(City city) {
         CityDestruction armageddon = city.destruct();
@@ -645,39 +646,26 @@ public class GameLoop {
     }
 
     /**
-     * This method constructs and adds all player bases to the scene and a List
-     * that holds references to bases.
+     * This method asks for a new list of bases from the controller. It passes
+     * as paramters an array indicating which bases are ok. The new list of
+     * bases is set as the bases list
      */
     public void addBases() {
         this.bases.clear();
-        for (int id = 0; id < 3; id++) {
-            Base base = new Base();
-            base.setLayoutX(BASE_X[id]);
-            base.setLayoutY(BASE_Y);
-            base.id = id;
-            this.bases.add(base);
-            addToScene.add(base);
+        if (controller != null) {
+            bases = controller.addBases(gameStatus.baseOk);
         }
     }
 
     /**
-     * This method constructs and adds all player cities to the scene and a List
-     * that holds references to cities.
-     * 
-     * @see mizzilekommand.logics.GameStatus#cityNotDestroyed(int) 
+     * This method asks for a new list of cities from the controller. It passes
+     * as paramters an array indicating which cities are ok. The new list of
+     * cities is set as the cities list
      */
     public void addCities() {
         this.cities.clear();
-
-        for (int c = 0; c < gameStatus.cityOk.length; c++) {
-            if (gameStatus.cityNotDestroyed(c)) {
-                City city = new City();
-                city.setLayoutX(CITY_X[c] - (city.width / 2.0));
-                city.setLayoutY(APP_HEIGHT - SMALL_LENGTH * 5.0);
-                city.id = c;
-                this.cities.add(city);
-                addToScene.add(city);
-            }
+        if (controller != null) {
+            cities = controller.addCities(gameStatus.cityOk);
         }
     }
 

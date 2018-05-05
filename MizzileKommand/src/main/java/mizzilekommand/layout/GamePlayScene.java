@@ -26,7 +26,7 @@ public class GamePlayScene extends SceneTemplate {
 
     public GamePlayScene(SceneController controller, GameStatus status) {
 
-        super(controller);
+        super(controller, status);
 
         showScoreCounter(status.score);
         showLevelIndicator(status.level);

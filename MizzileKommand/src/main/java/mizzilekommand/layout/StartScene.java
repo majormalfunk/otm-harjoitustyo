@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import mizzilekommand.logics.GameStatus;
 import mizzilekommand.logics.SceneController.Actions;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
@@ -31,9 +32,12 @@ public class StartScene extends SceneTemplate {
      * 
      * @param controller 
      */
-    public StartScene(SceneController controller) {
+    public StartScene(SceneController controller, GameStatus status) {
 
-        super(controller);
+        super(controller, status);
+        
+        addBases(status.baseOk);
+        addCities(status.cityOk);
 
         hideLevelIndicator();
 

@@ -4,7 +4,8 @@
  */
 package mizzilekommand.layout;
 
-import mizzilekommand.logics.SceneController;
+import java.util.ArrayList;
+import java.util.List;import mizzilekommand.logics.SceneController;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -12,12 +13,18 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import mizzilekommand.logics.GameStatus;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.BASE_X;
+import static mizzilekommand.logics.MizzileKommand.BASE_Y;
+import static mizzilekommand.logics.MizzileKommand.CITY_HEIGHT;
+import static mizzilekommand.logics.MizzileKommand.CITY_X;
 import static mizzilekommand.logics.MizzileKommand.INCOMING;
 import static mizzilekommand.logics.MizzileKommand.LEVEL;
 import static mizzilekommand.logics.MizzileKommand.SCORE;
+import mizzilekommand.nodes.Base;
+import mizzilekommand.nodes.City;
 
 /**
  * This is an abstract class designed to be inherited by the actual scene
@@ -30,6 +37,7 @@ public abstract class SceneTemplate extends Scene {
 
     SceneController controller;
     Group root;
+    protected GameStatus status;
     Text scoreCounter;
     Text levelIndicator;
     Text incomingCounter;
@@ -37,14 +45,16 @@ public abstract class SceneTemplate extends Scene {
 
     /**
      * The constructor
-     * @param controller 
+     *
+     * @param controller
      */
-    public SceneTemplate(SceneController controller) {
+    public SceneTemplate(SceneController controller, GameStatus status) {
 
         super(new Group(), APP_WIDTH, APP_HEIGHT);
         this.controller = controller;
         this.root = (Group) this.getRoot();
         this.root.getChildren().add(new GamePane());
+        this.status = status;
 
         setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -73,9 +83,9 @@ public abstract class SceneTemplate extends Scene {
 
         // Base missile counter
         baseMissileCounter = new Text[]{new Text(), new Text(), new Text()};
-        baseMissileCounter[0].setStroke(Color.WHITE);
-        baseMissileCounter[1].setStroke(Color.WHITE);
-        baseMissileCounter[2].setStroke(Color.WHITE);
+        baseMissileCounter[0].setStroke(Color.SILVER);
+        baseMissileCounter[1].setStroke(Color.SILVER);
+        baseMissileCounter[2].setStroke(Color.SILVER);
 
     }
 
@@ -100,7 +110,7 @@ public abstract class SceneTemplate extends Scene {
 
     /**
      * This shows the score counter
-     * 
+     *
      * @param count current score to shoe
      */
     public void showScoreCounter(int count) {
@@ -117,7 +127,7 @@ public abstract class SceneTemplate extends Scene {
 
     /**
      * This hides the score counter
-     * 
+     *
      */
     public void hideScoreCounter() {
         try {
@@ -127,10 +137,14 @@ public abstract class SceneTemplate extends Scene {
             System.out.println("Exception trying to hide score counter");
         }
     }
+    
+    public void updateScoreCounter(int count) {
+        scoreCounter.setText(SCORE + " " + count);
+    }
 
     /**
      * This shows the level indicator
-     * 
+     *
      * @param level current level to show
      */
     public void showLevelIndicator(int level) {
@@ -147,7 +161,7 @@ public abstract class SceneTemplate extends Scene {
 
     /**
      * This hides the level indicator
-     * 
+     *
      */
     public void hideLevelIndicator() {
         try {
@@ -160,7 +174,7 @@ public abstract class SceneTemplate extends Scene {
 
     /**
      * This shows the counter of incoming missiles left in the scene
-     * 
+     *
      * @param count The count of incoming missiles left in the current level
      */
     public void showIncomingCounter(int count) {
@@ -177,7 +191,7 @@ public abstract class SceneTemplate extends Scene {
 
     /**
      * This hides the incoming counter
-     * 
+     *
      */
     public void hideIncomingCounter() {
         try {
@@ -189,9 +203,10 @@ public abstract class SceneTemplate extends Scene {
     }
 
     /**
-     * This shows the counters that tell how many missiles are left at the player bases
-     * 
-     * @param count 
+     * This shows the counters that tell how many missiles are left at the
+     * player bases
+     *
+     * @param count
      */
     public void showBaseMissileCounters(int[] count) {
         for (int i = 0; i < baseMissileCounter.length; i++) {
@@ -208,8 +223,9 @@ public abstract class SceneTemplate extends Scene {
     }
 
     /**
-     * This hides the counters that tell how many missiles are left at the player bases.
-     * 
+     * This hides the counters that tell how many missiles are left at the
+     * player bases.
+     *
      */
     public void hideBaseMissileCounters() {
         for (int i = 0; i < baseMissileCounter.length; i++) {
@@ -221,4 +237,56 @@ public abstract class SceneTemplate extends Scene {
             }
         }
     }
+    
+    /**
+     * This method should be implemented in the extended class if needed
+     */
+    public void runActions() {
+        // Implement this in exteded class;
+    }
+
+    /**
+     * This method adds the bases with ok status to the current Scene and returns
+     * a reference to them in a list.
+     *
+     * @param baseOk a boolean list of bases indicating if base is destructed (false)
+     * or not (true)
+     */
+    public List<Base> addBases(boolean[] baseOk) {
+        List<Base> bases = new ArrayList<>();
+        for (int id = 0; id < baseOk.length; id++) {
+            if (baseOk[id]) {
+                Base base = new Base();
+                base.setLayoutX(BASE_X[id]);
+                base.setLayoutY(BASE_Y);
+                base.id = id;
+                bases.add(base);
+                this.root.getChildren().add(base);
+            }
+        }
+        return bases;
+    }
+
+    /**
+     * This method adds the cities with ok status to the current Scene and returns
+     * a reference to them in a list.
+     * 
+     * @param cityOk a boolean list of cities indicating if city is destructed (false)
+     * or not (true)
+     */
+    public List<City> addCities(boolean[] cityOk) {
+        List<City> cities = new ArrayList<>();
+        for (int id = 0; id < cityOk.length; id++) {
+            if (cityOk[id]) {
+                City city = new City(id);
+                city.setLayoutX(CITY_X[id] - (city.width / 2.0));
+                city.setLayoutY(APP_HEIGHT - (CITY_HEIGHT * 2.0));
+                city.id = id;
+                cities.add(city);
+                this.root.getChildren().add(city);
+            }
+        }
+        return cities;
+    }
+
 }

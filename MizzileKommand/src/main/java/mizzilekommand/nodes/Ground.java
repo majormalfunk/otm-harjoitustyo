@@ -38,7 +38,7 @@ public class Ground extends Polygon {
                 (SMALL_LENGTH * 1.0), SMALL_LENGTH,
                 0.0, SMALL_LENGTH // Ground level left edge
         );
-        this.setFill(Color.SANDYBROWN);
+        this.setFill(Color.BLACK);
 
     }
 

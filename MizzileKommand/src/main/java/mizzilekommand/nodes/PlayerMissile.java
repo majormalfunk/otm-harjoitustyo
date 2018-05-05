@@ -4,7 +4,6 @@
  */
 package mizzilekommand.nodes;
 
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 

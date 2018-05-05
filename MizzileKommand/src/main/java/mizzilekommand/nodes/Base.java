@@ -27,7 +27,7 @@ public class Base extends Arc {
 
         //Setting the type of the arc 
         this.setType(ArcType.ROUND);
-        this.setFill(Color.STEELBLUE);
+        this.setFill(Color.DARKBLUE);
 
     }
 

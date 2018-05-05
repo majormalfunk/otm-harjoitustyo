@@ -33,7 +33,7 @@ public class GamePane extends Pane {
     public GamePane() {
 
         // Total
-        this.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setBackground(new Background(new BackgroundFill(Color.rgb(0,0,50), CornerRadii.EMPTY, Insets.EMPTY)));
         this.setPrefSize(APP_WIDTH, APP_HEIGHT);
 
         // Ground

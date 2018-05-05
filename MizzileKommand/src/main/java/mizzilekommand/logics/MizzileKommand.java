@@ -29,7 +29,8 @@ public class MizzileKommand extends Application {
     public static final double APP_WIDTH = 640.0;
     public static final double APP_HEIGHT = 480.0;
     public static final double BASE_RADIUS = APP_WIDTH / 48.0;
-    public static final double CITY_WIDTH = APP_WIDTH / 32.0;
+    public static final double CITY_WIDTH = APP_WIDTH / 12.0;
+    public static final double CITY_HEIGHT = APP_HEIGHT / 12.0;
     public static final double SMALL_LENGTH = APP_WIDTH / 48.0;
     public static final double GROUND_LEVEL = 450.0;
 
@@ -48,6 +49,10 @@ public class MizzileKommand extends Application {
     public static final String SCORE = "SCORE";
     public static final String LEVEL = "LEVEL";
     public static final String INCOMING = "INCOMING";
+    
+    public static final int MISSILE_BONUS = 5;
+    public static final int CITY_BONUS = 50;
+    public static final int MAX_BONUS_LEVEL_FACTOR = 6;
     
     private SceneController scnController;
     

@@ -4,16 +4,16 @@
  */
 package mizzilekommand.layout;
 
+import javafx.animation.AnimationTimer;
 import mizzilekommand.logics.SceneController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import mizzilekommand.logics.GameStatus;
-import mizzilekommand.logics.SceneController.Actions;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
+import mizzilekommand.logics.SceneController.Actions;
 
 /**
  * The End -scene shown when the game ends without a new high score
@@ -22,43 +22,55 @@ import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
  */
 public class EndScene extends SceneTemplate {
 
-    Button btnEnd;
-
     public EndScene(SceneController controller, GameStatus status) {
 
-        super(controller);
+        super(controller, status);
 
+        addBases(status.baseOk);
+        addCities(status.cityOk);
+
+        addTitle();
+        
         showScoreCounter(status.score);
         showLevelIndicator(status.level);
 
-        btnEnd = new Button();
-        btnEnd.setText("THE END");
-        btnEnd.setMinSize(100, 50);
-        btnEnd.setPrefSize(100, 50);
-        btnEnd.setMaxSize(100, 50);
-        btnEnd.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                getController().chooseNextScene(Actions.THEEND);
-                getController().applyNextScene();
-            }
-        });
-        btnEnd.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                setCursor(Cursor.HAND); //Change cursor to hand
-            }
-        });
-        btnEnd.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                setCursor(Cursor.CROSSHAIR); //Change cursor to crosshair
-            }
-        });
+        runTransitCounter();
+        
+    }
+    
+    private void runTransitCounter() {
+        try {
 
-        this.root.getChildren().add(btnEnd);
-        btnEnd.setLayoutX((APP_WIDTH / 2) - 50);
-        btnEnd.setLayoutY((APP_HEIGHT / 2) - 25);
+            new AnimationTimer() {
+                int bonusCounter = 0;
+                long transit = System.currentTimeMillis() + 5000l;
+
+                @Override
+                public void handle(long now) {
+                    if (transit < System.currentTimeMillis()) {
+                        getController().chooseNextScene(Actions.THEEND);
+                        getController().applyNextScene();
+                        stop();
+                    }
+                }
+
+            }.start();
+
+        } catch (Exception ex) {
+            // Do nothing
+        }
+
+    }
+    
+    private void addTitle() {
+        Label title = new Label("THE END");
+        title.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
+        title.setTextFill(Color.SILVER);
+        title.setTextAlignment(TextAlignment.CENTER);
+        this.root.getChildren().add(title);
+        title.layoutXProperty().bind(this.widthProperty().subtract(title.widthProperty()).divide(2));
+        title.setLayoutY((APP_HEIGHT / 3.0));
     }
 
+        
 }

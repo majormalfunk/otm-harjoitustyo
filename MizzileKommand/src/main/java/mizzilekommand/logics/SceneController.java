@@ -4,6 +4,7 @@
  */
 package mizzilekommand.logics;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -14,6 +15,8 @@ import mizzilekommand.layout.GamePlayScene;
 import mizzilekommand.layout.SceneTemplate;
 import mizzilekommand.layout.StartScene;
 import mizzilekommand.layout.TopScoreScene;
+import mizzilekommand.nodes.Base;
+import mizzilekommand.nodes.City;
 
 /**
  * This class handles changing the correct view. It is sort of a middle man
@@ -148,8 +151,8 @@ public class SceneController {
      */
     private void applyStartScene() {
         gameloop.stopLoop();
-        currentScene = new StartScene(this);
         gameloop.resetGameStatus();
+        currentScene = new StartScene(this, gameloop.gameStatus);
         applyScene();
     }
 
@@ -171,6 +174,7 @@ public class SceneController {
     public void applyBonusScene() {
         gameloop.stopLoop();
         currentScene = new BonusScene(this, gameloop.gameStatus);
+        currentScene.runActions();
         applyScene();
     }
 
@@ -194,6 +198,26 @@ public class SceneController {
         applyScene();
     }
 
+    /**
+     * This method asks the currentScene to add the bases with ok status to
+     * the current scene
+     * @param baseOk a boolean array indicating by the index which base is ok
+     * @return the base nodes with ok status as a list
+     */
+    public List<Base> addBases(boolean[] baseOk) {
+        return currentScene.addBases(baseOk);
+    }
+    
+    /**
+     * This method asks the currentScene to add the cities with ok status to
+     * the current scene
+     * @param cityOk a boolean array indicating by the index which city is ok
+     * @return the city nodes with ok status as a list
+     */
+    public List<City> addCities(boolean[] cityOk) {
+        return currentScene.addCities(cityOk);
+    }
+    
     /**
      * This method adds to the current scene the node given as parameter. This
      * is because we want to isolate access to the scene from the game logic

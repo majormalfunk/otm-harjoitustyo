@@ -7,9 +7,12 @@ package mizzilekommand.logics;
 
 import javafx.scene.text.Text;
 import mizzilekommand.dao.StatisticDao;
+import static mizzilekommand.logics.MizzileKommand.CITY_BONUS;
 import static mizzilekommand.logics.MizzileKommand.SCORE;
 import static mizzilekommand.logics.MizzileKommand.INCOMING;
 import static mizzilekommand.logics.MizzileKommand.LEVEL;
+import static mizzilekommand.logics.MizzileKommand.MISSILE_BONUS;
+import static mizzilekommand.logics.MizzileKommand.MAX_BONUS_LEVEL_FACTOR;
 
 /**
  * This Class handles the game status during play
@@ -338,6 +341,62 @@ public class GameStatus {
      */
     public double getIncomingSpeedFactor() {
         return incomingBoost;
+    }
+    
+    /**
+     * Returns the total number of player missiles left at the moment.
+     * @return number of player missiles left at the moment
+     */
+    public int playerMissilesLeft() {
+        return missilesLeft[0] + missilesLeft[1] + missilesLeft[2];
+    }
+    
+    /**
+     * This method adds the bonus for left player missiles to the score
+     */
+    public void recordMissileBonus() {
+        score += bonusForMissilesLeft();
+    }
+
+    /**
+     * This method returns the bonus per missile left for the current level.
+     * @return bonus per missile
+     */
+    public int bonusPerMissileLeft() {
+        return (Math.min(level, MAX_BONUS_LEVEL_FACTOR) * MISSILE_BONUS);
+    }
+    
+    /**
+     * Returns the missile bonus rewarded from missiles left after level.
+     * @return 
+     */
+    public int bonusForMissilesLeft() {
+        return (playerMissilesLeft() * bonusPerMissileLeft());
+    }
+
+    /**
+     * This method adds the bonus for left cities to the score
+     */
+    public void recordCityBonus() {
+        score += bonusForCitiesLeft();
+    }
+
+    /**
+     * This method returns the bonus per city left for the current level.
+     *
+     * @return bonus per city
+     */
+    public int bonusPerCityLeft() {
+        return (Math.min(level, MAX_BONUS_LEVEL_FACTOR) * CITY_BONUS);
+    }
+
+
+    /**
+     * Returns the city bonus rewarded from cities left after level.
+     * @return 
+     */
+    public int bonusForCitiesLeft() {
+        return (citiesLeft() * bonusPerCityLeft());
     }
 
 }

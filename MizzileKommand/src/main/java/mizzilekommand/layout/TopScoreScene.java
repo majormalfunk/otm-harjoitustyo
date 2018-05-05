@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import mizzilekommand.logics.SceneController;
 import mizzilekommand.dao.FileStatisticDao;
@@ -32,15 +34,17 @@ public class TopScoreScene extends SceneTemplate {
     private Label initial2;
     private Label initial3;
     private int focus;
-    private GameStatus status;
 
     public TopScoreScene(SceneController controller, GameStatus status) {
-        super(controller);
 
-        this.status = status;
+        super(controller, status);
 
-        setUpButton();
+        addBases(status.baseOk);
+        addCities(status.cityOk);
+
+        addTitle();
         setUpInitials();
+        setUpButton();
 
         showScoreCounter(status.score);
         showLevelIndicator(status.level);
@@ -53,36 +57,42 @@ public class TopScoreScene extends SceneTemplate {
 
     }
 
+    private void addTitle() {
+        Label title = new Label("TOP KÖMMÄNDER!");
+        title.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
+        title.setTextFill(Color.SILVER);
+        title.setTextAlignment(TextAlignment.CENTER);
+        this.root.getChildren().add(title);
+        title.layoutXProperty().bind(this.widthProperty().subtract(title.widthProperty()).divide(2));
+        title.setLayoutY((APP_HEIGHT / 8.0));
+    }
+    
     private void setUpInitials() {
-
-        initial1 = new Label("_");
-        initial2 = new Label("_");
-        initial3 = new Label("_");
-        initial1.setTextFill(Color.WHITESMOKE);
-        initial2.setTextFill(Color.WHITESMOKE);
-        initial3.setTextFill(Color.WHITESMOKE);
-        initial1.setScaleX(4.0);
-        initial1.setScaleY(4.0);
-        initial2.setScaleX(4.0);
-        initial2.setScaleY(4.0);
-        initial3.setScaleX(4.0);
-        initial3.setScaleY(4.0);
-        initial1.setTextAlignment(TextAlignment.CENTER);
-        initial2.setTextAlignment(TextAlignment.CENTER);
-        initial3.setTextAlignment(TextAlignment.CENTER);
-        this.root.getChildren().addAll(initial1, initial2, initial3);
-        initial1.setLayoutX((APP_WIDTH / 2) - 75 - (initial1.getWidth() / 2.0));
-        initial1.setLayoutY((APP_HEIGHT / 4));
-        initial2.setLayoutX((APP_WIDTH / 2) - (initial2.getWidth() / 2.0));
-        initial2.setLayoutY((APP_HEIGHT / 4));
-        initial3.setLayoutX((APP_WIDTH / 2) + 75 - (initial3.getWidth() / 2.0));
-        initial3.setLayoutY((APP_HEIGHT / 4));
-
+        initial1 = new Label();
+        setUpInitial(initial1, -1);
+        initial2 = new Label();
+        setUpInitial(initial2, 0);
+        initial3 = new Label();
+        setUpInitial(initial3, 1);
+    }
+    
+    private void setUpInitial(Label initial, int position) {
+        initial.setText("_");
+        initial.setFont(Font.font("Arial", FontWeight.BOLD, 40.0));
+        initial.setTextFill(Color.SILVER);
+        initial.setTextAlignment(TextAlignment.CENTER);
+        this.root.getChildren().add(initial);
+        initial.layoutXProperty().bind(this.widthProperty().add(position*75).subtract(initial.widthProperty()).divide(2));
+        initial.setLayoutY((APP_HEIGHT / 3));
     }
 
     private void keyDown(KeyCode key) {
 
-        if (key == KeyCode.BACK_SPACE || key == KeyCode.TAB || key == KeyCode.ENTER) {
+        if (key == KeyCode.TAB || key == KeyCode.ENTER) {
+            // Do nothing. This here just so that we can use isLetterKey() later
+            // and so have a shorter list of conditions.
+            // We could attach a fart sound to this.
+        } else if (key == KeyCode.BACK_SPACE) {
             if (focus == 3) {
                 initial3.setText("_");
                 focus = 2;
@@ -153,7 +163,7 @@ public class TopScoreScene extends SceneTemplate {
 
         this.root.getChildren().add(btnSave);
         btnSave.setLayoutX((APP_WIDTH / 2) - 50);
-        btnSave.setLayoutY((APP_HEIGHT / 2) - 25);
+        btnSave.setLayoutY((APP_HEIGHT / 3) * 2);
 
     }
 
