@@ -29,5 +29,7 @@
 |**Vko 6**|**17,00** |*Kumul 98,50*                                               |
 |2.5.     |5,00      |High scorejen tallennus                                     |
 |3.5.     |6,00      |High scorejen tallennus ja refaktorointia                   |
-|**Vko 7**|**11,00** |*Kumul 109,50*                                              |
-|**YHT**  |**109,50**|                                                            |
+|4.5.     |5,00      |Bonus-laskenta                                              |
+|5.5.     |8,00      |Bonus-laskenta, ulkoasu, testaus                            |
+|**Vko 7**|**24,00** |*Kumul 122,50*                                              |
+|**YHT**  |**122,50**|                                                            |
