@@ -5,6 +5,8 @@
 package mizzilekommand.logics;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.text.Text;
 import mizzilekommand.dao.StatisticDao;
 import static mizzilekommand.logics.MizzileKommand.CITY_BONUS;
@@ -63,6 +65,10 @@ public class GameStatus {
         if (this.statDao != null) {
             highScoresAvailable = true;
         }
+    }
+    
+    public List<Statistic> getStatistics() {
+        return statDao.getAll();
     }
     
     public boolean isTopScore() {

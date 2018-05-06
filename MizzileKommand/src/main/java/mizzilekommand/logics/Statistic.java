@@ -81,7 +81,17 @@ public class Statistic implements Comparable<Statistic> {
 
     @Override
     public int compareTo(Statistic other) {
+        if (other.getScore() == this.getScore()) {
+            if (other.getLevel() == this.getLevel()) {
+                return other.getMissilesDestroyed() - this.getMissilesDestroyed();
+            }
+            return other.getLevel() - this.getLevel();
+        }
         return other.getScore() - this.getScore();
+    }
+    
+    public String[] toStringArray() {
+        return new String[]{""+getRank(), getInitials(), ""+getScore(), ""+getLevel(), ""+getMissilesDestroyed()};
     }
 
     

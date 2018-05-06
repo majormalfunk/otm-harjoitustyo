@@ -69,7 +69,7 @@ public class EndScene extends SceneTemplate {
         title.setTextAlignment(TextAlignment.CENTER);
         this.root.getChildren().add(title);
         title.layoutXProperty().bind(this.widthProperty().subtract(title.widthProperty()).divide(2));
-        title.setLayoutY((APP_HEIGHT / 3.0));
+        title.layoutYProperty().bind(this.heightProperty().subtract(title.heightProperty()).divide(2));
     }
 
         

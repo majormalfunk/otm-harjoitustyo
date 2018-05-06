@@ -29,6 +29,8 @@ import mizzilekommand.nodes.PlayerMissile;
  */
 public class BonusScene extends SceneTemplate {
 
+    MKButton btnContinue;
+
     private Label missileBonusCounter;
     private Label cityBonusCounter;
 
@@ -117,7 +119,7 @@ public class BonusScene extends SceneTemplate {
         cities.layoutXProperty().bind(this.widthProperty().subtract(cities.widthProperty()).divide(4));
         cities.setLayoutY((APP_HEIGHT * (3.0 / 6.0)) - 20.0);
     }
-    
+
     private void addItemsLeftCount(int count, int item) {
         Label counter = new Label("" + count);
         counter.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
@@ -140,7 +142,7 @@ public class BonusScene extends SceneTemplate {
         }
     }
 
-    private void addBonusCounter(Label counter, int item){
+    private void addBonusCounter(Label counter, int item) {
         counter.setText("");
         counter.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
         counter.setTextFill(Color.SILVER);
@@ -149,7 +151,7 @@ public class BonusScene extends SceneTemplate {
         counter.setLayoutX(APP_WIDTH * (5.0 / 8.0));
         counter.setLayoutY((APP_HEIGHT * ((2.0 + item) / 6.0)) - 20.0);
     }
-    
+
     private void runBonusCounter(Label counter, int itemsLeft, int bonusPerItem) {
         try {
 
@@ -180,30 +182,13 @@ public class BonusScene extends SceneTemplate {
 
     private void addContinueButton() {
 
-        Button btnContinue;
-
-        btnContinue = new Button();
+        btnContinue = new MKButton();
         btnContinue.setText("CONTINUE");
-        btnContinue.setMinSize(100, 50);
-        btnContinue.setPrefSize(100, 50);
-        btnContinue.setMaxSize(100, 50);
         btnContinue.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 getController().chooseNextScene(SceneController.Actions.CONTINUE);
                 getController().applyNextScene();
-            }
-        });
-        btnContinue.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                setCursor(Cursor.HAND); //Change cursor to hand
-            }
-        });
-        btnContinue.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                setCursor(Cursor.CROSSHAIR); //Change cursor to crosshair
             }
         });
 

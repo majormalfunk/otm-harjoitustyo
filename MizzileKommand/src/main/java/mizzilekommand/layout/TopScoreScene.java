@@ -6,30 +6,26 @@ package mizzilekommand.layout;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import mizzilekommand.logics.SceneController;
-import mizzilekommand.dao.FileStatisticDao;
 import mizzilekommand.logics.GameStatus;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 
 /**
- * Not implemented yet but will be the scene displayed when the player reaches a
+ * This is the scene that is displayed when the player reaches a
  * top score
  *
  * @author jaakkovilenius
  */
 public class TopScoreScene extends SceneTemplate {
 
-    private Button btnSave;
+    private MKButton btnSave;
     private Label initial1;
     private Label initial2;
     private Label initial3;
@@ -134,11 +130,8 @@ public class TopScoreScene extends SceneTemplate {
 
     private void setUpButton() {
 
-        btnSave = new Button();
+        btnSave = new MKButton();
         btnSave.setText("OK");
-        btnSave.setMinSize(100, 50);
-        btnSave.setPrefSize(100, 50);
-        btnSave.setMaxSize(100, 50);
         btnSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -146,18 +139,6 @@ public class TopScoreScene extends SceneTemplate {
                 status.recordCurrentScore(initials);
                 getController().chooseNextScene(SceneController.Actions.SCORESAVED);
                 getController().applyNextScene();
-            }
-        });
-        btnSave.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                setCursor(Cursor.HAND); //Change cursor to hand
-            }
-        });
-        btnSave.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                setCursor(Cursor.CROSSHAIR); //Change cursor to crosshair
             }
         });
 
