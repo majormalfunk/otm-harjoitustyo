@@ -19,6 +19,10 @@ public class Explosion extends Circle {
     private long burnFrom;
     public long burnUntil;
     private long burnTime;
+    
+    private static final String EXPLOSION_STYLE
+            = "-fx-fill: "
+            + "radial-gradient(focus-distance 0% , center 50% 50% , radius 67% , white 33%, #ffa500 75%, transparent 95%) ";
 
     public Explosion(double centerX, double centerY, double radius, long now, long burnTime) {
 
@@ -29,7 +33,7 @@ public class Explosion extends Circle {
         this.burnFrom = now;
         this.burnUntil = now + burnTime;
         this.burnTime = burnTime;
-        this.setFill(Color.WHITE);
+        this.setStyle(EXPLOSION_STYLE);
 
     }
 
@@ -41,7 +45,7 @@ public class Explosion extends Circle {
      */
     public void fade() {
         double factor = ((double) (System.currentTimeMillis() - burnFrom) / (double) burnTime);
-        this.setFill(Color.rgb(255, 255, 255, Math.max(1.0 - factor, 0.0)));
+        this.setOpacity(Math.max(1.0 - factor, 0.0));
         double scale = 1.0 + (factor * 0.33);
         this.radius = radiusOriginal * scale;
         this.setScaleX(scale);

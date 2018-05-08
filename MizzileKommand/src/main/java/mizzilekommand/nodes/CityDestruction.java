@@ -21,6 +21,12 @@ public class CityDestruction extends Arc {
     private int g;
     private int b;
 
+    private static final String EXPLOSION_STYLE
+            = "-fx-fill: radial-gradient("
+            //+ "focus-angle 90deg , "
+            //+ "focus-distance 0% , "
+            + "center 50% 100% , radius 67% , yellow , orange) ";
+    
     public CityDestruction(double centerX, double centerY, double radius, long now, long burnTime) {
 
         this.burnFrom = now;
@@ -40,7 +46,8 @@ public class CityDestruction extends Arc {
         r = 255;
         g = 160;
         b = 0;
-        this.setFill(Color.rgb(r, g, b, 1.0));
+        this.setStyle(EXPLOSION_STYLE);
+        //this.setFill(Color.rgb(r, g, b, 1.0));
 
         this.setId("City destruction");
     }
@@ -53,7 +60,8 @@ public class CityDestruction extends Arc {
      */
     public void fade(long now) {
         double factor = ((double) (now - burnFrom) / (double) burnTime);
-        this.setFill(Color.rgb(r, g, b, Math.max(1.0 - factor, 0.0)));
+        this.setOpacity(Math.max(1.0 - factor, 0.0));
+        //this.setFill(Color.rgb(r, g, b, Math.max(1.0 - factor, 0.0)));
         double scale = 1.0 + (factor * 0.33);
         this.setScaleX(scale);
         this.setScaleY(scale);

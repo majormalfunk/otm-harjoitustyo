@@ -17,6 +17,13 @@ import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 public class Base extends Arc {
 
     public int id;
+    
+    private static final String BASE_STYLE
+            = "-fx-fill: radial-gradient("
+            + "focus-angle 270deg , "
+            + "focus-distance 0% , "
+            + "center 50% 10% , radius 67% , #7f7fff 5%, #0020c0 97%, #000000 99%) ";
+
 
     public Base() {
 
@@ -27,7 +34,8 @@ public class Base extends Arc {
 
         //Setting the type of the arc 
         this.setType(ArcType.ROUND);
-        this.setFill(Color.DARKBLUE);
+        this.setStyle(BASE_STYLE);
+        //this.setFill(Color.DARKBLUE);
 
     }
 
