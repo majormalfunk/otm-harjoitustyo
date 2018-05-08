@@ -130,4 +130,39 @@ public class GameStatusTest {
         assertTrue(gameStatus.missilesLeft[0] == 0);
     }
     
+    @Test
+    public void highScoreCountingWorks() {
+        
+        gameStatus.setStatisticDao(new FakeDao());
+        gameStatus.score = 1130;
+        gameStatus.level = 2;
+        gameStatus.missilesLeft[0] = 10;
+        gameStatus.missilesLeft[1] = 7;
+        gameStatus.missilesLeft[2] = 10;
+        gameStatus.enemyMissilesDestroyed = 3;
+        gameStatus.recordMissileBonus();
+        gameStatus.recordCityBonus();
+        assertTrue(gameStatus.isTopScore());
+        gameStatus.recordCurrentScore("1ST");
+        assertEquals(1, gameStatus.getStatistics().get(0).getRank());
+        assertEquals(2000, gameStatus.getStatistics().get(0).getScore());
+        gameStatus.score = 1995;
+        gameStatus.level = 3;
+        gameStatus.missilesLeft[0] = 10;
+        gameStatus.missilesLeft[1] = 7;
+        gameStatus.missilesLeft[2] = 10;
+        gameStatus.cityOk[0] = false;
+        gameStatus.cityOk[5] = false;
+        gameStatus.enemyMissilesDestroyed = 6;
+        gameStatus.recordMissileBonus();
+        gameStatus.recordCityBonus();
+        assertTrue(gameStatus.isTopScore());
+        gameStatus.recordCurrentScore("2ND");
+        assertEquals(1, gameStatus.getStatistics().get(0).getRank());
+        assertEquals(3000, gameStatus.getStatistics().get(0).getScore());
+        assertEquals("2ND", gameStatus.getStatistics().get(0).getInitials());
+        assertEquals("1ST", gameStatus.getStatistics().get(1).getInitials());
+        
+    }
+    
 }

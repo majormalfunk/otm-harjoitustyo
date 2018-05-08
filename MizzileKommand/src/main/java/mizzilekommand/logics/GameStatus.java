@@ -72,7 +72,11 @@ public class GameStatus {
     }
     
     public boolean isTopScore() {
-        return statDao.isTopScore(score);
+        try {
+            return statDao.isTopScore(score);
+        } catch(Exception e) {
+            return false;
+        }
     }
     
     public void recordCurrentScore(String initials) {

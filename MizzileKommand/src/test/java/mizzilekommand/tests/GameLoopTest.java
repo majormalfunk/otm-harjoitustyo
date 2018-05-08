@@ -5,10 +5,10 @@ package mizzilekommand.tests;
  * Jaakko Vilenius
  */
 import java.util.ArrayList;
-import mizzilekommand.layout.GamePlayScene;
+import javafx.scene.input.KeyCode;
 import mizzilekommand.logics.GameLoop;
-import static mizzilekommand.logics.MizzileKommand.BASE_X;
-import static mizzilekommand.logics.MizzileKommand.BASE_Y;
+import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
+import mizzilekommand.logics.SceneController;
 import mizzilekommand.nodes.Base;
 import mizzilekommand.nodes.BaseExplosion;
 import mizzilekommand.nodes.City;
@@ -63,7 +63,6 @@ public class GameLoopTest {
         assertEquals(6, gameloop.gameStatus.citiesLeft());
         assertEquals(gameloop.gameStatus.citiesLeft(), gameloop.cities.size());
     }
-    */
     @Test
     public void explosionCloseDestroysBase() {
         Explosion explosion = new Explosion(0.0, 0.0, 40.0, 1000l, 1000l);
@@ -99,6 +98,7 @@ public class GameLoopTest {
         city.setLayoutY(20.0);
         assertFalse(gameloop.didDestroyCity(explosion, city));
     }
+    */
 
     @Test
     public void statusResetWorks() {
@@ -111,6 +111,10 @@ public class GameLoopTest {
     
     @Test
     public void noMoreIncomingIfLevelIsOver() {
+        // Spoof the SceneController so that tests can be run
+        SceneController controller = new SceneController(null);
+        controller.setGameLoop(gameloop);
+        gameloop.setSceneController(controller);
         // Check that no more missiles if all cities are destroyed
         gameloop.resetGameStatus();
         gameloop.cities.clear();
@@ -119,14 +123,10 @@ public class GameLoopTest {
         // Check that no more missiles if 3 cities are destroyed in level
         gameloop.resetGameStatus();
         testAddCities();
-//        ArrayList<City> cities = new ArrayList<>();
-//        cities.add(new City(0));
-//        cities.add(new City(1));
-//        cities.add(new City(2));
-//        gameloop.cities = cities;
         gameloop.destructCity(gameloop.cities.get(0));
         gameloop.destructCity(gameloop.cities.get(1));
         gameloop.destructCity(gameloop.cities.get(2));
+        gameloop.cityDestructions.clear();
         gameloop.checkLevelStatus();
         assertFalse(gameloop.allowIncoming);
         // Check that no more missiles if all incoming for the level have been deployed
@@ -142,10 +142,12 @@ public class GameLoopTest {
 
     @Test
     public void playerMissileLifeCycleWorks() {
-        gameloop.launchNewPlayerMissile(0, 300.0, 300.0);
+        // Spoof the SceneController so that tests can be run
+        SceneController controller = new SceneController(null);
+        controller.setGameLoop(gameloop);
+        gameloop.setSceneController(controller);
+        controller.keyDown(KeyCode.DIGIT1, 300.0, 300.0);
         assertEquals(1, gameloop.playerMissiles.size());
-        assertEquals(1, gameloop.addToScene.size());
-        gameloop.addToScene.clear();
         PlayerMissile missile = (PlayerMissile) gameloop.playerMissiles.get(0);
         missile.setLayoutX(400.0);
         missile.setLayoutY(400.0);
@@ -160,8 +162,6 @@ public class GameLoopTest {
         gameloop.handlePlayerMissiles();
         assertEquals(1, gameloop.playerMissilesToRemove.size());
         assertEquals(0, gameloop.playerMissiles.size());
-        assertEquals(1, gameloop.addToScene.size());
-        gameloop.addToScene.clear();
         assertEquals(1, gameloop.playerExplosions.size());
         gameloop.handlePlayerMissiles();
         assertEquals(0, gameloop.playerMissilesToRemove.size());
@@ -170,7 +170,6 @@ public class GameLoopTest {
         explosion.burnUntil = System.currentTimeMillis();
         gameloop.playerExplosions.set(0, explosion);
         gameloop.handlePlayerMissileExplosions();
-        assertEquals(1, gameloop.removeFromScene.size());
         assertEquals(1, gameloop.playerExplosionsToRemove.size());
         assertEquals(0, gameloop.playerExplosions.size());
         gameloop.handlePlayerMissileExplosions();
@@ -181,7 +180,11 @@ public class GameLoopTest {
     
     @Test
     public void playerMissileExplosionDestroysEnemyMissile() {
-        gameloop.launchNewPlayerMissile(0, 300.0, 300.0);
+        // Spoof the SceneController so that tests can be run
+        SceneController controller = new SceneController(null);
+        controller.setGameLoop(gameloop);
+        gameloop.setSceneController(controller);
+        controller.keyDown(KeyCode.DIGIT2, 300.0, 300.0);
         PlayerMissile playerMissile = (PlayerMissile) gameloop.playerMissiles.get(0);
         playerMissile.setLayoutX(300.0);
         playerMissile.setLayoutY(300.0);
@@ -190,24 +193,46 @@ public class GameLoopTest {
         gameloop.handlePlayerMissiles();
         gameloop.allowIncoming = true;
         gameloop.gameStatus.incomingPace = 1.0;
-        gameloop.handleNewEnemyMissiles();
+        gameloop.enemyMissiles.add(
+                new EnemyMissile(System.currentTimeMillis(), 1.0, 0.0, 620.0, APP_HEIGHT * 0.8));
         EnemyMissile enemyMissile = (EnemyMissile) gameloop.enemyMissiles.get(0);
         enemyMissile.setLayoutX(310.0);
         enemyMissile.setLayoutY(310.0);
         gameloop.enemyMissiles.set(0, enemyMissile);
         gameloop.handleEnemyMissiles();
-        gameloop.handlePlayerMissileExplosions();
+        gameloop.detonateMissile(enemyMissile);
+        gameloop.gameStatus.enemyMissileDestroyed();
         assertEquals(5, gameloop.gameStatus.score);
+    }
+    
+    @Test
+    public void incoming4MissilesWorks() {
+        // Spoof the SceneController so that tests can be run
+        SceneController controller = new SceneController(null);
+        controller.setGameLoop(gameloop);
+        gameloop.setSceneController(controller);
+        gameloop.allowIncoming = true;
+        gameloop.gameStatus.incomingPace = 1.0;
+        gameloop.gameStatus.incomingLeft = 5;
+        gameloop.handleNewEnemyMissiles();
+        gameloop.handleNewEnemyMissiles();
+        gameloop.handleNewEnemyMissiles();
+        gameloop.handleNewEnemyMissiles();
+        assertEquals(4, gameloop.enemyMissiles.size());
+        
     }
 
     @Test
     public void enemyMissileLifeCycleWorks() {
+        // Spoof the SceneController so that tests can be run
+        SceneController controller = new SceneController(null);
+        controller.setGameLoop(gameloop);
+        gameloop.setSceneController(controller);
         gameloop.allowIncoming = true;
         gameloop.gameStatus.incomingPace = 1.0;
-        gameloop.handleNewEnemyMissiles();
+        gameloop.enemyMissiles.add(
+                new EnemyMissile(System.currentTimeMillis(), 1.0, 0.0, 620.0, APP_HEIGHT * 0.8));
         assertEquals(1, gameloop.enemyMissiles.size());
-        assertEquals(1, gameloop.addToScene.size());
-        gameloop.addToScene.clear();
         EnemyMissile missile = (EnemyMissile) gameloop.enemyMissiles.get(0);
         missile.setLayoutX(300.0);
         missile.setLayoutY(200.0);
@@ -222,8 +247,6 @@ public class GameLoopTest {
         gameloop.handleEnemyMissiles();
         assertEquals(1, gameloop.enemyMissilesToRemove.size());
         assertEquals(0, gameloop.enemyMissiles.size());
-        assertEquals(1, gameloop.addToScene.size());
-        gameloop.addToScene.clear();
         assertEquals(1, gameloop.enemyExplosions.size());
         gameloop.handleEnemyMissiles();
         assertEquals(0, gameloop.enemyMissilesToRemove.size());
@@ -349,4 +372,6 @@ public class GameLoopTest {
         assertTrue(gameloop.baseExplosions.isEmpty());
         assertTrue(gameloop.cityDestructions.isEmpty());
     }
+    
+    
 }

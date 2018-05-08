@@ -4,11 +4,6 @@
  */
 package mizzilekommand.layout;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import mizzilekommand.logics.GameStatus;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;

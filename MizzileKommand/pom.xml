@@ -54,9 +54,8 @@
                 <version>0.8.0</version>
                 <configuration>
                     <excludes>
+                        <exclude>mizzilekommand/dao/*</exclude>
                         <exclude>mizzilekommand/layout/*</exclude>
-                        <exclude>mizzilekommand/logics/MizzileKommand.java</exclude>
-                        <exclude>mizzilekommand/logics/SceneController.java</exclude>
                     </excludes>
                 </configuration>
                 <executions>

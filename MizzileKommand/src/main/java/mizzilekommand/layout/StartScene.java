@@ -51,7 +51,7 @@ public class StartScene extends SceneTemplate {
             + "-fx-pref-width: 80; "
             + "-fx-min-width: 80";
 
-    private final static String[] highScoreHeaders = {"RANK", "PLAYER", "SCORE", "LEVEL", "HITS"};
+    private final static String[] highScoreHeaders = {"RANK", "PLAYER", "SCORE", "LEVEL", "BLOCKED"};
     private final static Pos[] highScoreAlignment
             = {Pos.CENTER_LEFT, Pos.CENTER, Pos.CENTER_RIGHT, Pos.CENTER_RIGHT, Pos.CENTER_RIGHT};
     

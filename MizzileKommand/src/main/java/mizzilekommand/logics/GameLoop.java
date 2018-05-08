@@ -10,17 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
-import javafx.scene.shape.Shape;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import mizzilekommand.dao.StatisticDao;
-import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
-import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
-import static mizzilekommand.logics.MizzileKommand.BASE_X;
-import static mizzilekommand.logics.MizzileKommand.BASE_Y;
 import mizzilekommand.nodes.Base;
 import mizzilekommand.nodes.City;
 import mizzilekommand.nodes.CityDestruction;
@@ -269,24 +263,28 @@ public class GameLoop {
      */
     public void checkLevelStatus() {
         // If no cities are left, it's game over -> The End Scene
-        if (cities.isEmpty()) {
-            allowIncoming = false;
-            if (actionsDone() && controller != null) {
-                controller.noCitiesLeft(gameStatus.isTopScore());
-                stopLoop();
-            }
-        } else if (gameStatus.citiesForLevelDestructed()) {
-            // Otherwise if already enough cities were destroyed -> Bonus Scene
-            allowIncoming = false;
-            if (actionsDone() && controller != null) {
-                controller.enoughCitiesDestroyed();
-                stopLoop();
-            }
-        } else if (!gameStatus.incomingMissilesLeft()) {
-            allowIncoming = false;
-            if (actionsDone() && controller != null) {
-                controller.noIncomingLeft();
-                stopLoop();
+        if (controller == null) {
+            stopLoop();
+        } else {
+            if (cities.isEmpty()) {
+                allowIncoming = false;
+                if (actionsDone()) {
+                    controller.noCitiesLeft(gameStatus.isTopScore());
+                    stopLoop();
+                }
+            } else if (gameStatus.citiesForLevelDestructed()) {
+                // Otherwise if already enough cities were destroyed -> Bonus Scene
+                allowIncoming = false;
+                if (actionsDone()) {
+                    controller.enoughCitiesDestroyed();
+                    stopLoop();
+                }
+            } else if (!gameStatus.incomingMissilesLeft()) {
+                allowIncoming = false;
+                if (actionsDone()) {
+                    controller.noIncomingLeft();
+                    stopLoop();
+                }
             }
         }
     }
@@ -312,24 +310,15 @@ public class GameLoop {
      * method constructs a missile and adds it to the list for the game loop to
      * handle and asks the controller to add it to the scene
      *
-     * @param base The id of the base from which it should be launched
-     * @param targetX The x coordinate of the missile's target
-     * @param targetY The y coordinate of the missile's target
+     * @param missile The new missile to be handled
+     * @param fromBase The id of the base from which it should be launched
      *
      * @see mizzilekommand.logics.GameStatus#baseMissilesLeft(int)
      * @see mizzilekommand.logics.GameStatus#substractMissileFromBase(int)
      */
-    public void launchNewPlayerMissile(int base, double targetX, double targetY) {
-        if (gameStatus.baseMissilesLeft(base)) {
-            PlayerMissile missile = new PlayerMissile(System.currentTimeMillis(),
-                    (base == 1 ? 3.0 : 2.0), targetX, targetY);
-            playerMissiles.add(missile);
-            missile.setLayoutX(BASE_X[base] - (missile.width / 2.0));
-            missile.setLayoutY(BASE_Y - BASE_RADIUS - missile.height);
-            missile.setDirection();
-            addToScene.add(missile);
-            gameStatus.substractMissileFromBase(base);
-        }
+    public void handleNewPlayerMissile(PlayerMissile missile, int fromBase) {
+        playerMissiles.add(missile);
+        gameStatus.substractMissileFromBase(fromBase);
     }
 
     /**
@@ -400,7 +389,7 @@ public class GameLoop {
      *
      * @param missile The missile to be detonated
      */
-    private void detonateMissile(EnemyMissile missile) {
+    public void detonateMissile(EnemyMissile missile) {
         Explosion destruction = missile.detonate();
         addToScene.add(destruction);
         enemyExplosions.add(destruction);
@@ -428,15 +417,7 @@ public class GameLoop {
      * This method adds a new enemy missile to the scene.
      */
     public void incoming() {
-        double sourceX = 0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90);
-        double targetX = 0.05 * APP_WIDTH + Math.random() * (APP_WIDTH * 0.90);
-        EnemyMissile missile = new EnemyMissile(System.currentTimeMillis(),
-                gameStatus.getIncomingSpeedFactor(), sourceX, targetX, APP_HEIGHT * 0.8);
-        enemyMissiles.add(missile);
-        missile.setLayoutX(sourceX);
-        missile.setLayoutY(0);
-        missile.setDirection();
-        addToScene.add(missile);
+        enemyMissiles.add(controller.addIncoming(gameStatus.getIncomingSpeedFactor()));
     }
 
     /**
@@ -617,8 +598,7 @@ public class GameLoop {
      * otherwise
      */
     public boolean didDestroyEnemyMissile(Explosion explosion, EnemyMissile missile) {
-        Shape impactZone = Shape.intersect(explosion, missile);
-        return impactZone.getBoundsInLocal().getWidth() != -1;
+        return controller.didDestroyEnemyMissile(explosion, missile);
     }
 
     /**
@@ -629,8 +609,7 @@ public class GameLoop {
      * @return true if the base was destroyed by the explosion false otherwise.
      */
     public boolean didDestroyBase(Explosion explosion, Base base) {
-        Shape impactZone = Shape.intersect(explosion, base);
-        return impactZone.getBoundsInLocal().getWidth() != -1;
+        return controller.didDestroyBase(explosion, base);
     }
 
     /**
@@ -641,8 +620,7 @@ public class GameLoop {
      * @return true if the city was destroyed by the explosion false otherwise.
      */
     public boolean didDestroyCity(Explosion explosion, City city) {
-        Shape impactZone = Shape.intersect(explosion, city);
-        return impactZone.getBoundsInLocal().getWidth() != -1;
+        return controller.didDestroyCity(explosion, city);
     }
 
     /**
@@ -669,6 +647,9 @@ public class GameLoop {
         }
     }
 
+    /**
+     * Loads an explosion sound from resources.
+     */
     private void loadExplosionSound() {
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -683,6 +664,9 @@ public class GameLoop {
         }
     }
 
+    /**
+     * Plays the loaded explosion sound.
+     */
     public void playExplosionSound() {
         try {
             explosionSound.stop();
