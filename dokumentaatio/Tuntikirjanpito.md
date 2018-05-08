@@ -32,5 +32,6 @@
 |4.5.     |5,00      |Bonus-laskenta                                              |
 |5.5.     |8,00      |Bonus-laskenta, ulkoasu, testaus                            |
 |6.5.     |6,00      |High scorejen näyttäminen aloitusnäkymässä                  |
-|**Vko 7**|**30,00** |*Kumul 128,50*                                              |
-|**YHT**  |**128,50**|                                                            |
+|8.5.     |6,00      |Ulkoasu, testit                                             |
+|**Vko 7**|**36,00** |*Kumul 134,50*                                              |
+|**YHT**  |**134,50**|                                                            |
