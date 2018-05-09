@@ -1,17 +1,14 @@
 ## Käyttöohje
 
-Lataa tiedosto MizzileKommand.jar (julkaisuversio, kun se valmistuu)
+Lataa tiedosto [MizzileKommand-1.0.jar](https://github.com/majormalfunk/otm-harjoitustyo/releases)
 
-Siihen asti ladattavissa oleva uusin pre-release versio:
-
-* [MizzileKommand-0.6.jar](https://github.com/majormalfunk/otm-harjoitustyo/releases)
 
 ### Ohjelman käynnistäminen
 
 Ohjelma käynnistetään komennolla
 
 ```
-java -jar MizzileKommand-0.6.jar
+java -jar MizzileKommand-1.0.jar
 ```
 
 ### Kirjautuminen
@@ -23,7 +20,7 @@ Ohjelma ei edellytä kirjautumista eikä siinä luoda käyttäjiä
 Pelissä on tarkoitus puolustaa kaupunkeja lähestyviltä vihollisohjuksilta. Puolustaminen tapahtuu ampumalla vihollisen ohjusten kulkureitille ohjuksia, jotka räjähtäessään tuhoavat vihollisohjukset. Peliä pelataan taso kerrallaan. Jokaisen tason jälkeen peli vaikeutuu: vihollisohjuksia tulee enemmän, useammin ja ne lentävät nopeammin.
 
 #### Aloitusnäkymä
-Peli alkaa aloitusnäkymästä. Aloitusnäkymässä on nappi (PLAY), jota klikkaamalla pääsee aloittamaan pelin, sekä ohjeet tähtäämiseen ja ampumiseen. Lisäksi aloitusnäkymässä näytetään siihen asti saavutetut huipputulokset (*Tätä ei ole vielä toteutettu*)
+Peli alkaa aloitusnäkymästä. Aloitusnäkymässä on nappi (PLAY), jota klikkaamalla pääsee aloittamaan pelin, sekä ohjeet tähtäämiseen ja ampumiseen. Lisäksi aloitusnäkymässä näytetään vuorotellen otsikon kanssa siihen asti saavutetut huipputulokset.
 
 #### Pelinäkymä
 Aloitusnäkymästä siirrytään pelinäkymään, kun PLAY-nappia on painettu. Pelinäkymässä on alalaidassa kuusi kaupunkia, joita pelaajan on tarkoitus puolustaa sekä kolme ohjustukikohtaa, joista voi ampua ohjuksia torjumaan näytön ylälaidasta lähestyviä vihollisen ohjuksia.  
@@ -39,11 +36,11 @@ Taso päättyy, kun jäljellä ei ole enää vihollisohjuksia tai kun tasossa on
 
 #### Bonusnäkymä
 Mikäli pelaaja läpäisee pelatessaan kulloisenkin pelitason ilman, että kaikki kaupungit ovat tuhoutuneet, näytetään bonusnäkymä. Bonusnäkymässä pelaajalle lasketaan bonuspisteitä jäljellä olevien kaupunkien ja käyttämättömien ohjusten perusteella. Jäljellä olevista kaupungeista saa 50 * LEVEL pistettä per kaupunki ja käyttämättömistä ohjuksista 5 * LEVEL pistettä (maksimissaan kuitenkin 30 pistettä) per ohjus. (*Bonuspisteiden laskua ei ole vielä toteutettu*)  
-Bonusnäkymästä siirrytään takaisin pelinäkymään aikaviiveen tai CONTINUE-napin painalluksen jälkeen (*TBD*). Pelin jatkuessa kaikki tukikohdat ovat taas käytössä ja niissä on kaikissa täydet 10 ohjusta.
+Bonusnäkymästä siirrytään takaisin pelinäkymään CONTINUE-napin painalluksen jälkeen (*TBD*). Pelin jatkuessa kaikki tukikohdat ovat taas käytössä ja niissä on kaikissa täydet 10 ohjusta.
 
 #### Loppunäkymä
 Peli päättyy, kun kaikki kaupungit ovat tuhoutuneet. Pelin päättyessä näytetään teksti THE END, jos pelaaja ei saavuttanut pistetulosta, joka oikeuttaa pääsyyn huipputuloslistalle.  
-Loppunäkymästä siirrytään takaisin aloitusnäkymään aikaviiveen tai THE END-napin painalluksen jälkeen (*TBD*).
+Loppunäkymästä siirrytään takaisin aloitusnäkymään aikaviiveen jälkeen.
 
 #### Huipputulosnäkymä
 Mikäli pelaaja saavuttaa pistetuloksen, joka oikeuttaa pääsyyn huipputuloslistalle, näytetään huipputulosnäkymä, jossa pelaaja pääsee tallentamaan nimimerkkinsä tuloksen yhteydessä tallennettavaksi huipputuloslistalle. Tallennuksen jälkeen peli palaa aloitusnäkymään.
