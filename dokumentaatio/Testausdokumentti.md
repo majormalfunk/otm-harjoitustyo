@@ -12,7 +12,24 @@ Testeissä on käytetty pysyväistallennuksen DAO-rajapinnan testaamiseen [FakeD
 
 #### Testauskattavuus
 
-Käyttöliittymätestausta lukuunottamatta sovelluksen testauksen rivikattavuus on  % ja haaraumakattavuus  %. Testauskattavuutta rajoittaa graafisen käyttöliittymän käyttö.
+Käyttöliittymätestausta lukuunottamatta sovelluksen testauksen rivikattavuus on 86 % ja haaraumakattavuus 75%. Testauskattavuutta rajoittaa graafisen käyttöliittymän käyttö.
 
 ![Testauskattavuus](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Testauskattavuus.png)
+
+### Järjestelmätestaus
+
+Sovelluksen järjestelmätestaus on suoritettu manuaalisesti.
+
+#### Asennus ja konfigurointi
+
+Sovellus on haettu ja sitä on testattu [käyttöohjeen]() kuvaamalla tavalla sekä macOS että Windows 10 -ympäristössä.
+
+#### Toiminnallisuudet
+
+Kaikki [vaatimusmäärittelyn]() ja käyttöohjeen listaamat toiminnallisuudet on käyty läpi. Kaikkien toiminnallisuuksien kohdalla on yritetty käyttää sovellusta myös käyttöohjeen vastaisesti.
+
+### Sovellukseen jääneet laatuongelmat
+
+Sovellus ei pysty toistamaan laadukkaasti useampaa räjähdysääntä samaan aikaan vaan edellinen katkeaa seuraavan alkaessa tai myöhemmin alkanut ei kuulu ollenkaan.
+
 
