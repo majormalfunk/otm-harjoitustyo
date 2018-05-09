@@ -26,7 +26,7 @@ Sovellus on haettu ja sitä on testattu [käyttöohjeen](https://github.com/majo
 
 #### Toiminnallisuudet
 
-Kaikki [vaatimusmäärittelyn]() ja käyttöohjeen listaamat toiminnallisuudet on käyty läpi. Kaikkien toiminnallisuuksien kohdalla on yritetty käyttää sovellusta myös käyttöohjeen vastaisesti.
+Kaikki [vaatimusmäärittelyn](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Vaatimusmaarittely.md) ja käyttöohjeen listaamat toiminnallisuudet on käyty läpi. Kaikkien toiminnallisuuksien kohdalla on yritetty käyttää sovellusta myös käyttöohjeen vastaisesti.
 
 ### Sovellukseen jääneet laatuongelmat
 
