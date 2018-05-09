@@ -4,21 +4,16 @@
  */
 package mizzilekommand.logics;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.util.Properties;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import mizzilekommand.dao.FilePropertiesHandler;
+import mizzilekommand.dao.FileHandler;
 import mizzilekommand.dao.FileStatisticDao;
 
 /**
- * MIZZILE KÖMMÄND Application
- * The Main class of the game.
+ * MIZZILE KÖMMÄND Application The Main class of the game.
  *
  * @author jaakkovilenius
  */
@@ -37,11 +32,11 @@ public class MizzileKommand extends Application {
     public static final double[] BASE_X = {
         (BASE_RADIUS * 3.0), (APP_WIDTH / 2.0), APP_WIDTH - (BASE_RADIUS * 3.0)};
     public static final double[] CITY_X = {
-        (BASE_X[0] + ((BASE_X[1] - BASE_X[0]) / 4.0)), 
-        (BASE_X[0] + ((BASE_X[1] - BASE_X[0]) / 2.0)), 
-        (BASE_X[1] - ((BASE_X[1] - BASE_X[0]) / 4.0)), 
-        (BASE_X[1] + ((BASE_X[1] - BASE_X[0]) / 4.0)), 
-        (BASE_X[1] + ((BASE_X[2] - BASE_X[1]) / 2.0)), 
+        (BASE_X[0] + ((BASE_X[1] - BASE_X[0]) / 4.0)),
+        (BASE_X[0] + ((BASE_X[1] - BASE_X[0]) / 2.0)),
+        (BASE_X[1] - ((BASE_X[1] - BASE_X[0]) / 4.0)),
+        (BASE_X[1] + ((BASE_X[1] - BASE_X[0]) / 4.0)),
+        (BASE_X[1] + ((BASE_X[2] - BASE_X[1]) / 2.0)),
         (BASE_X[2] - ((BASE_X[1] - BASE_X[0]) / 4.0))
     };
     public static final double BASE_Y = APP_HEIGHT - (SMALL_LENGTH * 4.0);
@@ -49,15 +44,15 @@ public class MizzileKommand extends Application {
     public static final String SCORE = "SCORE";
     public static final String LEVEL = "LEVEL";
     public static final String INCOMING = "INCOMING";
-    
+
     public static final int MISSILE_BONUS = 5;
     public static final int CITY_BONUS = 50;
     public static final int MAX_BONUS_LEVEL_FACTOR = 6;
-    
+
     private SceneController scnController;
-    
+
     private Properties config;
-    
+
     private Clip ominousBackgroundSound;
 
     @Override
@@ -83,14 +78,23 @@ public class MizzileKommand extends Application {
         playOminousBackgroundSound();
 
     }
-    
+
+    /**
+     * This loads the configuration properties. It calls the static file handler classa
+     * @return The propeties
+     */
     private Properties loadConfigProperties() {
-        FilePropertiesHandler fpLoader = new FilePropertiesHandler();
+
         Properties defaultProperties = new Properties();
         defaultProperties.setProperty("HighScoreFile", "highscores.txt");
-        return fpLoader.loadOrCreateProperties("config.properties", defaultProperties);
+        return FileHandler.loadOrCreateProperties("config.properties", defaultProperties);
+
     }
-    
+
+    /**
+     * This loads the data access object to be used to handle the stored high scores.
+     * @return 
+     */
     private FileStatisticDao loadFileStatisticDao() {
         try {
             return new FileStatisticDao(config.getProperty("HighScoreFile"));
@@ -98,24 +102,20 @@ public class MizzileKommand extends Application {
             return null;
         }
     }
-    
+
     /**
      * This loads the ominous backgroundsounds
      */
     private void loadOminousBackgroundSound() {
         try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("MizzileKommand.wav");
-            AudioInputStream sound = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
-            ominousBackgroundSound = AudioSystem.getClip();
-            ominousBackgroundSound.open(sound);
+            ominousBackgroundSound = FileHandler.loadSoundFromResourceFile("MizzileKommand.wav");
             FloatControl control = (FloatControl) ominousBackgroundSound.getControl(FloatControl.Type.MASTER_GAIN);
             control.setValue(control.getMinimum() * (15.0f / 100.0f));
         } catch (Exception e) {
             // Do nothing
         }
     }
-    
+
     /**
      * This starts the playback of the ominous background sounds
      */
@@ -130,7 +130,7 @@ public class MizzileKommand extends Application {
 
     /**
      * This is the main method that starts the game
-     * 
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {

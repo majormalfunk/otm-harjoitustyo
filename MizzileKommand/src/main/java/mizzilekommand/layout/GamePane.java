@@ -5,14 +5,7 @@
 package mizzilekommand.layout;
 
 import mizzilekommand.nodes.Ground;
-import javafx.geometry.Insets;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
@@ -43,7 +36,6 @@ public class GamePane extends Pane {
         
         this.setStyle(BACKGROUND_STYLE);
         
-        //this.setBackground(new Background(new BackgroundFill(Color.rgb(0,0,50), CornerRadii.EMPTY, Insets.EMPTY)));
         this.setPrefSize(APP_WIDTH, APP_HEIGHT);
 
         // Ground

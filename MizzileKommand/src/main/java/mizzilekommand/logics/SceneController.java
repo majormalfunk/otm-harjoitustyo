@@ -4,7 +4,6 @@
  */
 package mizzilekommand.logics;
 
-import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -30,7 +29,7 @@ import mizzilekommand.nodes.PlayerMissile;
 /**
  * This class handles changing the correct view. It is sort of a middle man
  * between the UI classes and the application logic.
- * 
+ *
  * @author jaakkovilenius
  */
 public class SceneController {
@@ -51,20 +50,22 @@ public class SceneController {
 
     /**
      * Constructs a new SceneController.
-     * 
-     * It also creates an instance of the GameLoop and the ActionSelector
+     *
+     * It also creates an instance of the ActionSelector
      *
      * @param stage
      */
     public SceneController(Stage stage) {
 
         this.stage = stage;
-        //this.gameloop = new GameLoop();
-        //this.gameloop.setSceneController(this);
         this.actionSelector = new ActionSelector();
 
     }
-    
+
+    /**
+     * Sets a reference to the game loop.
+     * @param gameloop The game loop
+     */
     public void setGameLoop(GameLoop gameloop) {
         this.gameloop = gameloop;
     }
@@ -82,27 +83,16 @@ public class SceneController {
         switch (key) {
             case LEFT:
             case DIGIT1:
-                if (gameloop.gameStatus.baseMissilesLeft(0)) {
-                    PlayerMissile missile = launchNewPlayerMissile(0, targetX, targetY);
-                    gameloop.handleNewPlayerMissile(missile, 0);
-                }
+                launchNewPlayerMissile(0, targetX, targetY);
                 break;
             case DOWN:
             case UP:
             case DIGIT2:
-                if (gameloop.gameStatus.baseMissilesLeft(1)) {
-                    PlayerMissile missile = launchNewPlayerMissile(0, targetX, targetY);
-                    gameloop.handleNewPlayerMissile(missile, 1);
-                }
+                launchNewPlayerMissile(1, targetX, targetY);
                 break;
             case RIGHT:
             case DIGIT3:
-                if (gameloop.gameStatus.baseMissilesLeft(2)) {
-                    PlayerMissile missile = launchNewPlayerMissile(0, targetX, targetY);
-                    gameloop.handleNewPlayerMissile(missile, 2);
-                }
-                break;
-            default:
+                launchNewPlayerMissile(2, targetX, targetY);
                 break;
         }
     }
@@ -118,9 +108,10 @@ public class SceneController {
     /**
      * This method chooses the next scene using the ActionSelector. Before that
      * it calls the levelUp method of the GameLoop
-     * @param action 
-     * 
-     * @see mizzilekommand.logics.GameLoop#levelUp() 
+     *
+     * @param action
+     *
+     * @see mizzilekommand.logics.GameLoop#levelUp()
      */
     public void chooseNextScene(Actions action) {
         if (action == Actions.CONTINUE) {
@@ -131,38 +122,41 @@ public class SceneController {
 
     /**
      * This calls the method that applies the next scene set in chooseNextScene
-     * 
-     * @see mizzilekommand.logics.SceneController#chooseNextScene(mizzilekommand.logics.SceneController.Actions) 
-     * 
+     *
+     * @see
+     * mizzilekommand.logics.SceneController#chooseNextScene(mizzilekommand.logics.SceneController.Actions)
+     *
      */
     public void applyNextScene() {
-        if (stage != null) {
-            switch (nextScene) {
-                case START:
-                    applyStartScene();
-                    break;
-                case PLAY:
-                    applyGamePlayScene();
-                    break;
-                case BONUS:
-                    applyBonusScene();
-                    break;
-                case TOP:
-                    applyTopScoreScene();
-                    break;
-                case END:
-                    applyEndScene();
-                    break;
-            }
+        //if (stage != null) {
+        switch (nextScene) {
+            case START:
+                applyStartScene();
+                break;
+            case PLAY:
+                applyGamePlayScene();
+                break;
+            case BONUS:
+                applyBonusScene();
+                break;
+            case TOP:
+                applyTopScoreScene();
+                break;
+            case END:
+                applyEndScene();
+                break;
         }
+        //}
     }
 
     /**
      * This applies the next scene
      */
     public void applyScene() {
-        stage.setScene(currentScene);
-        stage.show();
+        if (stage != null) {
+            stage.setScene(currentScene);
+            stage.show();
+        }
     }
 
     /**
@@ -172,8 +166,10 @@ public class SceneController {
     private void applyStartScene() {
         gameloop.stopLoop();
         gameloop.resetGameStatus();
-        currentScene = new StartScene(this, gameloop.gameStatus);
-        applyScene();
+        if (stage != null) {
+            currentScene = new StartScene(this, gameloop.gameStatus);
+            applyScene();
+        }
     }
 
     /**
@@ -181,9 +177,11 @@ public class SceneController {
      * operations to be run in order for the scene to function properly.
      */
     public void applyGamePlayScene() {
-        currentScene = new GamePlayScene(this, gameloop.gameStatus);
-        if (gameloop.startLoop()) {
-            applyScene();
+        if (stage != null) {
+            currentScene = new GamePlayScene(this, gameloop.gameStatus);
+            if (gameloop.startLoop()) {
+                applyScene();
+            }
         }
     }
 
@@ -193,19 +191,23 @@ public class SceneController {
      */
     public void applyBonusScene() {
         gameloop.stopLoop();
-        currentScene = new BonusScene(this, gameloop.gameStatus);
-        currentScene.runActions();
-        applyScene();
+        if (stage != null) {
+            currentScene = new BonusScene(this, gameloop.gameStatus);
+            currentScene.runActions();
+            applyScene();
+        }
     }
 
     /**
-     * This method applies the TopScoreScene. The method is a collection operations
-     * to be run in order for the scene to function properly.
+     * This method applies the TopScoreScene. The method is a collection
+     * operations to be run in order for the scene to function properly.
      */
     public void applyTopScoreScene() {
         gameloop.stopLoop();
-        currentScene = new TopScoreScene(this, gameloop.gameStatus);
-        applyScene();
+        if (stage != null) {
+            currentScene = new TopScoreScene(this, gameloop.gameStatus);
+            applyScene();
+        }
     }
 
     /**
@@ -214,30 +216,42 @@ public class SceneController {
      */
     public void applyEndScene() {
         gameloop.stopLoop();
-        currentScene = new EndScene(this, gameloop.gameStatus);
-        applyScene();
+        if (stage != null) {
+            currentScene = new EndScene(this, gameloop.gameStatus);
+            applyScene();
+        }
     }
 
     /**
-     * This method asks the currentScene to add the bases with ok status to
-     * the current scene
+     * This method asks the currentScene to add the bases with ok status to the
+     * current scene
+     *
      * @param baseOk a boolean array indicating by the index which base is ok
      * @return the base nodes with ok status as a list
      */
     public List<Base> addBases(boolean[] baseOk) {
-        return currentScene.addBases(baseOk);
+        try {
+            return currentScene.addBases(baseOk);
+        } catch (Exception e) {
+            return null;
+        }
     }
-    
+
     /**
-     * This method asks the currentScene to add the cities with ok status to
-     * the current scene
+     * This method asks the currentScene to add the cities with ok status to the
+     * current scene
+     *
      * @param cityOk a boolean array indicating by the index which city is ok
      * @return the city nodes with ok status as a list
      */
     public List<City> addCities(boolean[] cityOk) {
-        return currentScene.addCities(cityOk);
+        try {
+            return currentScene.addCities(cityOk);
+        } catch (Exception e) {
+            return null;
+        }
     }
-    
+
     /**
      * This method adds to the current scene the node given as parameter. This
      * is because we want to isolate access to the scene from the game logic
@@ -275,7 +289,11 @@ public class SceneController {
      * @param node The node to be removed
      */
     public void removeFromCurrentScene(Node node) {
-        currentScene.getSceneRoot().getChildren().remove(node);
+        try {
+            currentScene.getSceneRoot().getChildren().remove(node);
+        } catch (Exception e) {
+            // Do nothing
+        }
     }
 
     /**
@@ -286,13 +304,22 @@ public class SceneController {
      * @param nodes to be removed
      */
     public void removeAllFromCurrentScene(List nodes) {
-        currentScene.getSceneRoot().getChildren().removeAll(nodes);
+        try {
+            currentScene.getSceneRoot().getChildren().removeAll(nodes);
+        } catch (Exception e) {
+            // Do nothing
+        }
     }
 
     /**
      * Convenience method that calls applyNextScene(String) with parameter
      * NOCITIES. Used to transition from GamePlayScene to next scene in the
-     * event of all player cities been destroyed
+     * event of all player cities been destroyed. If a top score was reached
+     * then next scene is Top Score scene. Otherwise it ends up showing
+     * The End scene.
+     * 
+     * @param topScore boolean indicating if a top score was reached
+     *
      */
     public void noCitiesLeft(boolean topScore) {
         if (topScore) {
@@ -315,10 +342,10 @@ public class SceneController {
 
     /**
      * This method adds a new enemy missile to the scene.
-     * 
+     *
      * @param speedFactor
      * @return a reference to the new missile
-     * 
+     *
      * @see missilekommand.nodes.EnemyMissile
      */
     public EnemyMissile addIncoming(double speedFactor) {
@@ -333,7 +360,6 @@ public class SceneController {
         return missile;
     }
 
-    
     /**
      * Convenience method that calls applysNextScene(String) with parameter
      * NOINCOMING. Used to transition from GamePlayScene to next scene in the
@@ -343,26 +369,27 @@ public class SceneController {
         this.chooseNextScene(Actions.NOINCOMING);
         this.applyNextScene();
     }
-    
+
     /**
      * This method adds a new player missile to the scene.
-     * 
+     *
      * @param base id of base from which the missile is launched
      * @param targetX x-coordinate of missile target
      * @param targetY y-coordinate if missile target
-     * @return a reference to the new missile
      */
-    public PlayerMissile launchNewPlayerMissile(int base, double targetX, double targetY) {
-        PlayerMissile missile = new PlayerMissile(System.currentTimeMillis(),
-                (base == 1 ? 3.0 : 2.0), targetX, targetY);
-        missile.setLayoutX(BASE_X[base] - (missile.width / 2.0));
-        missile.setLayoutY(BASE_Y - BASE_RADIUS - missile.height);
-        missile.setDirection();
-        addToCurrentScene(missile);
-        return missile;
+    public void launchNewPlayerMissile(int base, double targetX, double targetY) {
+        if (gameloop.gameStatus.baseMissilesLeft(base)) {
+            PlayerMissile missile = new PlayerMissile(System.currentTimeMillis(),
+                    (base == 1 ? 3.0 : 2.0), targetX, targetY);
+            missile.setLayoutX(BASE_X[base] - (missile.width / 2.0));
+            missile.setLayoutY(BASE_Y - BASE_RADIUS - missile.height);
+            missile.setDirection();
+            addToCurrentScene(missile);
+            gameloop.handleNewPlayerMissile(missile, base);
+        }
     }
 
-        /**
+    /**
      * This method checks to see if an enemy missile was destroyed by an
      * explosion
      *
@@ -399,6 +426,5 @@ public class SceneController {
         Shape impactZone = Shape.intersect(explosion, city);
         return impactZone.getBoundsInLocal().getWidth() != -1;
     }
-
 
 }

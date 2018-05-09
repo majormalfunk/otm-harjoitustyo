@@ -12,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import mizzilekommand.logics.GameStatus;
-import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import mizzilekommand.logics.SceneController.Actions;
 
 /**
@@ -38,6 +37,10 @@ public class EndScene extends SceneTemplate {
         
     }
     
+    /**
+     * This runs a transit counter i.e. a small time before the scene transits
+     * back to start view.
+     */
     private void runTransitCounter() {
         try {
 
@@ -62,6 +65,9 @@ public class EndScene extends SceneTemplate {
 
     }
     
+    /**
+     * This adds a THE END title to the scene.
+     */
     private void addTitle() {
         Label title = new Label("THE END");
         title.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));

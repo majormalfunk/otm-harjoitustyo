@@ -39,7 +39,7 @@ public class EnemyMissile extends Missile {
     @Override
     public Explosion detonate() {
         this.setFill(Color.TRANSPARENT);
-        return new EnemyMissileExplosion(getLayoutX(), getLayoutY(), BASE_RADIUS * 3.0, System.currentTimeMillis());
+        return new EnemyMissileExplosion(getLayoutX(), getLayoutY(), System.currentTimeMillis());
     }
 
 }

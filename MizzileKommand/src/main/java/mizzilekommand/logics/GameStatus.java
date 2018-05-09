@@ -4,8 +4,6 @@
  */
 package mizzilekommand.logics;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.text.Text;
 import mizzilekommand.dao.StatisticDao;
@@ -59,26 +57,46 @@ public class GameStatus {
         highScoresAvailable = false;
         reset();
     }
-    
+
+    /**
+     * This sets the data access object used to query and record top scores.
+     * @param statDao 
+     */
     public void setStatisticDao(StatisticDao statDao) {
         this.statDao = statDao;
         if (this.statDao != null) {
             highScoresAvailable = true;
         }
     }
-    
+
+    /**
+     * This returns the top score statistics from the data access object.
+     * @return a List of top scores as Statistics objects
+     * 
+     * @see mizzilekommand.logics.Statistic
+     */
     public List<Statistic> getStatistics() {
         return statDao.getAll();
     }
-    
+
+    /**
+     * Returns true if current score is a top scoce false otherwise
+     * @return a boolean value
+     */
     public boolean isTopScore() {
         try {
             return statDao.isTopScore(score);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
-    
+
+    /**
+     * This constructs a statistics object with current score and the initials
+     * passed as a parameter and passes it to the data access object to be
+     * stored.
+     * @param initials Initials of the player.
+     */
     public void recordCurrentScore(String initials) {
         if (highScoresAvailable) {
             try {
@@ -91,7 +109,7 @@ public class GameStatus {
             } catch (Exception e) {
                 highScoresAvailable = false;
             }
-            
+
         }
 
     }
@@ -352,15 +370,16 @@ public class GameStatus {
     public double getIncomingSpeedFactor() {
         return incomingBoost;
     }
-    
+
     /**
      * Returns the total number of player missiles left at the moment.
+     *
      * @return number of player missiles left at the moment
      */
     public int playerMissilesLeft() {
         return missilesLeft[0] + missilesLeft[1] + missilesLeft[2];
     }
-    
+
     /**
      * This method adds the bonus for left player missiles to the score
      */
@@ -370,15 +389,17 @@ public class GameStatus {
 
     /**
      * This method returns the bonus per missile left for the current level.
+     *
      * @return bonus per missile
      */
     public int bonusPerMissileLeft() {
         return (Math.min(level, MAX_BONUS_LEVEL_FACTOR) * MISSILE_BONUS);
     }
-    
+
     /**
      * Returns the missile bonus rewarded from missiles left after level.
-     * @return 
+     *
+     * @return
      */
     public int bonusForMissilesLeft() {
         return (playerMissilesLeft() * bonusPerMissileLeft());
@@ -400,10 +421,10 @@ public class GameStatus {
         return (Math.min(level, MAX_BONUS_LEVEL_FACTOR) * CITY_BONUS);
     }
 
-
     /**
      * Returns the city bonus rewarded from cities left after level.
-     * @return 
+     *
+     * @return
      */
     public int bonusForCitiesLeft() {
         return (citiesLeft() * bonusPerCityLeft());

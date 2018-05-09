@@ -4,18 +4,14 @@
  */
 package mizzilekommand.nodes;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Random;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import mizzilekommand.dao.FileHandler;
 import static mizzilekommand.logics.MizzileKommand.CITY_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.CITY_WIDTH;
-import static mizzilekommand.logics.MizzileKommand.GROUND_LEVEL;
-import static mizzilekommand.logics.MizzileKommand.SMALL_LENGTH;
 
 /**
  *
@@ -28,13 +24,15 @@ public class City extends Polygon {
     public int id;
 
     private static final String CITYLIGHTSFILL = "citylights.png";
-    
+
     public City(int id) {
-        Random pseudo = new Random((id*137) % 7);
+        Random pseudo = new Random((id * 137) % 7);
         this.width = CITY_WIDTH;
         this.height = CITY_HEIGHT;
-        this.setId("CITY"+id);
-        
+        this.setId("CITY" + id);
+
+        // We bild the cities with pseudo random numbers with a seed so we have same cities
+        // at the same places every time but they all look a bit different.
         this.getPoints().addAll(0.0, CITY_HEIGHT, CITY_WIDTH, CITY_HEIGHT);
         double b = 1.0;
         while (b >= 0.0) {
@@ -45,9 +43,7 @@ public class City extends Polygon {
             this.getPoints().addAll(Math.max(CITY_WIDTH * (1.0 * b), 0.0), CITY_HEIGHT * (1.0 - h));
         }
         try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream(CITYLIGHTSFILL);
-            Image lights = new Image(is);
+            Image lights = FileHandler.loadImageFromResourceFile(CITYLIGHTSFILL);
             this.setFill(new ImagePattern(lights, 0.0, 0.0, 12.0, 12.0, false));
         } catch (Exception e) {
             this.setFill(Color.BLACK);
@@ -60,7 +56,7 @@ public class City extends Polygon {
      * burn radius of 4 * the city height. This is supposed to be called when
      * the city destructs.
      *
-     * @return
+     * @return explosion object
      */
     public CityDestruction destruct() {
         this.setFill(Color.TRANSPARENT);

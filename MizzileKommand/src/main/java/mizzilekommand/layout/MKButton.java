@@ -10,10 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 /**
- *
+ * This a customized button to be used as all buttons in the game.
+ * 
  * @author jaakkovilenius
  */
-public class MKButton extends Button{
+public class MKButton extends Button {
     
     public static final String BUTTON_STYLE
             = "-fx-background-color: linear-gradient(#ff6000, #c01800); "

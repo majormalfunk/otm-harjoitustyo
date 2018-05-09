@@ -4,16 +4,12 @@
  */
 package mizzilekommand.logics;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Node;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import mizzilekommand.dao.FileHandler;
 import mizzilekommand.dao.StatisticDao;
 import mizzilekommand.nodes.Base;
 import mizzilekommand.nodes.City;
@@ -35,9 +31,6 @@ public class GameLoop {
 
     public GameStatus gameStatus;
     public SceneController controller;
-
-    public List<Node> addToScene;
-    public List<Node> removeFromScene;
 
     public List<PlayerMissile> playerMissiles;
     public List<PlayerMissile> playerMissilesToRemove;
@@ -69,9 +62,6 @@ public class GameLoop {
         this.allowIncoming = false;
 
         this.gameStatus = new GameStatus();
-
-        this.addToScene = new ArrayList<>();
-        this.removeFromScene = new ArrayList<>();
 
         this.playerMissiles = new ArrayList<>();
         this.playerMissilesToRemove = new ArrayList<>();
@@ -153,7 +143,7 @@ public class GameLoop {
     public void prepareForGameLoop() {
         addBases();
         addCities();
-        addNodesToScene();
+        //addNodesToScene();
         stopLoop = false;
         allowIncoming = true;
     }
@@ -173,8 +163,6 @@ public class GameLoop {
         handleEnemyMissileExplosions(); // 7
         handleBaseExplosions(); // 8
         handleCityDestructions(); // 9
-        removeNodesFromScene();
-        addNodesToScene();
     }
 
     /**
@@ -219,72 +207,26 @@ public class GameLoop {
     }
 
     /**
-     * This adds to the current scene all the nodes in the list addToScene
-     *
-     * @see
-     * mizzilekommand.logics.SceneController#addToCurrentScene(javafx.scene.Node)
-     */
-    private void addNodesToScene() {
-        if (!addToScene.isEmpty()) {
-            if (controller != null) {
-                controller.addAllToCurrentScene(addToScene);
-            }
-            addToScene.clear();
-        }
-    }
-
-    /**
-     * This removes from the current scene all the nodes in list removeFromScene
-     *
-     * @see
-     * mizzilekommand.logics.SceneController#removeAllFromCurrentScene(javafx.scene.Node)
-     */
-    private void removeNodesFromScene() {
-        if (!removeFromScene.isEmpty()) {
-            controller.removeAllFromCurrentScene(removeFromScene);
-            removeFromScene.clear();
-        }
-    }
-
-    /**
-     * This method checks the game status and accordingly sets the attribute
-     * allowIncoming to false. This happens if:
-     *
-     * - all cities have been destroyed or - enough cities for the level has
-     * been destroyed or - no more incoming missiles are left in the curren
-     * level
-     *
-     * It instructs the SceneController of the case when no more ongoing actions
-     * are playing in the scene.
-     *
-     * @see mizzilekommand.logics.SceneController#noCitiesLeft()
-     * @see mizzilekommand.logics.SceneController#enoughCitiesDestroyed()
-     * @see mizzilekommand.logics.SceneController#noIncomingLeft()
+     * This checks the level status to determine if the level has ended.
+     * If so it calls the method of the scene controller that corresponds
+     * to the reason the level ended.
      */
     public void checkLevelStatus() {
-        // If no cities are left, it's game over -> The End Scene
-        if (controller == null) {
-            stopLoop();
-        } else {
-            if (cities.isEmpty()) {
-                allowIncoming = false;
-                if (actionsDone()) {
-                    controller.noCitiesLeft(gameStatus.isTopScore());
-                    stopLoop();
-                }
-            } else if (gameStatus.citiesForLevelDestructed()) {
-                // Otherwise if already enough cities were destroyed -> Bonus Scene
-                allowIncoming = false;
-                if (actionsDone()) {
-                    controller.enoughCitiesDestroyed();
-                    stopLoop();
-                }
-            } else if (!gameStatus.incomingMissilesLeft()) {
-                allowIncoming = false;
-                if (actionsDone()) {
-                    controller.noIncomingLeft();
-                    stopLoop();
-                }
+        if (cities.isEmpty()) {
+            allowIncoming = false;
+            if (actionsDone()) {
+                controller.noCitiesLeft(gameStatus.isTopScore());
+            }
+        } else if (gameStatus.citiesForLevelDestructed()) {
+            // Otherwise if already enough cities were destroyed -> Bonus Scene
+            allowIncoming = false;
+            if (actionsDone()) {
+                controller.enoughCitiesDestroyed();
+            }
+        } else if (!gameStatus.incomingMissilesLeft()) {
+            allowIncoming = false;
+            if (actionsDone()) {
+                controller.noIncomingLeft();
             }
         }
     }
@@ -333,23 +275,31 @@ public class GameLoop {
     public void handlePlayerMissiles() {
         // Player missiles
         playerMissilesToRemove.forEach(missile -> {
-            removeFromScene.add(missile);
+            controller.removeFromCurrentScene(missile);
         });
         playerMissilesToRemove.clear();
-        playerMissiles.forEach(missile -> missile.fly());
+        flyPlayerMissiles();
+        playerMissiles.removeAll(playerMissilesToRemove);
+    }
+    
+    /**
+     * This method flys the missiles and checks if they reach
+     * target height. In that case they explode.
+     */
+    private void flyPlayerMissiles() {
         playerMissiles.forEach(missile -> {
+            missile.fly();
             if (missile.isAtTargetHeight()) {
                 playerMissilesToRemove.add(missile);
                 Explosion explosion = missile.detonate();
                 if (explosion != null) {
-                    addToScene.add(explosion);
+                    controller.addToCurrentScene(explosion);
                     playerExplosions.add(explosion);
                     playExplosionSound();
                 }
             }
         });
-        playerMissiles.removeAll(playerMissilesToRemove);
-
+        
     }
 
     /**
@@ -362,9 +312,19 @@ public class GameLoop {
      */
     public void handlePlayerMissileExplosions() {
         playerExplosionsToRemove.forEach(explosion -> {
-            removeFromScene.add(explosion);
+            controller.removeFromCurrentScene(explosion);
         });
         playerExplosionsToRemove.clear();
+        checkForEnemyMissileInterceptions();
+        enemyMissiles.removeAll(enemyMissilesToRemove);
+        playerExplosions.removeAll(playerExplosionsToRemove);
+
+    }
+
+    /**
+     * Checks to see if player missile explosion destroyed any enemy missiles.
+     */
+    private void checkForEnemyMissileInterceptions() {
         playerExplosions.forEach(explosion -> {
             explosion.fade();
             enemyMissiles.forEach(missile -> {
@@ -373,14 +333,10 @@ public class GameLoop {
                     gameStatus.enemyMissileDestroyed();
                 }
             });
-        });
-        enemyMissiles.removeAll(enemyMissilesToRemove);
-        playerExplosions.forEach(explosion -> {
             if (explosion.faded()) {
                 playerExplosionsToRemove.add(explosion);
             }
         });
-        playerExplosions.removeAll(playerExplosionsToRemove);
 
     }
 
@@ -391,7 +347,7 @@ public class GameLoop {
      */
     public void detonateMissile(EnemyMissile missile) {
         Explosion destruction = missile.detonate();
-        addToScene.add(destruction);
+        controller.addToCurrentScene(destruction);
         enemyExplosions.add(destruction);
         playExplosionSound();
         enemyMissilesToRemove.add(missile);
@@ -432,25 +388,31 @@ public class GameLoop {
     public void handleEnemyMissiles() {
         // Enemy missiles
         enemyMissilesToRemove.forEach(missile -> {
-            removeFromScene.add(missile);
+            controller.removeFromCurrentScene(missile);
         });
         enemyMissilesToRemove.clear();
+        flyEnemyMissiles();
+        enemyMissiles.removeAll(enemyMissilesToRemove);
+    }
+
+    /**
+     * This handles the flight and end of player missiles.
+     */
+    private void flyEnemyMissiles() {
         enemyMissiles.forEach(missile -> missile.fly());
         enemyMissiles.forEach(missile -> {
             if (missile.isAtTargetHeight()) {
                 enemyMissilesToRemove.add(missile);
                 Explosion explosion = missile.detonate();
                 if (explosion != null) {
-                    addToScene.add(explosion);
+                    controller.addToCurrentScene(explosion);
                     enemyExplosions.add(explosion);
                     playExplosionSound();
                 }
             }
         });
-        enemyMissiles.removeAll(enemyMissilesToRemove);
-
     }
-
+    
     /**
      * This method handles the existing enemy missile explosions. It uses two
      * lists - one with explosions to be removed and the other with explosinos
@@ -464,9 +426,17 @@ public class GameLoop {
      */
     public void handleEnemyMissileExplosions() {
         enemyExplosionsToRemove.forEach(explosion -> {
-            removeFromScene.add(explosion);
+            controller.removeFromCurrentScene(explosion);
         });
         enemyExplosionsToRemove.clear();
+        checkForCityAndBaseDestructions();
+        enemyExplosions.removeAll(enemyExplosionsToRemove);
+    }
+
+    /**
+     * This checks if enemy explosion destroyed player assets.
+     */
+    private void checkForCityAndBaseDestructions() {
         enemyExplosions.forEach(explosion -> {
             explosion.fade();
             bases.forEach(base -> {
@@ -481,14 +451,10 @@ public class GameLoop {
                     }
                 }
             });
-        });
-        enemyExplosions.forEach(explosion -> {
             if (explosion.faded()) {
                 enemyExplosionsToRemove.add(explosion);
             }
         });
-        enemyExplosions.removeAll(enemyExplosionsToRemove);
-
     }
 
     /**
@@ -498,9 +464,9 @@ public class GameLoop {
      *
      * @see mizzilekommand.logics.GameStatus#destroyBase(int)
      */
-    private void explodeBase(Base base) {
+    public void explodeBase(Base base) {
         Explosion annihilation = base.detonate();
-        addToScene.add(annihilation);
+        controller.addToCurrentScene(annihilation);
         baseExplosions.add(annihilation);
         playExplosionSound();
         basesToRemove.add(base);
@@ -516,7 +482,7 @@ public class GameLoop {
      */
     public void destructCity(City city) {
         CityDestruction armageddon = city.destruct();
-        addToScene.add(armageddon);
+        controller.addToCurrentScene(armageddon);
         cityDestructions.add(armageddon);
         citiesToRemove.add(city);
         gameStatus.destroyCity(city.id);
@@ -528,7 +494,7 @@ public class GameLoop {
      */
     public void handleBases() {
         basesToRemove.forEach(base -> {
-            removeFromScene.add(base);
+            controller.removeFromCurrentScene(base);
         });
         basesToRemove.clear();
     }
@@ -543,21 +509,25 @@ public class GameLoop {
     public void handleBaseExplosions() {
         bases.removeAll(basesToRemove);
         baseExplosionsToRemove.forEach(explosion -> {
-            removeFromScene.add(explosion);
+            controller.removeFromCurrentScene(explosion);
         });
         baseExplosionsToRemove.clear();
+        fadeBaseExplosions();
+        baseExplosions.removeAll(baseExplosionsToRemove);
+    }
+
+    /**
+     * This fades the exploded player bases.
+     */
+    private void fadeBaseExplosions() {
         baseExplosions.forEach(explosion -> {
             explosion.fade();
-        });
-        baseExplosions.forEach(explosion -> {
             if (explosion.faded()) {
                 baseExplosionsToRemove.add(explosion);
             }
         });
-        baseExplosions.removeAll(baseExplosionsToRemove);
-
     }
-
+    
     /**
      * This method is called from the actual game loop. It checks the status if
      * the cities and instructs the SceneController to switch the scene if no
@@ -565,27 +535,35 @@ public class GameLoop {
      */
     public void handleCities() {
         citiesToRemove.forEach(city -> {
-            removeFromScene.add(city);
+            controller.removeFromCurrentScene(city);
         });
         citiesToRemove.clear();
     }
 
+    /**
+     * This handles destructing cities
+     * 
+     */
     public void handleCityDestructions() {
         cities.removeAll(citiesToRemove);
         cityDestructionsToRemove.forEach(destruction -> {
-            removeFromScene.add(destruction);
+            controller.removeFromCurrentScene(destruction);
         });
         cityDestructionsToRemove.clear();
+        fadeCityDestructions();
+        cityDestructions.removeAll(cityDestructionsToRemove);
+    }
+    
+    /**
+     * This handles teh fading explosion of the cities
+     */
+    private void fadeCityDestructions() {
         cityDestructions.forEach(destruction -> {
             destruction.fade(System.currentTimeMillis());
-        });
-        cityDestructions.forEach(destruction -> {
             if (destruction.faded()) {
                 cityDestructionsToRemove.add(destruction);
             }
         });
-        cityDestructions.removeAll(cityDestructionsToRemove);
-
     }
 
     /**
@@ -652,11 +630,7 @@ public class GameLoop {
      */
     private void loadExplosionSound() {
         try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("Explosion.wav");
-            AudioInputStream sound = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
-            explosionSound = AudioSystem.getClip();
-            explosionSound.open(sound);
+            explosionSound = FileHandler.loadSoundFromResourceFile("Explosion.wav");
             FloatControl control = (FloatControl) explosionSound.getControl(FloatControl.Type.MASTER_GAIN);
             control.setValue(control.getMinimum() * (1.0f / 100.0f));
         } catch (Exception e) {

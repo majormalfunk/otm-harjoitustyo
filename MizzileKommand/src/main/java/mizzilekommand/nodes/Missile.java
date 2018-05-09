@@ -5,11 +5,8 @@
 package mizzilekommand.nodes;
 
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
-import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
-import static mizzilekommand.logics.MizzileKommand.BASE_RADIUS;
 
 /**
  * Class representing missiles. This is a common abtract class for player and
@@ -52,6 +49,9 @@ public abstract class Missile extends Polygon {
 
     }
 
+    /**
+     * Sets the missile direction which is used when the missile is animated
+     */
     public void setDirection() {
         Point2D subs = target.subtract(getLayoutX(), getLayoutY());
         direction = subs.normalize();
@@ -78,6 +78,10 @@ public abstract class Missile extends Polygon {
         return target.getY();
     }
 
+    /**
+     * This returns true if the missile is at the target height it is supposed to reach
+     * @return true if at target height false otherwise
+     */
     public boolean isAtTargetHeight() {
         if (direction.getY() > 0.0 && getLayoutY() >= getTargetY()) {
             return true;

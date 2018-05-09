@@ -73,8 +73,16 @@ public class GameStatusTest {
         gameStatus.destroyCity(0);
         gameStatus.destroyCity(1);
         gameStatus.destroyCity(2);
+        assertEquals(3, gameStatus.citiesLeft());
         gameStatus.levelUp();
         assertFalse(gameStatus.citiesForLevelDestructed());
+        gameStatus.destroyCity(3);
+        gameStatus.destroyCity(4);
+        assertEquals(1, gameStatus.citiesLeft());
+        gameStatus.levelUp();
+        gameStatus.destroyCity(5);
+        assertFalse(gameStatus.citiesForLevelDestructed());
+        assertEquals(0, gameStatus.citiesLeft());
     }
 
     @Test
@@ -82,6 +90,7 @@ public class GameStatusTest {
         gameStatus.destroyBase(0);
         gameStatus.destroyBase(1);
         gameStatus.destroyBase(2);
+        assertEquals(0, gameStatus.basesLeft());
         gameStatus.levelUp();
         assertEquals(3, gameStatus.basesLeft());
     }
@@ -162,7 +171,11 @@ public class GameStatusTest {
         assertEquals(3000, gameStatus.getStatistics().get(0).getScore());
         assertEquals("2ND", gameStatus.getStatistics().get(0).getInitials());
         assertEquals("1ST", gameStatus.getStatistics().get(1).getInitials());
-        
+        assertTrue(gameStatus.isTopScore());
+        gameStatus.recordCurrentScore("3RD");
+        assertEquals(1, gameStatus.getStatistics().get(0).getRank());
+        assertEquals(3000, gameStatus.getStatistics().get(0).getScore());
+        assertEquals("1ST", gameStatus.getStatistics().get(2).getInitials());
     }
     
 }

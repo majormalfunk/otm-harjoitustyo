@@ -18,8 +18,7 @@ import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;
 
 /**
- * This is the scene that is displayed when the player reaches a
- * top score
+ * This is the scene that is displayed when the player reaches a top score
  *
  * @author jaakkovilenius
  */
@@ -31,6 +30,11 @@ public class TopScoreScene extends SceneTemplate {
     private Label initial3;
     private int focus;
 
+    /**
+     * The constructor
+     * @param controller
+     * @param status 
+     */
     public TopScoreScene(SceneController controller, GameStatus status) {
 
         super(controller, status);
@@ -53,6 +57,9 @@ public class TopScoreScene extends SceneTemplate {
 
     }
 
+    /**
+     * This adds the title
+     */
     private void addTitle() {
         Label title = new Label("TOP KÖMMÄNDER!");
         title.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
@@ -62,7 +69,10 @@ public class TopScoreScene extends SceneTemplate {
         title.layoutXProperty().bind(this.widthProperty().subtract(title.widthProperty()).divide(2));
         title.setLayoutY((APP_HEIGHT / 8.0));
     }
-    
+
+    /**
+     * This sets the initials. It calls teh seUpInitial once per initial
+     */
     private void setUpInitials() {
         initial1 = new Label();
         setUpInitial(initial1, -1);
@@ -71,63 +81,86 @@ public class TopScoreScene extends SceneTemplate {
         initial3 = new Label();
         setUpInitial(initial3, 1);
     }
-    
+
+    /**
+     * This set on initial
+     * @param initial
+     * @param position 
+     */
     private void setUpInitial(Label initial, int position) {
         initial.setText("_");
         initial.setFont(Font.font("Arial", FontWeight.BOLD, 40.0));
         initial.setTextFill(Color.SILVER);
         initial.setTextAlignment(TextAlignment.CENTER);
         this.root.getChildren().add(initial);
-        initial.layoutXProperty().bind(this.widthProperty().add(position*75).subtract(initial.widthProperty()).divide(2));
+        initial.layoutXProperty().bind(this.widthProperty().add(position * 75).subtract(initial.widthProperty()).divide(2));
         initial.setLayoutY((APP_HEIGHT / 3));
     }
 
+    /**
+     * This listens to key down events and allocates the key to the correct initial.
+     * @param key 
+     */
     private void keyDown(KeyCode key) {
-
         if (key == KeyCode.TAB || key == KeyCode.ENTER) {
             // Do nothing. This here just so that we can use isLetterKey() later
             // and so have a shorter list of conditions.
             // We could attach a fart sound to this.
+            return;
         } else if (key == KeyCode.BACK_SPACE) {
-            if (focus == 3) {
-                initial3.setText("_");
-                focus = 2;
-            } else if (focus == 2) {
-                initial3.setText("_");
-                initial2.setText("_");
-                focus = 1;
-            } else {
-                initial3.setText("_");
-                initial2.setText("_");
-                initial1.setText("_");
-            }
+            keyDownBackSpace();
         } else if (key.isDigitKey() || key.isLetterKey() || key.isWhitespaceKey()) {
-            String initial = String.valueOf(key).substring(key.toString().length()-1);
-            if (focus == 1) {
-                try {
-                    initial1.setText(initial);
-                    focus = 2;
-                } catch (Exception e) {
+            try {
+                keyDownLegitKey(String.valueOf(key).substring(key.toString().length() - 1));
+            } catch (Exception e) {
+                if (focus == 1) {
                     initial1.setText("_");
-                }
-            } else if (focus == 2) {
-                try {
-                    initial2.setText(initial);
-                    focus = 3;
-                } catch (Exception e) {
+                } else if (focus == 2) {
                     initial2.setText("_");
-                }
-            } else {
-                try {
-                    initial3.setText(initial);
-                    focus = 3;
-                } catch (Exception e) {
+                } else {
                     initial3.setText("_");
                 }
             }
         }
     }
+    
+    /**
+     * This handles deleting events by back space
+     */
+    private void keyDownBackSpace() {
+        if (focus == 3) {
+            initial3.setText("_");
+            focus = 2;
+        } else if (focus == 2) {
+            initial3.setText("_");
+            initial2.setText("_");
+            focus = 1;
+        } else {
+            initial3.setText("_");
+            initial2.setText("_");
+            initial1.setText("_");
+        }
+    }
 
+    /**
+     * This handles the letter and number key presses
+     * @param initial 
+     */
+    private void keyDownLegitKey(String initial) {
+        if (focus == 1) {
+            initial1.setText(initial);
+            focus = 2;
+        } else if (focus == 2) {
+            initial2.setText(initial);
+            focus = 3;
+        } else {
+            initial3.setText(initial);
+        }
+    }
+
+    /**
+     * This sets up the OK button
+     */
     private void setUpButton() {
 
         btnSave = new MKButton();
@@ -135,7 +168,7 @@ public class TopScoreScene extends SceneTemplate {
         btnSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String initials = initial1.getText()+initial2.getText()+initial3.getText();
+                String initials = initial1.getText() + initial2.getText() + initial3.getText();
                 status.recordCurrentScore(initials);
                 getController().chooseNextScene(SceneController.Actions.SCORESAVED);
                 getController().applyNextScene();

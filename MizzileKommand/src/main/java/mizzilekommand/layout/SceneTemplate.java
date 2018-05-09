@@ -5,7 +5,7 @@
 package mizzilekommand.layout;
 
 import java.util.ArrayList;
-import java.util.List;import mizzilekommand.logics.SceneController;
+import java.util.List;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import mizzilekommand.logics.SceneController;
 import mizzilekommand.logics.GameStatus;
 import static mizzilekommand.logics.MizzileKommand.APP_HEIGHT;
 import static mizzilekommand.logics.MizzileKommand.APP_WIDTH;

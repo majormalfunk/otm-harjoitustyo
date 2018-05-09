@@ -4,7 +4,6 @@
  */
 package mizzilekommand.nodes;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
@@ -20,11 +19,7 @@ public class Explosion extends Circle {
     public long burnUntil;
     private long burnTime;
     
-    private static final String EXPLOSION_STYLE
-            = "-fx-fill: "
-            + "radial-gradient(focus-distance 0% , center 50% 50% , radius 67% , white 33%, #ffa500 75%, transparent 95%) ";
-
-    public Explosion(double centerX, double centerY, double radius, long now, long burnTime) {
+    public Explosion(double centerX, double centerY, double radius, long now, long burnTime, String style) {
 
         super(centerX, centerY, radius);
 
@@ -33,15 +28,13 @@ public class Explosion extends Circle {
         this.burnFrom = now;
         this.burnUntil = now + burnTime;
         this.burnTime = burnTime;
-        this.setStyle(EXPLOSION_STYLE);
+        this.setStyle(style);
 
     }
 
     /**
      * This fades the explosion.
      *
-     * @param now System time in milliseconds used to calculate the remaining
-     * burn time and current size
      */
     public void fade() {
         double factor = ((double) (System.currentTimeMillis() - burnFrom) / (double) burnTime);

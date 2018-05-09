@@ -7,10 +7,7 @@ package mizzilekommand.layout;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -34,6 +31,11 @@ public class BonusScene extends SceneTemplate {
     private Label missileBonusCounter;
     private Label cityBonusCounter;
 
+    /**
+     * Constructor.
+     * @param controller
+     * @param status 
+     */
     public BonusScene(SceneController controller, GameStatus status) {
 
         super(controller, status);
@@ -60,6 +62,9 @@ public class BonusScene extends SceneTemplate {
     }
 
     @Override
+    /**
+     * Runs the actions in the scene
+     */
     public void runActions() {
 
         this.runBonusCounter(missileBonusCounter, status.playerMissilesLeft(), status.bonusPerMissileLeft());
@@ -72,6 +77,9 @@ public class BonusScene extends SceneTemplate {
 
     }
 
+    /**
+     * Adds the top title
+     */
     private void addTitle() {
         Label title = new Label("BONUS");
         title.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
@@ -82,6 +90,9 @@ public class BonusScene extends SceneTemplate {
         title.setLayoutY((APP_HEIGHT / 8.0));
     }
 
+    /**
+     * Adds an image of a missile beside the counter
+     */
     private void addMissileImg() {
         PlayerMissile missile = new PlayerMissile(0l, 0.0, 0.0, 0.0);
         missile.setScaleX(4);
@@ -91,35 +102,22 @@ public class BonusScene extends SceneTemplate {
         this.root.getChildren().add(missile);
     }
 
+    /**
+     * Adds an image of a ctity beside the counter
+     */
     private void addCityImg() {
         City city = new City(status.cityOk.length); // One more so that it's different from all
-        //missile.setScaleX(4);
-        //missile.setScaleY(4);
         city.setLayoutX((APP_WIDTH * (3.0 / 8.0)) - (city.width / 2.0));
         city.setLayoutY((APP_HEIGHT * (3.0 / 6.0)) - (city.height / 2.0));
         this.root.getChildren().add(city);
     }
 
-    private void addMissilesLeftCount() {
-        Label missiles = new Label("" + status.playerMissilesLeft());
-        missiles.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
-        missiles.setTextFill(Color.SILVER);
-        missiles.setTextAlignment(TextAlignment.CENTER);
-        this.root.getChildren().add(missiles);
-        missiles.layoutXProperty().bind(this.widthProperty().subtract(missiles.widthProperty()).divide(4));
-        missiles.setLayoutY((APP_HEIGHT * (2.0 / 6.0)) - 20.0);
-    }
-
-    private void addCitiesLeftCount() {
-        Label cities = new Label("" + status.citiesLeft());
-        cities.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
-        cities.setTextFill(Color.SILVER);
-        cities.setTextAlignment(TextAlignment.CENTER);
-        this.root.getChildren().add(cities);
-        cities.layoutXProperty().bind(this.widthProperty().subtract(cities.widthProperty()).divide(4));
-        cities.setLayoutY((APP_HEIGHT * (3.0 / 6.0)) - 20.0);
-    }
-
+    /**
+     * Adds a count of the items left after the level.
+     * 
+     * @param count count of items
+     * @param item index of item
+     */
     private void addItemsLeftCount(int count, int item) {
         Label counter = new Label("" + count);
         counter.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
@@ -130,6 +128,9 @@ public class BonusScene extends SceneTemplate {
         counter.setLayoutY((APP_HEIGHT * ((2.0 + item) / 6.0)) - 20.0);
     }
 
+    /**
+     * Adds a sign between item count and total
+     */
     private void addRewardsSigns() {
         for (int e = 0; e < 2; e++) {
             Label reward = new Label("=");
@@ -142,6 +143,11 @@ public class BonusScene extends SceneTemplate {
         }
     }
 
+    /**
+     * Adds a counter of total bonus per item
+     * @param counter the Label
+     * @param item index of item
+     */
     private void addBonusCounter(Label counter, int item) {
         counter.setText("");
         counter.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 40.0));
@@ -152,20 +158,26 @@ public class BonusScene extends SceneTemplate {
         counter.setLayoutY((APP_HEIGHT * ((2.0 + item) / 6.0)) - 20.0);
     }
 
+    /**
+     * This animates the bonus counter.
+     * 
+     * @param counter
+     * @param itemsLeft
+     * @param bonusPerItem 
+     */
     private void runBonusCounter(Label counter, int itemsLeft, int bonusPerItem) {
         try {
 
             new AnimationTimer() {
                 int bonusCounter = 0;
-                long upd = System.currentTimeMillis() + 250l;
+                long timer = System.currentTimeMillis() + 250l;
 
                 @Override
                 public void handle(long now) {
                     if (bonusCounter <= itemsLeft) {
-                        if (upd < System.currentTimeMillis() + 250l) {
-                            counter.setText("" + (bonusCounter * bonusPerItem));
-                            bonusCounter++;
-                            upd = System.currentTimeMillis() + 250l;
+                        if (timer < System.currentTimeMillis() + 250l) {
+                            bonusCounter = handleBonusCounter(timer, counter, bonusCounter, bonusPerItem);
+                            timer = System.currentTimeMillis() + 250l;
                         }
                     } else {
                         stop();
@@ -179,7 +191,25 @@ public class BonusScene extends SceneTemplate {
         }
 
     }
-
+    
+    /**
+     * This counts and sets the actual value to the counter
+     * @param timer
+     * @param counter
+     * @param bonusCounter
+     * @param bonusPerItem
+     * @return 
+     */
+    private int handleBonusCounter(long timer, Label counter, int bonusCounter, int bonusPerItem) {
+        counter.setText("" + (bonusCounter * bonusPerItem));
+        bonusCounter++;
+        return bonusCounter;
+    }
+    
+    /**
+     * This adds a continue button to the scene
+     * 
+     */
     private void addContinueButton() {
 
         btnContinue = new MKButton();

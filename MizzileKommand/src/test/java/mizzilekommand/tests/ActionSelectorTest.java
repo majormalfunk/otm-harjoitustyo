@@ -54,5 +54,13 @@ public class ActionSelectorTest {
     public void choosesCorrectSceneOnActionEnd() {
         assertEquals(SceneController.Scenes.START, selector.chooseNextScene(SceneController.Actions.THEEND));
     }
+    @Test
+    public void choosesCorrectSceneOnActionTopScore() {
+        assertEquals(SceneController.Scenes.TOP, selector.chooseNextScene(SceneController.Actions.TOPSCORE));
+    }
+    @Test
+    public void choosesCorrectSceneOnActionScoreSaved() {
+        assertEquals(SceneController.Scenes.START, selector.chooseNextScene(SceneController.Actions.SCORESAVED));
+    }
     
 }

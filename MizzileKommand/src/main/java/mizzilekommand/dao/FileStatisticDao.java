@@ -18,10 +18,9 @@ import mizzilekommand.logics.Statistic;
  */
 public class FileStatisticDao implements StatisticDao {
 
-    private FilePropertiesHandler propHandler;
     public List<Statistic> statistics;
     private String file;
-    public final int MAX_HIGH_SCORES = 10;
+    public static final int MAX_HIGH_SCORES = 10;
 
     /**
      * This is the constructor. It populates the statistics list from a local
@@ -34,12 +33,10 @@ public class FileStatisticDao implements StatisticDao {
      */
     public FileStatisticDao(String file) throws Exception {
 
-        propHandler = new FilePropertiesHandler();
-
         statistics = new ArrayList<>();
         this.file = file;
 
-        Properties scores = propHandler.loadOrCreateProperties(file, null);
+        Properties scores = FileHandler.loadOrCreateProperties(file, null);
 
         if (scores != null) {
             for (int i = 0; i < scores.size(); i++) {
@@ -70,7 +67,7 @@ public class FileStatisticDao implements StatisticDao {
                     + statistic.getLevel() + ";"
                     + statistic.getMissilesDestroyed());
         }
-        propHandler.storeProperties(file, props);
+        FileHandler.storeProperties(file, props);
     }
 
     /**
