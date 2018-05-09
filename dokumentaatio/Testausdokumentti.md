@@ -22,7 +22,7 @@ Sovelluksen järjestelmätestaus on suoritettu manuaalisesti.
 
 #### Asennus ja konfigurointi
 
-Sovellus on haettu ja sitä on testattu [käyttöohjeen]() kuvaamalla tavalla sekä macOS että Windows 10 -ympäristössä.
+Sovellus on haettu ja sitä on testattu [käyttöohjeen](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Kayttoohje.md) kuvaamalla tavalla sekä macOS että Windows 10 -ympäristössä.
 
 #### Toiminnallisuudet
 
