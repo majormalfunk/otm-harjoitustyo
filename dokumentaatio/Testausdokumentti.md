@@ -14,3 +14,5 @@ Testeissä on käytetty pysyväistallennuksen DAO-rajapinnan testaamiseen [FakeD
 
 Käyttöliittymätestausta lukuunottamatta sovelluksen testauksen rivikattavuus on  % ja haaraumakattavuus  %. Testauskattavuutta rajoittaa graafisen käyttöliittymän käyttö.
 
+![Testauskattavuus](https://github.com/majormalfunk/otm-harjoitustyo/blob/master/dokumentaatio/Testauskattavuus.png)
+
