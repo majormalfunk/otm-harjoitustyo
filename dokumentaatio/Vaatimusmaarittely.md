@@ -29,11 +29,11 @@ Sovellus koostuu viidestä eri näkymästä
 
 Aloitusnäkymässä näytetään huipputulosten lista. Huipputulokset tallennetaan tiedostoon, josta ne luetaan aina, kun näytetään aloitusnäkymä. Aloitusnäkymästä pääsee käynnistämään uuden pelin PLAY-nappia painamalla.
 
-Pelissä käytetään hiirtä ja näppäimistöä. Hiirellä ohjataan osoitinta, joka osoittaa kohdan taivaalla, mihin torjuntaohjus ammutaan. Näppäimistön kolmella eri näppäimellä (esim vasen, ylös, oikea -näppäimet) ammutaan ohjus jostain kolmesta tukikohdasta. Lähestyvät ohjukset tuhoutuvat jos ne lentävät torjuntaohjuksen räjähdykseen. Kaikissa tukikohdissa on vain rajallinen määrä ohjuksia tasoa kohti. Tukikohdan kohdalla näytetään jäljellä olevien ohjusten määrä. Mikäli kaikki ohjukset loppuvat tai ohjustukikohdat tuhoutuvat, pelaaja ei voi tehdä muuta kuin odottaa tason loppumista.
+Pelissä käytetään hiirtä ja näppäimistöä. Hiirellä ohjataan osoitinta, joka osoittaa kohdan taivaalla, mihin torjuntaohjus ammutaan. Näppäimistön kolmella eri näppäimellä (1/vasen, 2/ylös/alas, 3/oikea -näppäimet) ammutaan ohjus jostain kolmesta tukikohdasta. Lähestyvät ohjukset tuhoutuvat jos ne lentävät torjuntaohjuksen räjähdykseen. Kaikissa tukikohdissa on vain rajallinen määrä ohjuksia tasoa kohti. Tukikohdan kohdalla näytetään jäljellä olevien ohjusten määrä. Mikäli kaikki ohjukset loppuvat tai ohjustukikohdat tuhoutuvat, pelaaja ei voi tehdä muuta kuin odottaa tason loppumista.
 
-Vihollisen lähettämät ballistiset ohjukset lähestyvät näkymän alareunassa olevia kaupunkeja näkymän yläosasta satunnaisista kohdista. Pelin edetessä vihollisohjusten vauhti kiihtyy, niitä tulee enemmän ja ne voivat haarautua useammaksi taistelukärjeksi. Pelaajan torjuntaohjusten vauhti ei kiihdy, mutta keskimmäisen tukikohdan ohjukset ovat nopeampia kuin laidoilla olevien tukikohtien.
+Vihollisen lähettämät ballistiset ohjukset lähestyvät näkymän alareunassa olevia kaupunkeja näkymän yläosasta satunnaisista kohdista. Pelin edetessä vihollisohjusten vauhti kiihtyy ja niitä tulee enemmän. Pelaajan torjuntaohjusten vauhti ei kiihdy, mutta keskimmäisen tukikohdan ohjukset ovat nopeampia kuin laidoilla olevien tukikohtien.
 
-Taso loppuu, kun pelaaja saa tuhottua kaikki tason lähestyneet ohjukset tai kun kuluneen tason aikana kolme kaupunkia on tuhoutunut. Koko peli päättyy mikäli kaikki kaupungit ovat tuhoutuneet. Mikäli kaupunkeja on jäljellä näytetään bonuspistenäkymä, jossa pelaaja saa bonuspisteitä jäljellä olevista kaupungeista ja ohjuksista. Bonuspistenäkymän yhteydessä torjuntaohjusvarastot täydennetään. Tuhoutuneet kaupungit ja ohjustukikohdat rakennetaan uudelleen ylitettäessä tiettyjä tasapistemääriä (tbd).
+Taso loppuu, kun pelaaja saa tuhottua kaikki tason lähestyneet ohjukset tai kun kuluneen tason aikana kolme kaupunkia on tuhoutunut. Koko peli päättyy mikäli kaikki kaupungit ovat tuhoutuneet. Mikäli kaupunkeja on jäljellä näytetään bonuspistenäkymä, jossa pelaaja saa bonuspisteitä jäljellä olevista kaupungeista ja ohjuksista. Bonuspistenäkymän yhteydessä torjuntaohjusvarastot täydennetään. Tuhoutuneet ohjustukikohdat rakennetaan ja täydennetään uudelleen kun taso suoritetaan.
 
 Kun koko peli päättyy, näytetään joko lopputeksti tai huippupistenäkymä riippuen siitä tekikö pelaaja huippupisteet. Huippupistenäkymässä pelaaja saa tallentaa nimikirjaimensa parhaiden tulosten listalle. Parhaiden tulosten lista tallennetaan tiedostoon.
 
@@ -41,6 +41,4 @@ Loppunäkymästä ja huippupistenäkymästä palataan takaisin aloitusnäkymää
 
 ## Mahdollisen jatkokehityksen kohteita
 
-Jatkokehityksessä peliin voidaan tuoda alkuperäisessäkin pelissä olleita lisäelementtejä, kuten strateginen pommikone ja "smart bomb".
-Peliin voidaan myös lisätä kahden pelaajan mahdollisuus, jolloin pelaajat vuorottelevat kaupunkien puolustamisessa.
-Pelissä voisi myös jäljitellä alkuperäisen pelin bugeja, joista kerrotaan mm. yllälinkatussa Wikipedia-artikkelissa.
+Jatkokehityksessä peliin voidaan tuoda alkuperäisessäkin pelissä olleita lisäelementtejä, kuten että ohjukset voivat haarautua useammaksi taistelukärjeksi strateginen pommikone ja "smart bomb". Ylittäessä tietyn pistetason kaupungit rakennetaan uudelleen. Peliin voidaan myös lisätä kahden pelaajan mahdollisuus, jolloin pelaajat vuorottelevat kaupunkien puolustamisessa. Pelissä voisi myös jäljitellä alkuperäisen pelin bugeja, joista kerrotaan mm. yllälinkatussa Wikipedia-artikkelissa.
