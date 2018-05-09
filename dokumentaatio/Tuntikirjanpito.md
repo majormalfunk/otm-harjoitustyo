@@ -33,5 +33,7 @@
 |5.5.     |8,00      |Bonus-laskenta, ulkoasu, testaus                            |
 |6.5.     |6,00      |High scorejen näyttäminen aloitusnäkymässä                  |
 |8.5.     |6,00      |Ulkoasu, testit                                             |
-|**Vko 7**|**36,00** |*Kumul 134,50*                                              |
-|**YHT**  |**134,50**|                                                            |
+|9.5.     |10,00     |Refaktorointi, testit, dokumentaatio                        |
+|10.5.    |2,00      |Refaktorointi, testit, dokumentaatio, loppupalautus         |
+|**Vko 7**|**48,00** |*Kumul 146,50*                                              |
+|**YHT**  |**146,50**|                                                            |
